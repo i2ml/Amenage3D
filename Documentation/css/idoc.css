@@ -1,0 +1,390 @@
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700");
+/* COMMON */
+html, body, div, ul, ol, li, dl, dt, dd, h1, h2, h3, h4, h5, h6, pre, form, p, blockquote, input, figure {
+    margin: 0;
+    padding: 0;
+	font-size: 16px;
+	font-family: "WeblySleek UI","Segoe UI","Helvetica Neue",Arial,sans-serif;
+	line-height: normal;
+}
+
+h1 {
+	font-size: 50px;
+	font-weight: 100;
+	line-height: 1.2;
+	margin: .3rem 0;
+}
+
+h6 {
+	font-size: 12px;
+}
+
+table {
+	width:100%;
+}
+
+li {
+	list-style:none;
+}
+
+a {
+  color: #07a;
+	text-decoration:none;
+}
+
+a:hover {
+	text-decoration:underline;
+}
+
+hr {
+    display: block;
+    height: 1px;
+    border-top: 1px solid #ccc;
+    margin: 5px 0;
+    padding: 0;
+}
+
+main {
+	padding: 16px;
+	overflow-y:auto;
+	word-wrap: break-word;
+}
+
+.flex {
+	display: flex;
+}
+
+
+
+#project-name {
+  font-size: 24px;
+}
+
+
+/* material design */
+.mdl-data-table {
+  width: 100%;
+  white-space: unset;
+  border: 4px solid #ecf0f1;
+}
+
+.mdl-card:hover {
+	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.mdl-grid {
+	align-items: baseline;
+}
+
+
+.mdl-layout__drawer > .mdl-layout__title, .mdl-layout__drawer > .mdl-layout-title {
+    padding-left: 16px;
+}
+
+.mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
+    padding: 16px 16px;
+}
+
+
+/* navigation */
+.accordion {
+	padding-left:8px;
+	padding-right:8px;
+}
+
+.accordion-toggle {
+	cursor:pointer;
+	font-weight:bold;
+}
+
+.navtree a:hover {
+	text-decoration:underline;
+	color:#00BCD4;
+}
+
+.navtree .fa {
+	font-size:16px;
+	padding:4px
+}
+
+.navtree li {
+	padding: 4px 8px;
+}
+
+.navlink {
+	color:#4e5758;
+	font-size:12px;
+	text-decoration:none;
+	cursor:pointer;
+}
+
+.navlink--lvl1 {
+	font-size:18px;
+}
+
+.navlink--lvl2 {
+	font-size:14px;
+}
+
+.navlink--lvl3 {
+	font-size:12px;
+}
+
+
+/* sections */
+section {
+	margin-top:16px;
+}
+
+.section-heading {
+  display: block;
+  color: #365271;
+  font-size: 26px;
+  margin: 1em 0 .8rem;
+}
+
+.section-subheading {
+  display: block;
+  color: black;
+  font-size: 18px;
+  margin: 1em 0 .8rem;
+}
+
+section p {
+  margin-bottom: 16px;
+}
+
+section img {
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 5px;
+  max-width: 50%;
+  height: auto;
+  display: block;
+  margin-bottom: 8px;
+  -webkit-filter: blur(4px);filter: blur(4px);
+}
+
+@media (max-width:1025px)  { 
+  section img {
+    max-width: 100%;
+  }
+}
+
+section img:hover {
+  -webkit-filter: drop-shadow(8px 8px 10px black);filter: drop-shadow(8px 8px 10px black);
+}
+
+.underline {
+  text-decoration: underline;
+}
+
+
+/* font awesome */
+.fa {
+	padding:8px; 
+	font-size:24px
+}
+
+
+
+/* comments */
+#remarks, #example, #summary {
+  white-space: pre-line;
+}
+
+pre, .code {
+  font:normal normal 14px "WeblySleek UI","Segoe UI","Helvetica Neue",Arial,sans-serif;
+  display: block;
+  padding: 1em 1.2em;
+  border-radius: 6px;
+  line-height: 1.5;
+  overflow: auto;
+  box-shadow: none;
+  border: 4px solid #ecf0f1;
+  white-space: pre-line;
+}
+
+pre .line-number {
+  display:block;
+}
+
+pre .line-number {
+  float:left;
+  margin:0 .5em 0 -1em;
+  border-right:1px solid;
+  text-align:right;
+}
+
+pre .line-number span {
+  display:block;
+  padding:0 .5em 0 1em;
+  color:#C7254E;
+}
+
+pre .cl {
+  display:block;
+  clear:both;
+}
+
+.code--builtin {
+	color:#07a;
+}
+
+.code--string {
+	color:#e90;
+}
+
+.code--comment {
+	color:#918E7B;
+}
+
+.code--method {
+	color: #C7254E; ;
+}
+
+.paramname {
+    background-color: #e8ebf0;
+    display: inline-block;
+    font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+    font-weight: 600;
+    padding: 0 6px 2px;
+}
+
+.paramtype {
+	display: inline-block;
+    font-family: Consolas,Menlo,Monaco,Lucida Console,Liberation Mono,DejaVu Sans Mono,Bitstream Vera Sans Mono,Courier New,monospace,sans-serif;
+    font-weight: 300;
+    padding: 0 6px 2px;
+}
+
+.paramdesc {
+    font-size: 14px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+}
+
+
+/* elevations */
+.elevation {
+  background: #fff;
+  border-radius: 2px;
+  display: inline-block;
+  height: 300px;
+  margin: 1rem;
+  position: relative;
+  width: 300px;
+}
+
+.elevation-1 {
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  transition: all 0.3s cubic-bezier(.25,.8,.25,1);
+}
+
+.elevation-2 {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.elevation-3 {
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.elevation-4 {
+  box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}
+
+.elevation-5 {
+  box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);
+}
+
+/* search */
+.mdl-dialog {
+	width: 70%;
+	overflow-y:auto;
+	top:30px;
+  max-height: 600px;
+}
+
+.mdl-dialog__title {
+
+  font-size: 1.5rem;
+}
+
+.mdl-dialog__content {
+  display: flex;
+}
+
+#search-filters {
+	border-right: 1px solid;
+	padding-right: 8px;
+  margin-right: 8px;
+  width: 130px;
+}
+
+#search-filters__content {
+	display: flex;
+	flex-direction: column;
+}
+
+
+
+/*  Loading page */
+.app-loading {
+	background: #E05057;
+	margin: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh;
+	color: white;
+}
+.app-loading .spinner {
+  margin: 100px auto;
+  width: 40px;
+  height: 40px;
+  position: relative;
+  text-align: center;
+  color: white;
+  -webkit-animation: sk-rotate 2.0s infinite linear;
+  animation: sk-rotate 2.0s infinite linear;
+}
+
+.app-loading .dot1, .dot2 {
+  width: 60%;
+  height: 60%;
+  display: inline-block;
+  position: absolute;
+  top: 0;
+
+  background-color: white;
+  border-radius: 100%;
+  
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.app-loading .dot2 {
+  top: auto;
+  bottom: 0;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}
+@keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}

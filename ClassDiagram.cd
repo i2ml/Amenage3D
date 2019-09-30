@@ -1,0 +1,1256 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CUIColorPicker" Collapsed="true">
+    <Position X="38.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAGAAIAAEACAAIAAAKAAAAAAAgAAAAgAAAAEE=</HashCode>
+      <FileName>Assets\Dependencies\cui_color_picker-master\Assets\CUIColorPicker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SceneLoader" Collapsed="true">
+    <Position X="26.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\SceneLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MTLLoader" Collapsed="true">
+    <Position X="31.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAwAgAAAAAAAAAAgABAACABAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\MTLLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjFromFile" Collapsed="true">
+    <Position X="36.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAACEAAAAAAAAAAAAAAACAAAAAAQA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\Samples\ObjFromFile.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ObjFromStream" Collapsed="true">
+    <Position X="38.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\Samples\ObjFromStream.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ExtrudeRandomEdges" Collapsed="true">
+    <Position X="40.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAABAAEAAAAAAEACAAAAAACAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\ProCore\ProBuilder\API Examples\Procedural Mesh\ExtrudeRandomEdges.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="HighlightNearestFace" Collapsed="true">
+    <Position X="22.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAQAAEAAACAAAAAAIAAAAAAAAIAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\ProCore\ProBuilder\API Examples\Vertex Colors\HighlightNearestFace.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DemoScene" Collapsed="true">
+    <Position X="29.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAACAAAAAAAAAAAAAAAAACAAAAIAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\RTS_Camera\Demo\DemoScene.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="TargetSelector" Collapsed="true">
+    <Position X="21" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAAiAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Assets\Dependencies\RTS_Camera\Demo\TargetSelector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sample.Background" Collapsed="true">
+    <Position X="28" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\Background.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sample.Bottom" Collapsed="true">
+    <Position X="36.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\Bottom.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sample.Illumination" Collapsed="true">
+    <Position X="29.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAACACAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\Illumination.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sample.Meteor" Collapsed="true">
+    <Position X="28" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAASCAAAAAAAAIQAAAAAAAQAAAYAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\Meteor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sample.Meteors" Collapsed="true">
+    <Position X="29.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAQAAAAAAAACQAAAAAUAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\Meteors.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sample.Orbit" Collapsed="true">
+    <Position X="29.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAAAAAAAAAAAAIAAAAAAAAAAAAQAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\Orbit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sample.Polyhedrons" Collapsed="true">
+    <Position X="22.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAACEAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\Polyhedrons.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sample.RandomShapes" Collapsed="true">
+    <Position X="31.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAAAAACAAAAAAAAAAAACAAAAAAEAAAAAAAAAAAQA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\RandomShapes.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sample.RoughPlane" Collapsed="true">
+    <Position X="36.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAAAQAAEAAAAAAAAACAAAAAAFAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Samples\Scripts\RoughPlane.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Counter&lt;Type&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="36.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAICAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Containers.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="Dynagon.Factory" Collapsed="true">
+    <Position X="21" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Factory.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Function" Collapsed="true">
+    <Position X="26.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Functions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Polygon" Collapsed="true">
+    <Position X="14.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAIAgCACAAAAAQgACAAgAAAAAAAQI=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Polygon.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Polygon2D" Collapsed="true">
+    <Position X="13.5" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Polygon2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Polygon3D" Collapsed="true">
+    <Position X="15.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAACAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Polygon3D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Triangular" Collapsed="true">
+    <Position X="6.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAQAgAAAAAAAAAAAAIAAAEAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Primitives.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Triangle" Collapsed="true">
+    <Position X="7.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Primitives.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Tetrahedron" Collapsed="true">
+    <Position X="5.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Primitives.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Spherical" Collapsed="true">
+    <Position X="1.75" Y="13.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Primitives.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Circle" Collapsed="true">
+    <Position X="0.5" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Primitives.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Sphere" Collapsed="true">
+    <Position X="2.75" Y="14.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Primitives.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Triangulator2D" Collapsed="true">
+    <Position X="33.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAIACAAAgCAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Triangulator2D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Triangulator3D" Collapsed="true">
+    <Position X="35" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hAQAAAAAAAAAAAAAAAAAAAAIAIAAAAAgAAAAAAAAABA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Scripts\Triangulator3D.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Test.DocumentTest" Collapsed="true">
+    <Position X="0.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Tests\Scripts\DocumentTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Test.FactoryTest" Collapsed="true">
+    <Position X="3" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAEAAAAI=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Tests\Scripts\FactoryTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Test.TestRunner" Collapsed="true">
+    <Position X="22.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Tests\Scripts\TestRunner.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Test.Assert" Collapsed="true">
+    <Position X="24.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Tests\Scripts\TestUtilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Test.TestSuite" Collapsed="true">
+    <Position X="3" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Tests\Scripts\TestUtilities.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dynagon.Test.TriangulatorTest" Collapsed="true">
+    <Position X="5.25" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAI=</HashCode>
+      <FileName>Assets\Dependencies\Dynagon\Tests\Scripts\TriangulatorTest.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.CharWordReader" Collapsed="true">
+    <Position X="24.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgAAABIQAIAAgBAAAQBAACEABAAgIAIgBAhAAQCAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\CharWordReader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.OBJLoader" Collapsed="true">
+    <Position X="40.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAgAAAEAAAAAAAAAAAABAAAAAAAAQAEMAAAAAAgAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\OBJLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.OBJLoaderHelper" Collapsed="true">
+    <Position X="21" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAFAAAIAAAAACAAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\OBJLoaderHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.OBJObjectBuilder" Collapsed="true">
+    <Position X="22.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAEAIAAAgAAAAAEAAAAAQACAgAgEgAhAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\OBJObjectBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.StringExtensions" Collapsed="true">
+    <Position X="38.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\StringExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.BinaryExtensions" Collapsed="true">
+    <Position X="29.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAACAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\BinaryExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.DDSLoader" Collapsed="true">
+    <Position X="28" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\DDSLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.ImageLoader" Collapsed="true">
+    <Position X="31.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\ImageLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.ImageLoaderHelper" Collapsed="true">
+    <Position X="33.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\ImageLoaderHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.ImageUtils" Collapsed="true">
+    <Position X="35" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\ImageUtils.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.TGALoader" Collapsed="true">
+    <Position X="26.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\TGALoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="B83.Image.BMP.BMPImage" Collapsed="true">
+    <Position X="33.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAABAQAAAAAAAAAoAAAIAAgAACAAAAAQAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\BMPLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="B83.Image.BMP.BMPLoader" Collapsed="true">
+    <Position X="35" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kAAEAGAAAAAAAIIAAIAAQAAAAAIABAAAJABAAAAAAAI=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\BMPLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="B83.Image.BMP.BitStreamReader" Collapsed="true">
+    <Position X="31.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAABAAgAAAgIAAAAAIAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\BMPLoader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Dummiesman.Extensions.ColorExtensions" Collapsed="true">
+    <Position X="31.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\ColorExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cakeslice.MaterialSwitcher" Collapsed="true">
+    <Position X="22.75" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAABAAA=</HashCode>
+      <FileName>Assets\Dependencies\OutlineEffect\Demo\MaterialSwitcher.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cakeslice.OutlineAnimation" Collapsed="true">
+    <Position X="33.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OutlineEffect\Demo\OutlineAnimation.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cakeslice.Rotate" Collapsed="true">
+    <Position X="35" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OutlineEffect\Demo\Rotate.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cakeslice.Toggle" Collapsed="true">
+    <Position X="28" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OutlineEffect\Demo\Toggle.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cakeslice.LinkedSet&lt;T&gt;" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="40.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACIAAgBAAAAAABAAAAAABAAEAAAAAAAQAAAAAABQAAA=</HashCode>
+      <FileName>Assets\Dependencies\OutlineEffect\LinkedSet.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="cakeslice.Outline" Collapsed="true">
+    <Position X="31.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAAAAIAAAAAAAAAAAAAAAAAAACIAACAAAAASEA=</HashCode>
+      <FileName>Assets\Dependencies\OutlineEffect\Outline.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="cakeslice.OutlineEffect" Collapsed="true">
+    <Position X="35" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ADABAADQASACRmAABAEhAAIAEwBARBEIQBAEFCIECkA=</HashCode>
+      <FileName>Assets\Dependencies\OutlineEffect\OutlineEffect.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProBuilder2.Examples.CameraControls" Collapsed="true">
+    <Position X="21" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAhCAAAACAAAAADAgAAIAgAAEAAAAAAAAEAAAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\CameraControls.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProBuilder2.Examples.IcoBumpin" Collapsed="true">
+    <Position X="28" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AsRAAAABgCgCQAACAAAIwQCAAAAIEMAABSEQwURIEYA=</HashCode>
+      <FileName>Assets\Dependencies\ProCore\ProBuilder\API Examples\Icosphere FFT\Scripts\IcoBumpin.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProBuilder2.Examples.HueCube" Collapsed="true">
+    <Position X="26.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAABAAAAAAAAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <FileName>Assets\Dependencies\ProCore\ProBuilder\API Examples\Misc\HueCube.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ProBuilder2.Examples.RuntimeEdit" Collapsed="true">
+    <Position X="21" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAABAAAEAAAAMAAIQMACgAAAABAAAAACAAAAAAEA=</HashCode>
+      <FileName>Assets\Dependencies\ProCore\ProBuilder\API Examples\Runtime Editing\RuntimeEdit.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RTS_Cam.RTS_Camera" Collapsed="true">
+    <Position X="40.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ENRSMEAIIqADEKrAABCAgAEAEYEQ0YCABwCAQ4ICEgo=</HashCode>
+      <FileName>Assets\Dependencies\RTS_Camera\Scripts\RTS_Camera.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.TwoDScripts.Generic2DScript" Collapsed="true">
+    <Position X="35" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\2DScripts\Generic2DScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.TwoDScripts.ScaleSpriteScript" Collapsed="true">
+    <Position X="24.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAgAAAACAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\2DScripts\ScaleSpriteScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Cameras.Camera2DMove" Collapsed="true">
+    <Position X="38.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABACgQAAECIhAAAAIASAIYACAEgAAgAAAAACABAECAA=</HashCode>
+      <FileName>Assets\Scripts\Cameras\Camera2DMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Cameras.Camera3DMove" Collapsed="true">
+    <Position X="40.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQADgQIAkSIjAIAAAACAIQEDAAAAAgkAAARCABEECAA=</HashCode>
+      <FileName>Assets\Scripts\Cameras\Camera3DMove.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.ConstraintsScripts.CollisionChecker" Collapsed="true">
+    <Position X="29.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ConstraintsScripts\CollisionChecker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.ConstraintsScripts.NavigationBaker" Collapsed="true">
+    <Position X="33.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAACCAAAIAgAAAAAAAAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\ConstraintsScripts\NavigationBaker.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Interactable.ElementArrowsScript" Collapsed="true">
+    <Position X="33.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gBUDAAAAECYKAQAAAAAABIAQAAAoAAAAYAEBAgAAgGA=</HashCode>
+      <FileName>Assets\Scripts\FurnitureScripts\ElementArrowsScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.FurnitureCreator" Collapsed="true">
+    <Position X="5.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwAIAACBDAAQgJECAIAAAAACCggAAAAQAICAQBAAEA=</HashCode>
+      <FileName>Assets\Scripts\FurnitureScripts\FurnitureCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.StairsCreator" Collapsed="true">
+    <Position X="7.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABAAAQCAAQEAEAIQAAAAABAiAAAAQQgAAQABAAEA=</HashCode>
+      <FileName>Assets\Scripts\FurnitureScripts\StairsCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.AllElementsManager" Collapsed="true">
+    <Position X="21" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAQAAABCAAgAAAIAAAAAAAAAAAgAAAQAAAAAAAAMA=</HashCode>
+      <FileName>Assets\Scripts\Managers\AllElementsManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.CharactersCreator" Collapsed="true">
+    <Position X="10" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BASAAMEBACIEQAEAgABEAAAAQigCAAAIQAgUgIAgAEA=</HashCode>
+      <FileName>Assets\Scripts\Managers\CharactersCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.CreatorBehaviour" Collapsed="true">
+    <Position X="7.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAQAAAAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Managers\CreatorBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.FloorsCreator" Collapsed="true">
+    <Position X="14.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAiAAQAAAAAAAAAAAAAggAAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\Managers\FloorsCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.GlobalManager" Collapsed="true">
+    <Position X="38.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IQUAAQAEAGIgCAAJAAVwAACAAAAAAgAgQAAAAAAAAEg=</HashCode>
+      <FileName>Assets\Scripts\Managers\GlobalManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.GroupsManager" Collapsed="true">
+    <Position X="1" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAQBAAAAEAAAAAABgAAAQEQAAAAABCBEQ=</HashCode>
+      <FileName>Assets\Scripts\Managers\GroupsManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.HelpersCreator" Collapsed="true">
+    <Position X="3.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQABABAACBAQAEBEAAACgAAAAwAEAEAQAAAAQCAgEA=</HashCode>
+      <FileName>Assets\Scripts\Managers\HelpersCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.ImportManager" Collapsed="true">
+    <Position X="36.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAQCAAgAIAAAAABAAAAAACAAAAWAAAAAAAAUA=</HashCode>
+      <FileName>Assets\Scripts\Managers\ImportManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.MeasureManager" Collapsed="true">
+    <Position X="26.25" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CEQAABAMACAQMIgEFIAAAAAAAAAAAACAQAAAgAAAgEE=</HashCode>
+      <FileName>Assets\Scripts\Managers\MeasureManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.ProjectManager" Collapsed="true">
+    <Position X="28" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAAAEAACAIQBgKCAQDCgUNgQoAAEAARIAgBAAIAEA=</HashCode>
+      <FileName>Assets\Scripts\Managers\ProjectManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.RuntimeManager" Collapsed="true">
+    <Position X="22.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Managers\RuntimeManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.Screenshot" Collapsed="true">
+    <Position X="28" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAgAAACAIAIAAIAAAIgQCAAAAAAEAwAAAgAAAAFA=</HashCode>
+      <FileName>Assets\Scripts\Managers\Screenshot.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.SelectedObjectManager" Collapsed="true">
+    <Position X="29.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>YJQApBhkADxISDQZWDhLCyIIAAAIFASpwxEo1wBmEGA=</HashCode>
+      <FileName>Assets\Scripts\Managers\SelectedObjectManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.SelectionManager" Collapsed="true">
+    <Position X="31.5" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgQAEACAAAAAIAAAABAAAAEAAgAAgAAAQACAAAAAAEQ=</HashCode>
+      <FileName>Assets\Scripts\Managers\SelectionManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.SettingsManager" Collapsed="true">
+    <Position X="33.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAABABAAAQAAAAgAAUUA=</HashCode>
+      <FileName>Assets\Scripts\Managers\SettingsManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.UIManager" Collapsed="true">
+    <Position X="36.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BgQBABgGASAAEIEgwEQAAAkgACAwiAAQwAQAIABAoAQ=</HashCode>
+      <FileName>Assets\Scripts\UI\UIManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Managers.WallsCreator" Collapsed="true">
+    <Position X="12.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>kCYK4iriAKIISqwnBEy5FAgAPhgBcslAQlgMhTErBMY=</HashCode>
+      <FileName>Assets\Scripts\WallsScripts\WallsCreator.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.FurnitureScript" Collapsed="true">
+    <Position X="31.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAgIAAgAAAAAEAAAAIAAAAAAgAAAAABAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\FurnitureScripts\FurnitureScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.CollectionFunctions" Collapsed="true">
+    <Position X="26.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\CollectionFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.GetSizeScript" Collapsed="true">
+    <Position X="36.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\GetSizeScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.InputFunctions" Collapsed="true">
+    <Position X="38.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAAQAAAQAgQAAAAAAAIAAAAAAAAAAAAAAAFgAAE=</HashCode>
+      <FileName>Assets\Scripts\Utils\InputFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.Map&lt;T1, T2&gt;" Collapsed="true">
+    <Position X="21" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAIAAAAAAAAAAAAAAAAABAAAAAAABAQAAAACAAAAAAI=</HashCode>
+      <FileName>Assets\Scripts\Utils\Map.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.Math3d" Collapsed="true">
+    <Position X="24.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gYaCBEYQqUEhEMQAQkhAAEAAAAQCRIREJMQCAAARAxA=</HashCode>
+      <FileName>Assets\Scripts\Utils\Math3d.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.OutlineFunctions" Collapsed="true">
+    <Position X="36.75" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\OutlineFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.ParsingFunctions" Collapsed="true">
+    <Position X="38.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\ParsingFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.VectorFunctions" Collapsed="true">
+    <Position X="38.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAkAgAAAAAIAAgCAAAAhAIIAAACIAAQAAAAQEAQI=</HashCode>
+      <FileName>Assets\Scripts\Utils\VectorFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.Vertex" Collapsed="true">
+    <Position X="40.25" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAMQAAAAAAAAQCAAIQBAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\VectorFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.HalfEdge" Collapsed="true">
+    <Position X="21" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAIAAAAEAAAAAgAAAAAAAABQAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\VectorFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.Triangle" Collapsed="true">
+    <Position X="31.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAAAAEAAAAAAAAAAAAAAAAAAAUAAAAAAAIAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\VectorFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.Edge" Collapsed="true">
+    <Position X="31.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAACAAAAAAAAAAAAAAAQAAAAAAgIAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\VectorFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.Plane" Collapsed="true">
+    <Position X="21" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAIgAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\VectorFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.WallFunctions" Collapsed="true">
+    <Position X="22.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAEAQCAAAAAIQApAgggAAQACCAUAAQAAACAAAFAAg=</HashCode>
+      <FileName>Assets\Scripts\Utils\WallFunctions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Operations.Operation" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="24.5" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\OperationsBuffer\Operation.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ErgoShop.Operations.AutoSave" Collapsed="true">
+    <Position X="26.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAEAAAAAAAAAABAAACAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\OperationsBuffer\OperationsBufferScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Operations.OperationsBufferScript" Collapsed="true">
+    <Position X="26.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQgAQAAQSQABAAEAAAAAAAFAAAAAAAAQAAICAAAQUA=</HashCode>
+      <FileName>Assets\Scripts\OperationsBuffer\OperationsBufferScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Ceil" Collapsed="true">
+    <Position X="22.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\Ceil.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.CharacterElement" Collapsed="true">
+    <Position X="3.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAgAAAIAAAAAIAAAAAAAAAAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\CharacterElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.CustomFurniture" Collapsed="true">
+    <Position X="24.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\CustomFurniture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Element" Collapsed="true">
+    <Position X="9" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>DAACAAABAQAAgAAAKAAAAAAAAAAAAAAAAAAAAQAAAIA=</HashCode>
+      <FileName>Assets\Scripts\POCO\Element.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="ErgoShop.POCO.ElementGroup" Collapsed="true">
+    <Position X="17" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAgAAAIAAQAIAAABAAAAAAAAAAAAAABAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\ElementGroup.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.ErgoShopParameters" Collapsed="true">
+    <Position X="36.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AUAAAAAAAAAAAAAAAAAAgAAAAgAAAAAAAAAAAAACAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\ErgoShopParameters.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Floor" Collapsed="true">
+    <Position X="22.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAABAAAAEAAAKAAAAAABAAQAABACAIAg=</HashCode>
+      <FileName>Assets\Scripts\POCO\Floor.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Furniture" Collapsed="true">
+    <Position X="14.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAiAAAIAAIAAQAAAAAAAAAAQAAQAEAAAM=</HashCode>
+      <FileName>Assets\Scripts\POCO\Furniture.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Ground" Collapsed="true">
+    <Position X="40.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAgAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\Ground.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.HelperElement" Collapsed="true">
+    <Position X="1.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\HelperElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Home" Collapsed="true">
+    <Position X="24.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAQAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\Home.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.MovableElement" Collapsed="true">
+    <Position X="8" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAIAQgIAgAAAIAAAAAAAAAgAQAIAAAAgEAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\MovableElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Person" Collapsed="true">
+    <Position X="40.25" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Assets\Scripts\POCO\Person.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Project" Collapsed="true">
+    <Position X="24.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IIAAgAAEAAAAAAgACAAAACAAAAAAAAABBAAABAAAAAE=</HashCode>
+      <FileName>Assets\Scripts\POCO\Project.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Room" Collapsed="true">
+    <Position X="5.75" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAABIAAgAAAIABAAAQAIAIAgAAAAQAAAACAEAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\Room.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Stairs" Collapsed="true">
+    <Position X="8" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAACBIAAgAAAIAAAIEAAAIAAAAAgAAAAAAAAUAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\Stairs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.TextZoneElement" Collapsed="true">
+    <Position X="1.25" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAgAAIIAAIAAAACAAAIAAAAAAACAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\TextZoneElement.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.Wall" Collapsed="true">
+    <Position X="10.25" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SABEAAoADKABkAAAICAQAQBAAACQAgAEAAEIgYAIAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\Wall.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.WallOpening" Collapsed="true">
+    <Position X="12.5" Y="3.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAQAAAAAIICCgAAAoAAAAAAAAAAAAoRIAAAgAAAADAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\WallOpening.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.POCO.WallIntersection" Collapsed="true">
+    <Position X="24.5" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\WallsScripts\WallIntersection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.AngleScript" Collapsed="true">
+    <Position X="22.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAwMAAAAACAAEAAAAAAAAAAAAAhAIAAAAAQAABAAIAA=</HashCode>
+      <FileName>Assets\Scripts\UI\Angles\AngleScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.WallOpeningAngleScript" Collapsed="true">
+    <Position X="26.25" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAIAAAACAIEAAAAAAAAAAEAABCIAAAAAAAABAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\Angles\WallOpeningAngleScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.ArrowsScript" Collapsed="true">
+    <Position X="9.75" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAGAIEAAAAAAAAIAAIAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\ArrowsScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.CharacterPropertiesScript" Collapsed="true">
+    <Position X="5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EBQEACAAECEAABAAEkAADgAIIAAAEAEAQAAAAAAgEEg=</HashCode>
+      <FileName>Assets\Scripts\UI\CharacterPropertiesScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.ConfirmationPopinScript" Collapsed="true">
+    <Position X="33.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAQAAAAAACAAAAAAAogABAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\ConfirmationPopinScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.CotationsScript" Collapsed="true">
+    <Position X="35" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABQAAIACACAMAEAoAEgwAABEAAAACAAAQAAAAAiJAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\CotationsScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.CurrentCotation3DScript" Collapsed="true">
+    <Position X="40.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAEQCACAAAAAAAAAAAAgBAIAAAAAAAAAgAAgAA=</HashCode>
+      <FileName>Assets\Scripts\UI\CurrentCotation3DScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.CurrentCotationsScript" Collapsed="true">
+    <Position X="21" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAQCACAAAAAACAAAAAAAAIAAAAIAAAAgAAgAA=</HashCode>
+      <FileName>Assets\Scripts\UI\CurrentCotationsScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.CustomConfPopinScript" Collapsed="true">
+    <Position X="22.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ABAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAQAAAAACgAEA=</HashCode>
+      <FileName>Assets\Scripts\UI\CustomConfPopinScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.CustomNamePopinScript" Collapsed="true">
+    <Position X="26.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAIBAAAAAAAAAAAAAAQAAAAAAAAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\UI\CustomNamePopinScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.FloorPropertiesScript" Collapsed="true">
+    <Position X="24.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAIAgACQIAAIAAAAAIAAAAQQAAAAAIAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\FloorPropertiesScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.FurnitureListContentScript" Collapsed="true">
+    <Position X="28" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\UI\FurnitureListContentScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.NewProjectConfirmationPopin" Collapsed="true">
+    <Position X="35" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAABAIAAAAAAAAAAAAAIABAAAAAABAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\NewProjectConfirmationPopin.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.ProjectFormScript" Collapsed="true">
+    <Position X="26.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKQAABQAACBACCAAAAAEAgAAAIAAAAgAQAAgBAAAAMI=</HashCode>
+      <FileName>Assets\Scripts\UI\ProjectFormScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.FurniturePropScript" Collapsed="true">
+    <Position X="18.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AASAIyAAECAAAAAAEABAAASAgAAAADAAQwAEAEAAAEg=</HashCode>
+      <FileName>Assets\Scripts\UI\PropertiesScripts\FurniturePropScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.PropertiesBehaviour" Collapsed="true">
+    <Position X="11.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\PropertiesScripts\PropertiesBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.PropertiesFormManager" Collapsed="true">
+    <Position X="29.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAIAAACABAQIAAAAAABBAAAAAAAAEQAAAAAAAAgA=</HashCode>
+      <FileName>Assets\Scripts\UI\PropertiesScripts\PropertiesFormManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.RoomPropPanelScript" Collapsed="true">
+    <Position X="7.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAACEAACAIAAAAEAAAAIAAABCAAAAAQABIAQAABEA=</HashCode>
+      <FileName>Assets\Scripts\UI\PropertiesScripts\RoomPropPanelScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.StairsFormScript" Collapsed="true">
+    <Position X="9.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>gAYEWAAEACAAAAAAPAAAAAEAAAQEAAgAAAgAAAIIAAw=</HashCode>
+      <FileName>Assets\Scripts\UI\PropertiesScripts\StairsFormScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.TextZonePropertiesScript" Collapsed="true">
+    <Position X="11.75" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQAAiBAECQAAAAAEMAAAAAAAAAAAAAAQAAAIAAAAUg=</HashCode>
+      <FileName>Assets\Scripts\UI\PropertiesScripts\TextZonePropertiesScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.WallOpeningPropScript" Collapsed="true">
+    <Position X="14" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQACAAACgAGAAAEEAgAAgAAAkAAAAAQABgAAoAAQA=</HashCode>
+      <FileName>Assets\Scripts\UI\PropertiesScripts\WallOpeningPropScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.WallPropPanelScript" Collapsed="true">
+    <Position X="16.25" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACQAASgAALAAACAAEEAgEAQAAAAAAAAAYAAgAAAABAg=</HashCode>
+      <FileName>Assets\Scripts\UI\PropertiesScripts\WallPropPanelScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.RectRoomFormScript" Collapsed="true">
+    <Position X="33.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAACAAABAABAAAAAAAAAQAAAAEAAAEA=</HashCode>
+      <FileName>Assets\Scripts\UI\RectRoomFormScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.RoundedStairsScript" Collapsed="true">
+    <Position X="38.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAgAAAAAAAAAAAAAAABAgAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\RoundedStairsScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.ElementsScrollScript" Collapsed="true">
+    <Position X="35" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAiAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\Scrolls\ElementsScrollScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.ExpandScrollScript" Collapsed="true">
+    <Position X="38.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAwAAAACAAAAAAAAAAAAAAABgAAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\Scrolls\ExpandScrollScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.FurnitureListScroll" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="29.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAIAAAAAAAAAAAAAASAAQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\UI\Scrolls\FurnitureListScroll.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ErgoShop.UI.OperationsScrollScript" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="28" Y="6.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQEAQAAACAAACIAAAAAAAAAAAAAASAEQAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\UI\Scrolls\OperationsScrollScript.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Class Name="ErgoShop.UI.SettingsPopinScript" Collapsed="true">
+    <Position X="35" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQQAAAAACAAAAAAgAAAAAAAAAAAAIAIQIAgAAAACUA=</HashCode>
+      <FileName>Assets\Scripts\UI\SettingsPopinScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.SliderToInput" Collapsed="true">
+    <Position X="36.75" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAABACAAAEAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\SliderToInput.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.TabSelectableScript" Collapsed="true">
+    <Position X="40.25" Y="8.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\TabSelectableScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.TextZoneScript" Collapsed="true">
+    <Position X="24.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACCAAAIAAAAIAAAgAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\TextZoneScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.ToggleResetScript" Collapsed="true">
+    <Position X="29.75" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>Assets\Scripts\UI\ToggleResetScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.WallButtonsActiveScript" Collapsed="true">
+    <Position X="21" Y="10.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAABEAAgAgCAAAAAAAAYCACAgAAIAAUEEAAMCEA=</HashCode>
+      <FileName>Assets\Scripts\UI\WallButtonsActiveScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.WallArrowsScript" Collapsed="true">
+    <Position X="8.5" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAQBAAAAAAQAAAAAAAABAAAAAAAAAAAAQAgBAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\WallsScripts\WallArrowsScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.UI.WallOpeningArrowsScript" Collapsed="true">
+    <Position X="10.75" Y="12" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQBAAAAAAAAAAAAAAAAABAAAAAAAAAAQAABAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\WallsScripts\WallOpeningArrowsScript.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.Extensions.CollectionsExtensions" Collapsed="true">
+    <Position X="28" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\Extensions\CollectionsExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ErgoShop.Utils.Extensions.GameObjectExtensions" Collapsed="true">
+    <Position X="33.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIAAIBAAAAAAAAAAAACAAAIAAAAAAAAEAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\Extensions\GameObjectExtensions.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="B83.Image.BMP.BMPFileHeader" Collapsed="true">
+    <Position X="22.75" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAAAAAAIAAAAAAAAAEAAAAAAAAAAAAAAABA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\BMPLoader.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Struct Name="B83.Image.BMP.BitmapInfoHeader" Collapsed="true">
+    <Position X="21" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAEAAAgAAAQAQIAAAIAAAAAAAAAkAACAAgAAIEA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\BMPLoader.cs</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Interface Name="IOperation" Collapsed="true">
+    <Position X="24.5" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\OperationsBuffer\IOperation.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ErgoShop.POCO.IElement" Collapsed="true">
+    <Position X="21" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAAgAAAIAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\POCO\IElement.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="ErgoShop.UI.IListScrollScript" Collapsed="true">
+    <Position X="22.75" Y="13" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\UI\Scrolls\IListScrollScript.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="ViewMode" Collapsed="true">
+    <Position X="28" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Managers\GlobalManager.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="Dummiesman.SplitMode" Collapsed="true">
+    <Position X="26.25" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\OBJLoader.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="B83.Image.BMP.BMPComressionMode" Collapsed="true">
+    <Position X="21" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAJAAAAAAACAABiAACAQAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
+      <FileName>Assets\Dependencies\OBJImport\TextureLoader\BMPLoader.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ErgoShop.Utils.WallType" Collapsed="true">
+    <Position X="29.75" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAACAAAAAAAAAAABAAAAAAAAAAAAQAAAAACAEAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ErgoShop.Utils.CharacterType" Collapsed="true">
+    <Position X="22.75" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAAAAACAAAAAAAAAAAQAAAAAABAAEA=</HashCode>
+      <FileName>Assets\Scripts\Utils\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="ErgoShop.Utils.ErgoLayers" Collapsed="true">
+    <Position X="24.5" Y="14" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAEAAAAAAAAAAIAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\Utils\Enums.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>
