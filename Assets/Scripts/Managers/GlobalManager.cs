@@ -280,7 +280,8 @@ namespace ErgoShop.Managers
                 && !WallArrowsScript.Instance.isMoving
                 && !ElementArrowsScript.Instance.isMoving
                 && !HelpersCreator.Instance.IsOccupied()
-                && !ProjectManager.Instance.IsOccupied();
+                && !ProjectManager.Instance.IsOccupied()
+                && InputFunctions.IsMouseOutsideUI();
             //&& !WallOpeningArrowsScript.Instance.isMoving;
         }
 

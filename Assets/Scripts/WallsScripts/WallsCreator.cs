@@ -852,6 +852,14 @@ namespace ErgoShop.Managers
                 {
                     UpdateAngles(w, w2);
                 }
+                if(w.linkedP1.Count == 0 && w.linkedP2.Count == 0)
+                {
+                    foreach (var wo in w.Openings)
+                    {
+                        UpdateWallOpeningAngles(wo);
+                    }
+                }
+                     
             }
         }
 

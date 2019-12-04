@@ -86,15 +86,15 @@ namespace ErgoShop.Cameras
                 {
                     EndMoveCam();
                 }
+                desiredDistance -= Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate * Mathf.Abs(desiredDistance) * moveSpeed;
+
+
 
             }
-            desiredDistance -= Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate * Mathf.Abs(desiredDistance) * moveSpeed;
 
             desiredDistance = Mathf.Clamp(desiredDistance, minDistance, maxDistance);
 
             currentDistance = Mathf.Lerp(currentDistance, desiredDistance, Time.deltaTime * zoomDampening);
-
-
             position = target.position - (Vector3.forward * currentDistance + targetOffset);
 
             float x = Mathf.Clamp(position.x, minBound.x, maxBound.x);

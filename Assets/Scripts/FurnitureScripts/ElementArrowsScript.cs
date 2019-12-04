@@ -90,7 +90,7 @@ namespace ErgoShop.Interactable
             if (show)
             {
                 MovableElement me = SelectedObjectManager.Instance.currentSelectedElements.First() as MovableElement;
-                if (me == null) return;
+                if (SelectedObjectManager.Instance.currentSelectedElements.Count() == 0 || me == null) return;
                 Vector3 pos = me.associated2DObject.transform.position;//VectorFunctions.Switch3D2D(me.Position);
                 Vector3 size = VectorFunctions.Switch3D2D(me.Size / 2f);
 

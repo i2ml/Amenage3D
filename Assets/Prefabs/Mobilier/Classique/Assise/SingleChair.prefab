@@ -43,9 +43,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668f64b5382593d48a5a928cfeae45c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  furniture2DTop: {fileID: 3759576819152702782, guid: fa0939d12a17629499e9b82dd2f1a0db,
+  furniture2DTop: {fileID: 9218107488087760728, guid: fa0939d12a17629499e9b82dd2f1a0db,
     type: 3}
-  furniture3D: {fileID: 1896965406, guid: e8b97a72aa216fb4ab28e23ae8a85bd2, type: 3}
+  furniture3D: {fileID: 1122550853143045038, guid: e8b97a72aa216fb4ab28e23ae8a85bd2,
+    type: 3}
   isOnWall: 0
   canBePutOnFurniture: 0
   furnitureName: Fauteuil

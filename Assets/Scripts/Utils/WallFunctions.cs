@@ -569,7 +569,6 @@ namespace ErgoShop.Utils
             Vector3[] v1 = null;
             Vector3[] v2 = null;
 
-
             // TRAPEZES
             if (start == w.P1 && w.linkedP1.Count == 1)
             {
