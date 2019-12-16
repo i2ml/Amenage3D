@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: banc_transfert
   furnitureType: AideTechnique
   resourceName: banc_transfert
-  scaleRatio: 1
+  scaleRatio: 0.1
