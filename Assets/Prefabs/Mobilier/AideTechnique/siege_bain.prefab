@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: siege_bain
   furnitureType: AideTechnique
   resourceName: siege_bain
-  scaleRatio: 1
+  scaleRatio: 0.2

@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: table_de_lit
   furnitureType: AideTechnique
   resourceName: table_de_lit
-  scaleRatio: 1
+  scaleRatio: 0.2

@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: marche_pieds
   furnitureType: AideTechnique
   resourceName: marche_pieds
-  scaleRatio: 1
+  scaleRatio: 0.2

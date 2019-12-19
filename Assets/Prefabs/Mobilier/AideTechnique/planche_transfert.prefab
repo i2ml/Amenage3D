@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: planche_transfert
   furnitureType: AideTechnique
   resourceName: planche_transfert
-  scaleRatio: 1
+  scaleRatio: 0.2

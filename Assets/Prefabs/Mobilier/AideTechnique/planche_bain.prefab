@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: planche_bain
   furnitureType: AideTechnique
   resourceName: planche_bain
-  scaleRatio: 1
+  scaleRatio: 0.2

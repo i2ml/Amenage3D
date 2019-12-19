@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: fauteuil_roulant_electrique
   furnitureType: AideTechnique
   resourceName: fauteuil_roulant_electrique
-  scaleRatio: 1
+  scaleRatio: 0.2

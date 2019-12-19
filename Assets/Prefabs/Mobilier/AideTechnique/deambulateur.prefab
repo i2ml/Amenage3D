@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: deambulateur
   furnitureType: AideTechnique
   resourceName: cadredeambulateurwc
-  scaleRatio: 1
+  scaleRatio: 0.2

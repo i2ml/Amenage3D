@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: pupitre_sur_pied
   furnitureType: AideTechnique
   resourceName: pupitre_sur_pied
-  scaleRatio: 1
+  scaleRatio: 0.2

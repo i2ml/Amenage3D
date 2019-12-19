@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: lit_medicalise
   furnitureType: AideTechnique
   resourceName: lit_medicalise
-  scaleRatio: 1
+  scaleRatio: 0.2

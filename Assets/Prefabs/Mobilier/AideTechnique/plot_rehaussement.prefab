@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: plot_rehaussement
   furnitureType: AideTechnique
   resourceName: plot_rehaussement
-  scaleRatio: 1
+  scaleRatio: 0.2
