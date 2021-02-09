@@ -1,25 +1,24 @@
-﻿using ErgoShop.Operations;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using ErgoShop.Operations;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// List of autosaves for cancel/redo system
-    /// The user can click any to go to the wanted state
-    /// Manages also the buttons to cancel and redo
+    ///     List of autosaves for cancel/redo system
+    ///     The user can click any to go to the wanted state
+    ///     Manages also the buttons to cancel and redo
     /// </summary>
     public class OperationsScrollScript : MonoBehaviour, IListScrollScript
     {
         public GameObject OperationButtonPrefab;
 
-        public static OperationsScrollScript Instance { get; private set; }
+        private List<Button> m_buttons;
 
         private ElementsScrollScript m_elemScroll;
 
-        private List<Button> m_buttons;
+        public static OperationsScrollScript Instance { get; private set; }
 
         private void Awake()
         {
@@ -27,23 +26,20 @@ namespace ErgoShop.UI
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             m_elemScroll = GetComponent<ElementsScrollScript>();
             m_buttons = new List<Button>();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            if (!m_elemScroll)
-            {
-                m_elemScroll = GetComponent<ElementsScrollScript>();
-            }
+            if (!m_elemScroll) m_elemScroll = GetComponent<ElementsScrollScript>();
         }
 
         /// <summary>
-        /// Clean and loads all states into a button list
+        ///     Clean and loads all states into a button list
         /// </summary>
         public void UpdateList()
         {
@@ -55,7 +51,7 @@ namespace ErgoShop.UI
 
             // Add new ones
             var operations = OperationsBufferScript.Instance.GetOperations();
-            for (int i = operations.Count - 1; i >= 0; i--)
+            for (var i = operations.Count - 1; i >= 0; i--)
             {
                 var autosave = operations[i];
                 var btn = Instantiate(OperationButtonPrefab, m_elemScroll.Content);
@@ -70,11 +66,10 @@ namespace ErgoShop.UI
                 if (i == operations.Count - 1) SetCurrentColor(btn.GetComponent<Button>());
                 m_buttons.Add(btn.GetComponent<Button>());
             }
-
         }
 
         /// <summary>
-        /// When user clicks on a button
+        ///     When user clicks on a button
         /// </summary>
         /// <param name="auto">autosave we want to load</param>
         public void GoToOperation(AutoSave auto)
@@ -84,7 +79,7 @@ namespace ErgoShop.UI
         }
 
         /// <summary>
-        /// Set button color to white
+        ///     Set button color to white
         /// </summary>
         public void ResetColors()
         {
@@ -97,20 +92,17 @@ namespace ErgoShop.UI
         }
 
         /// <summary>
-        /// The current state is colored
+        ///     The current state is colored
         /// </summary>
         /// <param name="opId"></param>
         public void SetCurrentColor(int opId)
         {
-            opId = (m_buttons.Count - 1) - opId;
-            if (opId >= 0)
-            {
-                SetCurrentColor(m_buttons[opId]);
-            }
+            opId = m_buttons.Count - 1 - opId;
+            if (opId >= 0) SetCurrentColor(m_buttons[opId]);
         }
 
         /// <summary>
-        /// The current state is colored in cyan
+        ///     The current state is colored in cyan
         /// </summary>
         /// <param name="opId"></param>
         public void SetCurrentColor(Button b)

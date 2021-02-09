@@ -1,68 +1,47 @@
-﻿using ErgoShop.POCO;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Crosstales.FB;
-using Newtonsoft.Json;
 using System.IO;
-using Newtonsoft.Json.Converters;
 using System.Linq;
-using System;
-using UnityEngine.SceneManagement;
+using Crosstales.FB;
 using ErgoShop.Operations;
+using ErgoShop.POCO;
+using ErgoShop.UI;
 using ErgoShop.Utils;
-using odf = Independentsoft.Office.Odf;
 using Independentsoft.Office.Odf.Drawing;
 using Independentsoft.Office.Odf.Styles;
-using Independentsoft.Office.Odf;
-using ErgoShop.UI;
-using ErgoShop.Cameras;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Converters;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using Font = Independentsoft.Office.Odf.Styles.Font;
+using odf = Independentsoft.Office.Odf;
+using Path = System.IO.Path;
+using TextAlignment = Independentsoft.Office.Odf.Styles.TextAlignment;
 
 namespace ErgoShop.Managers
 {
     /// <summary>
-    /// Manager to handle file load and save. Uses Newtonsoft.Json
+    ///     Manager to handle file load and save. Uses Newtonsoft.Json
     /// </summary>
     public class ProjectManager : MonoBehaviour
     {
-        /// <summary>
-        /// Current Project
-        /// </summary>
-        public Project Project { get; set; }
+        public static ProjectManager Instance;
+
+        public ConfirmationPopinScript popin;
+        public NewProjectConfirmationPopin newpopin;
 
         private string filePath;
         private string m_currentFilePath;
 
         private string m_folderAutoSave;
 
-        private bool m_isExporting = false;
-
-        public ConfirmationPopinScript popin;
-        public NewProjectConfirmationPopin newpopin;
-
-        public static ProjectManager Instance;
+        private bool m_isExporting;
 
         /// <summary>
-        /// Catch any user input to quit the software (with ALT+F4 or the close button)
-        /// And checks if diplay save warning or not
+        ///     Current Project
         /// </summary>
-        /// <returns></returns>
-        static bool WantsToQuit()
-        {
-            ProjectManager.Instance.popin.gameObject.SetActive(true);
-            if (ProjectManager.Instance.popin.goQuit)
-            {
-                SettingsManager.Instance.SaveParameters();
-                return true;
-            }
-            return false;
-        }
-
-        [RuntimeInitializeOnLoadMethod]
-        static void RunOnStart()
-        {
-            Application.wantsToQuit += WantsToQuit;
-        }
+        public Project Project { get; set; }
 
         private void Awake()
         {
@@ -70,55 +49,71 @@ namespace ErgoShop.Managers
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             Project = new Project();
             Project.Person = new Person();
-            Project.Floors = new List<ErgoShop.POCO.Floor>();
-            Project.Floors.Add(new ErgoShop.POCO.Floor
+            Project.Floors = new List<Floor>();
+            Project.Floors.Add(new Floor
             {
                 FloorName = "RDC",
                 Furnitures = new List<Furniture>(),
                 Walls = new List<Wall>(),
-                Rooms = new List<Room>(),
+                Rooms = new List<Room>()
             });
             Project.WallHeight = 3;
             Project.WallThickness = 0.1f;
 
             // APPDATA
             m_folderAutoSave =
-                System.IO.Path.Combine(
+                Path.Combine(
                     Environment.GetFolderPath(
                         Environment.SpecialFolder.ApplicationData), "ErgoShop", "AutoSave");
 
             if (Directory.Exists(m_folderAutoSave))
             {
-                DirectoryInfo di = new DirectoryInfo(m_folderAutoSave);
+                var di = new DirectoryInfo(m_folderAutoSave);
 
-                foreach (FileInfo file in di.GetFiles())
-                {
-                    file.Delete();
-                }
+                foreach (var file in di.GetFiles()) file.Delete();
                 Directory.Delete(m_folderAutoSave);
             }
         }
 
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             // CTRL + S = save
             if (Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.RightControl))
-            {
                 if (Input.GetKeyDown(KeyCode.S))
-                {
                     SaveCurrentFile();
-                }
-            }
         }
 
         /// <summary>
-        /// UI popin to confirm the project change
+        ///     Catch any user input to quit the software (with ALT+F4 or the close button)
+        ///     And checks if diplay save warning or not
+        /// </summary>
+        /// <returns></returns>
+        private static bool WantsToQuit()
+        {
+            Instance.popin.gameObject.SetActive(true);
+            if (Instance.popin.goQuit)
+            {
+                SettingsManager.Instance.SaveParameters();
+                return true;
+            }
+
+            return false;
+        }
+
+        [RuntimeInitializeOnLoadMethod]
+        private static void RunOnStart()
+        {
+            Application.wantsToQuit += WantsToQuit;
+        }
+
+        /// <summary>
+        ///     UI popin to confirm the project change
         /// </summary>
         /// <param name="gonew"></param>
         private void ShowConfirmationPopin(bool gonew)
@@ -135,55 +130,48 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Restart software after confirmation
+        ///     Restart software after confirmation
         /// </summary>
         public void NewFile()
         {
             if (IsLastSaveChanged())
-            {
                 ShowConfirmationPopin(true);
-            }
             else
-            {
                 SceneManager.LoadScene(0);
-            }
         }
 
         /// <summary>
-        /// Check if auto save if different from last save
+        ///     Check if auto save if different from last save
         /// </summary>
         /// <returns></returns>
         private bool IsLastSaveChanged()
         {
             if (m_currentFilePath == null) return AllElementsManager.Instance.AllElements.Count > 0;
-            string currentProjectContent = File.ReadAllText(m_currentFilePath);
-            string lastAutoSaveContent = OperationsBufferScript.Instance.GetLastAutoSaveContent();
-            return !String.Equals(currentProjectContent, lastAutoSaveContent);
+            var currentProjectContent = File.ReadAllText(m_currentFilePath);
+            var lastAutoSaveContent = OperationsBufferScript.Instance.GetLastAutoSaveContent();
+            return !string.Equals(currentProjectContent, lastAutoSaveContent);
         }
 
         /// <summary>
-        /// Show confirmation then load a file into project
+        ///     Show confirmation then load a file into project
         /// </summary>
         public void LoadProject()
         {
             if (IsLastSaveChanged())
-            {
                 ShowConfirmationPopin(false);
-            }
             else
-            {
                 LoadProjectForReal();
-            }
         }
 
         /// <summary>
-        /// Export project into odt file
+        ///     Export project into odt file
         /// </summary>
         public void ExportProjectOnODTFile()
         {
-            string path = FileBrowser.SaveFile("export", "odt");
+            var path = FileBrowser.SaveFile("export", "odt");
             StartCoroutine(ExportToOdt(path));
-            UIManager.Instance.ShowCustomMessage("Export en cours... Veuillez patienter", 2f+0.3f*Project.Floors.Sum(f=>f.Rooms.Count)*5f);
+            UIManager.Instance.ShowCustomMessage("Export en cours... Veuillez patienter",
+                2f + 0.3f * Project.Floors.Sum(f => f.Rooms.Count) * 5f);
         }
 
         public bool IsOccupied()
@@ -192,80 +180,79 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Build the odt file
+        ///     Build the odt file
         /// </summary>
         /// <param name="filePath"></param>
         public IEnumerator ExportToOdt(string filePath)
         {
             m_isExporting = true;
             // FIRST, GENERATE SCREENSHOTS
-            string folder = System.IO.Path.GetDirectoryName(filePath);
-            string name = System.IO.Path.GetFileNameWithoutExtension(filePath);
-            string imagesFolder = System.IO.Path.Combine(folder, name + "_images");
+            var folder = Path.GetDirectoryName(filePath);
+            var name = Path.GetFileNameWithoutExtension(filePath);
+            var imagesFolder = Path.Combine(folder, name + "_images");
             Directory.CreateDirectory(imagesFolder);
-            System.IO.DirectoryInfo di = new DirectoryInfo(imagesFolder);
-            foreach (FileInfo file in di.GetFiles())
-            {
-                file.Delete();
-            }
+            var di = new DirectoryInfo(imagesFolder);
+            foreach (var file in di.GetFiles()) file.Delete();
 
-            float x = Project.GetCurrentFloor().Rooms.Average(r => r.GetCenter().x);
-            float y = Project.GetCurrentFloor().Rooms.Average(r => r.GetCenter().y);
-            float z = Project.GetCurrentFloor().Rooms.Average(r => r.GetCenter().z);
+            var x = Project.GetCurrentFloor().Rooms.Average(r => r.GetCenter().x);
+            var y = Project.GetCurrentFloor().Rooms.Average(r => r.GetCenter().y);
+            var z = Project.GetCurrentFloor().Rooms.Average(r => r.GetCenter().z);
 
             yield return new WaitForSeconds(0.3f);
-            string whole2D = System.IO.Path.Combine(imagesFolder, "whole2D.png");
-            yield return Screenshot.Instance.TakeBig2DScreenshot(imagesFolder, new Vector3(x, y+50, z), "whole2D");
+            var whole2D = Path.Combine(imagesFolder, "whole2D.png");
+            yield return Screenshot.Instance.TakeBig2DScreenshot(imagesFolder, new Vector3(x, y + 50, z), "whole2D");
             yield return new WaitForSeconds(0.3f);
-            string whole3D = Screenshot.Instance.TakeBig3DScreenshot(imagesFolder, new Vector3(x, y+50, z), "whole3D");
+            var whole3D = Screenshot.Instance.TakeBig3DScreenshot(imagesFolder, new Vector3(x, y + 50, z), "whole3D");
             yield return new WaitForSeconds(0.3f);
 
-            Image whole2DImage = new Image(whole2D);
+            var whole2DImage = new Image(whole2D);
 
-            Frame whole2DFrame = new Frame();
-            whole2DFrame.Width = new Size(1920 / 4f, Unit.Pixel);
-            whole2DFrame.Height = new Size(1080 / 4f, Unit.Pixel);
+            var whole2DFrame = new Frame();
+            whole2DFrame.Width = new odf.Size(1920 / 4f, odf.Unit.Pixel);
+            whole2DFrame.Height = new odf.Size(1080 / 4f, odf.Unit.Pixel);
             whole2DFrame.Add(whole2DImage);
 
-            Image whole3DImage = new Image(whole3D);
+            var whole3DImage = new Image(whole3D);
 
-            Frame whole3DFrame = new Frame();
-            whole3DFrame.Width = new Size(1920 / 4f, Unit.Pixel);
-            whole3DFrame.Height = new Size(1080 / 4f, Unit.Pixel);
+            var whole3DFrame = new Frame();
+            whole3DFrame.Width = new odf.Size(1920 / 4f, odf.Unit.Pixel);
+            whole3DFrame.Height = new odf.Size(1080 / 4f, odf.Unit.Pixel);
             whole3DFrame.Add(whole3DImage);
 
             // ROOM SCREENSHOTS
-            List<Image> roomImages = new List<Image>();
-            List<Frame> room2DFrames = new List<Frame>();
-            List<Frame> room3DFrames = new List<Frame>();
+            var roomImages = new List<Image>();
+            var room2DFrames = new List<Frame>();
+            var room3DFrames = new List<Frame>();
 
-            int cpt = 0;
-            foreach(var f in Project.Floors)
+            var cpt = 0;
+            foreach (var f in Project.Floors)
             {
                 yield return new WaitForSeconds(0.3f);
                 SetCurrentFloor(Project.Floors.IndexOf(f));
                 yield return new WaitForSeconds(0.3f);
-                int cpt2 = 0;
-                foreach(Room ro in f.Rooms)
+                var cpt2 = 0;
+                foreach (var ro in f.Rooms)
                 {
-                    string room2D = System.IO.Path.Combine(imagesFolder, ro.Name + "_" + cpt + "_" + cpt2 + "2D.png");
-                    Vector3 roomCenter = VectorFunctions.Switch2D3D(ro.GetCenter());
-                    yield return Screenshot.Instance.TakeBig2DScreenshot(imagesFolder, roomCenter, ro.Name + "_" + cpt + "_" + cpt2 + "2D");
+                    var room2D = Path.Combine(imagesFolder, ro.Name + "_" + cpt + "_" + cpt2 + "2D.png");
+                    var roomCenter = VectorFunctions.Switch2D3D(ro.GetCenter());
+                    yield return Screenshot.Instance.TakeBig2DScreenshot(imagesFolder, roomCenter,
+                        ro.Name + "_" + cpt + "_" + cpt2 + "2D");
                     yield return new WaitForSeconds(0.3f);
-                    string room3D = Screenshot.Instance.TakeBig3DScreenshot(imagesFolder, roomCenter, ro.Name + "_" + cpt + "_" + cpt2 + "3D");
+                    var room3D = Screenshot.Instance.TakeBig3DScreenshot(imagesFolder, roomCenter,
+                        ro.Name + "_" + cpt + "_" + cpt2 + "3D");
                     yield return new WaitForSeconds(0.3f);
-                    
-                    Image room2DImage = new Image(room2D);
-                    Frame room2DFrame = new Frame();
-                    room2DFrame.Width = new Size(1920 / 4f, Unit.Pixel);
-                    room2DFrame.Height = new Size(1080 / 4f, Unit.Pixel);
+
+                    var room2DImage = new Image(room2D);
+                    var room2DFrame = new Frame();
+                    room2DFrame.Width = new odf.Size(1920 / 4f, odf.Unit.Pixel);
+                    room2DFrame.Height = new odf.Size(1080 / 4f, odf.Unit.Pixel);
                     room2DFrame.Add(room2DImage);
                     room2DFrames.Add(room2DFrame);
 
-                    Image room3DImage = new Image(room3D);
-                    Frame room3DFrame = new Frame();
-                    room3DFrame.Width = new Size(1920 / 4f, Unit.Pixel);
-                    room3DFrame.Height = new Size(1080 / 4f, Unit.Pixel);
+                    var room3DImage = new Image(room3D);
+                    var room3DFrame = new Frame();
+                    room3DFrame.Width = new odf.Size(1920 / 4f, odf.Unit.Pixel);
+                    room3DFrame.Height = new odf.Size(1080 / 4f, odf.Unit.Pixel);
                     room3DFrame.Add(room3DImage);
                     room3DFrames.Add(room3DFrame);
 
@@ -276,14 +263,15 @@ namespace ErgoShop.Managers
 
                     yield return new WaitForSeconds(0.5f);
                 }
+
                 cpt++;
             }
 
             // THEN, GENERATE DOC
-            TextDocument doc = new TextDocument();
+            var doc = new odf.TextDocument();
 
             // FONTS
-            odf.Styles.Font arial = new odf.Styles.Font();
+            var arial = new Font();
             arial.Name = "Arial";
             arial.Family = "Arial";
             arial.GenericFontFamily = GenericFontFamily.Swiss;
@@ -291,29 +279,29 @@ namespace ErgoShop.Managers
 
             doc.Fonts.Add(arial);
             // STYLES
-            ParagraphStyle arial12Style = new ParagraphStyle("Arial12Style");
+            var arial12Style = new ParagraphStyle("Arial12Style");
             arial12Style.TextProperties.Font = "Arial";
-            arial12Style.TextProperties.FontSize = new Size(12, Unit.Point);
+            arial12Style.TextProperties.FontSize = new odf.Size(12, odf.Unit.Point);
 
-            ParagraphStyle titleStyle = new ParagraphStyle("TitleStyle");
-            titleStyle.ParagraphProperties.TextAlignment = odf.Styles.TextAlignment.Center;            
+            var titleStyle = new ParagraphStyle("TitleStyle");
+            titleStyle.ParagraphProperties.TextAlignment = TextAlignment.Center;
             titleStyle.TextProperties.Font = "Arial";
-            titleStyle.TextProperties.FontSize = new Size(16, Unit.Point);
+            titleStyle.TextProperties.FontSize = new odf.Size(16, odf.Unit.Point);
             titleStyle.TextProperties.FontWeight = FontWeight.Bold;
             titleStyle.ParagraphProperties.BreakBefore = Break.Page;
 
 
-            ParagraphStyle subtitleStyle = new ParagraphStyle("SubTitleStyle");
-            subtitleStyle.ParagraphProperties.TextAlignment = odf.Styles.TextAlignment.Left;            
+            var subtitleStyle = new ParagraphStyle("SubTitleStyle");
+            subtitleStyle.ParagraphProperties.TextAlignment = TextAlignment.Left;
             subtitleStyle.TextProperties.Font = "Arial";
-            subtitleStyle.TextProperties.FontSize = new Size(12, Unit.Point);
+            subtitleStyle.TextProperties.FontSize = new odf.Size(12, odf.Unit.Point);
             subtitleStyle.TextProperties.FontWeight = FontWeight.Bold;
             subtitleStyle.TextProperties.UnderlineType = UnderlineType.Single;
 
-            ParagraphStyle breakPage = new ParagraphStyle("BreakPage");
+            var breakPage = new ParagraphStyle("BreakPage");
             breakPage.ParagraphProperties.BreakBefore = Break.Page;
 
-            CellStyle cs1 = new CellStyle("CS1");
+            var cs1 = new CellStyle("CS1");
             cs1.TextProperties.Color = "#555555";
 
             doc.AutomaticStyles.Styles.Add(titleStyle);
@@ -325,7 +313,7 @@ namespace ErgoShop.Managers
 
             // CONTENT
             // FIRST PAGE                
-            Paragraph p1 = new Paragraph
+            var p1 = new odf.Paragraph
             {
                 Style = "Arial12Style"
             };
@@ -334,20 +322,20 @@ namespace ErgoShop.Managers
             p1.Add(Project.Person.FirstName + " " + Project.Person.LastName);
 
             // SECOND PAGE
-            Paragraph p2 = new Paragraph
+            var p2 = new odf.Paragraph
             {
                 Style = "TitleStyle"
-            };            
+            };
             p2.Add("PRECONISATIONS D'AMENAGEMENT DU LOGEMENT");
             p2.AddLineBreak();
             p2.AddLineBreak();
-            Paragraph p3 = new Paragraph
+            var p3 = new odf.Paragraph
             {
                 Style = "SubTitleStyle"
             };
             p3.Add("Le bénéficiaire");
 
-            Paragraph p4 = new Paragraph
+            var p4 = new odf.Paragraph
             {
                 Style = "Arial12Style"
             };
@@ -364,13 +352,13 @@ namespace ErgoShop.Managers
             p4.AddLineBreak();
             p4.AddLineBreak();
 
-            Paragraph p5 = new Paragraph
+            var p5 = new odf.Paragraph
             {
                 Style = "SubTitleStyle"
             };
             p5.Add("La modélisation");
 
-            Paragraph p6 = new Paragraph
+            var p6 = new odf.Paragraph
             {
                 Style = "Arial12Style"
             };
@@ -394,20 +382,21 @@ namespace ErgoShop.Managers
             p6.AddLineBreak();
 
             // ROOMS
-            Paragraph pBreakPage = new Paragraph();
+            var pBreakPage = new odf.Paragraph();
             pBreakPage.Style = "BreakPage";
             pBreakPage.Add("");
 
-            Paragraph p7 = new Paragraph();
+            var p7 = new odf.Paragraph();
             p7.Style = "SubTitleStyle";
             p7.Add("Les pièces");
 
-            List<Paragraph> roomsParagraphs = new List<Paragraph>();
+            var roomsParagraphs = new List<odf.Paragraph>();
             cpt = 1;
             foreach (var f in Project.Floors)
             {
-                foreach (var r in f.Rooms) {
-                    Paragraph curParaTitle = new Paragraph();
+                foreach (var r in f.Rooms)
+                {
+                    var curParaTitle = new odf.Paragraph();
                     curParaTitle.Style = "SubTitleStyle";
                     curParaTitle.AddTab();
                     curParaTitle.Add("Pièce n°" + cpt + " : " + r.Name);
@@ -416,18 +405,15 @@ namespace ErgoShop.Managers
                     curParaTitle.AddTab();
                     curParaTitle.Add("Présentation");
 
-                    Paragraph curPara = new Paragraph();
+                    var curPara = new odf.Paragraph();
 
                     curPara.Add("Etage : " + f.FloorName);
                     curPara.AddLineBreak();
                     curPara.Add("Nombre de murs : " + r.Walls.Count);
                     curPara.AddLineBreak();
                     curPara.Add("Epaisseur des murs : ");
-                    string ths = "";
-                    foreach(var w in r.Walls)
-                    {
-                        ths += w.Thickness + "m, ";
-                    }
+                    var ths = "";
+                    foreach (var w in r.Walls) ths += w.Thickness + "m, ";
                     curPara.Add(ths);
                     curPara.AddLineBreak();
 
@@ -437,14 +423,13 @@ namespace ErgoShop.Managers
 
                     roomsParagraphs.Add(curParaTitle);
                     roomsParagraphs.Add(curPara);
-                    
+
                     cpt++;
                 }
 
 
-
                 // MEUBLES
-                Paragraph furniTitle = new Paragraph();
+                var furniTitle = new odf.Paragraph();
                 furniTitle.Style = "SubTitleStyle";
                 furniTitle.AddTab();
                 furniTitle.AddTab();
@@ -452,18 +437,16 @@ namespace ErgoShop.Managers
 
                 roomsParagraphs.Add(furniTitle);
                 foreach (var fu in f.Furnitures)
-                {
-                    if(fu.Type != "AideTechnique")
+                    if (fu.Type != "AideTechnique")
                     {
-                        Paragraph p = new Paragraph();
+                        var p = new odf.Paragraph();
                         p.Style = "Arial12Style";
                         p.Add(fu.GetDescription());
                         roomsParagraphs.Add(p);
                     }
-                }
 
                 // AIDES TECHNIQUES
-                Paragraph furni2Title = new Paragraph();
+                var furni2Title = new odf.Paragraph();
                 furni2Title.Style = "SubTitleStyle";
                 furni2Title.AddTab();
                 furni2Title.AddTab();
@@ -471,18 +454,16 @@ namespace ErgoShop.Managers
 
                 roomsParagraphs.Add(furni2Title);
                 foreach (var fu in f.Furnitures)
-                {
                     if (fu.Type == "AideTechnique")
                     {
-                        Paragraph p = new Paragraph();
+                        var p = new odf.Paragraph();
                         p.Style = "Arial12Style";
                         p.Add(fu.GetDescription());
                         roomsParagraphs.Add(p);
                     }
-                }
 
                 // COMMENTS
-                Paragraph comTitle = new Paragraph();
+                var comTitle = new odf.Paragraph();
                 comTitle.Style = "SubTitleStyle";
                 comTitle.AddTab();
                 comTitle.AddTab();
@@ -491,14 +472,14 @@ namespace ErgoShop.Managers
                 roomsParagraphs.Add(comTitle);
                 foreach (var tz in f.TextZoneElements)
                 {
-                        Paragraph p = new Paragraph();
-                        p.Style = "Arial12Style";
-                        p.Add(tz.GetDescription());
-                        roomsParagraphs.Add(p);
+                    var p = new odf.Paragraph();
+                    p.Style = "Arial12Style";
+                    p.Add(tz.GetDescription());
+                    roomsParagraphs.Add(p);
                 }
 
                 // MOBILITE
-                Paragraph chTitle = new Paragraph();
+                var chTitle = new odf.Paragraph();
                 chTitle.Style = "SubTitleStyle";
                 chTitle.AddTab();
                 chTitle.AddTab();
@@ -507,7 +488,7 @@ namespace ErgoShop.Managers
                 roomsParagraphs.Add(chTitle);
                 foreach (var ch in f.Characters)
                 {
-                    Paragraph p = new Paragraph();
+                    var p = new odf.Paragraph();
                     p.Style = "Arial12Style";
                     p.Add(ch.GetDescription());
                     roomsParagraphs.Add(p);
@@ -517,65 +498,57 @@ namespace ErgoShop.Managers
             //====================================
             // POUR RESUMER
 
-            Paragraph ps1 = new Paragraph();
+            var ps1 = new odf.Paragraph();
             ps1.Style = "SubTitleStyle";
             ps1.Add("Pour résumer");
-            Paragraph ps2 = new Paragraph();
+            var ps2 = new odf.Paragraph();
             ps2.Style = "Arial12Style";
             ps2.Add("Nombre de pièces : " + Project.Floors.Sum(f => f.Rooms.Count()));
             ps2.AddLineBreak();
-            string pieces = "";
+            var pieces = "";
             foreach (var f in Project.Floors)
-            {
-                foreach (var r in f.Rooms)
-                {
-                    pieces += r.Name + ", ";
-                }
-            }
+            foreach (var r in f.Rooms)
+                pieces += r.Name + ", ";
             ps2.Add("Pièces : " + pieces);
             ps2.AddLineBreak();
 
-            Cell cell1 = new Cell("Aide technique");
-            Cell cell2 = new Cell("Pièce associée");
-            Cell cell3 = new Cell("Commentaire");
+            var cell1 = new odf.Cell("Aide technique");
+            var cell2 = new odf.Cell("Pièce associée");
+            var cell3 = new odf.Cell("Commentaire");
             cell1.Style = "CS1";
             cell2.Style = "CS1";
             cell3.Style = "CS1";
 
-            Row row1 = new Row();
+            var row1 = new odf.Row();
             row1.Cells.Add(cell1);
             row1.Cells.Add(cell2);
             row1.Cells.Add(cell3);
 
-            Table table1 = new Table();
+            var table1 = new odf.Table();
             table1.Rows.Add(row1);
 
-            foreach(var f in Project.Floors)
-            {
-                foreach(var fu in f.Furnitures)
+            foreach (var f in Project.Floors)
+            foreach (var fu in f.Furnitures)
+                if (fu.Type == "AideTechnique")
                 {
-                    if(fu.Type == "AideTechnique")
-                    {
-                        Row ro = new Row();
-                        ro.Cells.Add(new Cell(fu.Name));
-                        ro.Cells.Add(new Cell(""));
-                        ro.Cells.Add(new Cell(""));
-                        table1.Rows.Add(ro);
-                    }
+                    var ro = new odf.Row();
+                    ro.Cells.Add(new odf.Cell(fu.Name));
+                    ro.Cells.Add(new odf.Cell(""));
+                    ro.Cells.Add(new odf.Cell(""));
+                    table1.Rows.Add(ro);
                 }
-            }
 
             // If table is empty, add an empty line
-            if(table1.Rows.Count == 1)
+            if (table1.Rows.Count == 1)
             {
-                Row ro = new Row();
-                ro.Cells.Add(new Cell(""));
-                ro.Cells.Add(new Cell(""));
-                ro.Cells.Add(new Cell(""));
+                var ro = new odf.Row();
+                ro.Cells.Add(new odf.Cell(""));
+                ro.Cells.Add(new odf.Cell(""));
+                ro.Cells.Add(new odf.Cell(""));
                 table1.Rows.Add(ro);
             }
 
-            Paragraph ps3 = new Paragraph();
+            var ps3 = new odf.Paragraph();
             ps3.Style = "Arial12Style";
             ps3.Add("[nom_preconisateur] ");
             ps3.AddTab();
@@ -586,19 +559,16 @@ namespace ErgoShop.Managers
 
 
             // DOC CONSTRUCTION
-            doc.Body.Add(p1);            
+            doc.Body.Add(p1);
             doc.Body.Add(p2);
             doc.Body.Add(p3);
             doc.Body.Add(p4);
             doc.Body.Add(p5);
             doc.Body.Add(p6);
-            doc.Body.Add(pBreakPage);            
+            doc.Body.Add(pBreakPage);
             doc.Body.Add(p7);
 
-            foreach (var p in roomsParagraphs)
-            {
-                doc.Body.Add(p);
-            }
+            foreach (var p in roomsParagraphs) doc.Body.Add(p);
 
             doc.Body.Add(pBreakPage);
             doc.Body.Add(ps1);
@@ -617,27 +587,28 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Export project into a txt file
+        ///     Export project into a txt file
         /// </summary>
         public void ExportProjectOnTxtFile()
         {
-            string txt = GetExportTxt();
-            string path = FileBrowser.SaveFile("export", "txt");
+            var txt = GetExportTxt();
+            var path = FileBrowser.SaveFile("export", "txt");
             File.WriteAllText(path, txt);
             UIManager.Instance.ShowCustomMessage("Fichier texte exporté.");
         }
 
         /// <summary>
-        /// Build the txt file
+        ///     Build the txt file
         /// </summary>
         /// <returns>string containing all descriptions and data</returns>
         public string GetExportTxt()
         {
-            string res = "";
+            var res = "";
             res += "===================================================\n";
             res += "==== PROJET " + Project.ProjectName + " ====\n\n";
             res += "===================================================\n";
-            res += "[nom_preconisateur] " + DateTime.Now.ToShortDateString() + " version ergoshop : " + GlobalManager.VERSION + "\n";
+            res += "[nom_preconisateur] " + DateTime.Now.ToShortDateString() + " version ergoshop : " +
+                   GlobalManager.VERSION + "\n";
             res += "Date : " + Project.Date.ToShortDateString() + "\n";
             res += "Bénéficiaire " + Project.Person.FirstName + " " + Project.Person.LastName + "\n";
             res += "Version : v." + Project.Version + "\n";
@@ -655,7 +626,7 @@ namespace ErgoShop.Managers
             {
                 //res += "== " + f.FloorName + "==\n";
                 //res += "Pieces : " + f.Rooms.Count + "\n";
-                int cptpiece = 0;
+                var cptpiece = 0;
                 foreach (var r in f.Rooms)
                 {
                     cptpiece++;
@@ -665,71 +636,45 @@ namespace ErgoShop.Managers
                 }
 
                 res += "========= MOBILITE =========\n";
-                foreach (var ch in f.Characters)
-                {
-                    res += ch.GetDescription();
-                }
+                foreach (var ch in f.Characters) res += ch.GetDescription();
                 res += "========= MEUBLES =========\n";
                 foreach (var fu in f.Furnitures)
-                {
-                    if(fu.Type != "AideTechnique") {
+                    if (fu.Type != "AideTechnique")
                         res += fu.GetDescription();
-                    }
-                }
-                foreach (var sta in f.Stairs)
-                {
-                    res += sta.GetDescription();
-                }
+                foreach (var sta in f.Stairs) res += sta.GetDescription();
                 res += "========= AIDES TECHNIQUES =========\n";
                 foreach (var fu in f.Furnitures)
-                {
                     if (fu.Type == "AideTechnique")
-                    {
                         res += fu.GetDescription();
-                    }
-                }
                 res += "========= COMMENTAIRES ========= \n";
-                foreach (var text in f.TextZoneElements)
-                {
-                    res += text.GetDescription();
-                }
-
+                foreach (var text in f.TextZoneElements) res += text.GetDescription();
             }
+
             res += "===================================================\n";
             res += "================== POUR RESUMER =====================\n\n";
             res += "===================================================\n\n\n\n";
             res += "Nombre de pièces : " + Project.Floors.Sum(f => f.Rooms.Count()) + "\n";
             res += "Pièces : ";
-            foreach(var f in Project.Floors)
-            {
-                foreach(var r in f.Rooms)
-                {
-                    res += r.Name + ", ";
-                }
-            }
+            foreach (var f in Project.Floors)
+            foreach (var r in f.Rooms)
+                res += r.Name + ", ";
             res += "\n";
             res += "Aides techniques insérées : \n";
-            foreach(var f in Project.Floors)
-            {
-                foreach(var ff in f.Furnitures)
-                {
-                    if (ff.Type == "AideTechnique")
-                    {
-                        res += "- " + ff.Name + "\n";
-                    }
-                }
-            }
+            foreach (var f in Project.Floors)
+            foreach (var ff in f.Furnitures)
+                if (ff.Type == "AideTechnique")
+                    res += "- " + ff.Name + "\n";
 
             return res;
         }
 
         /// <summary>
-        /// Load an autosave for the cancel / redo system
+        ///     Load an autosave for the cancel / redo system
         /// </summary>
         /// <param name="auto"></param>
         public void LoadAutoSave(AutoSave auto)
         {
-            string jsonString = File.ReadAllText(System.IO.Path.Combine(m_folderAutoSave, auto.ProjectPath));
+            var jsonString = File.ReadAllText(Path.Combine(m_folderAutoSave, auto.ProjectPath));
 
             SelectedObjectManager.Instance.ResetSelection();
 
@@ -744,14 +689,14 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Loads a json file into Project
+        ///     Loads a json file into Project
         /// </summary>
         /// <returns></returns>
         public bool LoadProjectForReal()
         {
             filePath = FileBrowser.OpenSingleFile("json");
             if (filePath == "") return false;
-            string jsonString = File.ReadAllText(filePath);
+            var jsonString = File.ReadAllText(filePath);
 
             SelectedObjectManager.Instance.ResetSelection();
 
@@ -772,7 +717,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Set all elements of all creators and rebuild all scene data
+        ///     Set all elements of all creators and rebuild all scene data
         /// </summary>
         public void LoadFromCurrentFloor()
         {
@@ -790,14 +735,14 @@ namespace ErgoShop.Managers
 
             CharactersCreator.Instance.LoadCharactersFromFloor(Project.GetCurrentFloor());
 
-            FloorPropertiesScript.Instance.SetCurrentFloor(ProjectManager.Instance.Project.CurrentFloorIdx);
+            FloorPropertiesScript.Instance.SetCurrentFloor(Instance.Project.CurrentFloorIdx);
 
             // GROUPS ALWAYS AT THE END
             GroupsManager.Instance.LoadGroupsFromFloor(Project.GetCurrentFloor());
         }
 
         /// <summary>
-        /// SaveProject without checking if data would be lost
+        ///     SaveProject without checking if data would be lost
         /// </summary>
         public void SaveProjectNoCheck()
         {
@@ -805,78 +750,61 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Save without asking for name/path
+        ///     Save without asking for name/path
         /// </summary>
         public void SaveCurrentFile()
         {
             SaveCurrentFloor();
-            if (SaveProject(m_currentFilePath))
-            {
-                UIManager.Instance.ShowSaveOK();
-            }
+            if (SaveProject(m_currentFilePath)) UIManager.Instance.ShowSaveOK();
         }
 
         /// <summary>
-        /// Save as (user defines path/name)
+        ///     Save as (user defines path/name)
         /// </summary>
         public void SaveCurrentFileAs()
         {
             SaveCurrentFloor();
-            if (SaveProject(""))
-            {
-                UIManager.Instance.ShowSaveOK();
-            }
+            if (SaveProject()) UIManager.Instance.ShowSaveOK();
         }
 
         /// <summary>
-        /// Create new autosave EVERYTIME an action is made on project
-        /// Currently, autosaves are only used for cancel/redo system
+        ///     Create new autosave EVERYTIME an action is made on project
+        ///     Currently, autosaves are only used for cancel/redo system
         /// </summary>
         /// <returns></returns>
         public AutoSave SaveCurrentFileAsAutoSave()
         {
             SaveCurrentFloor();
-            DateTime dt = DateTime.Now;
+            var dt = DateTime.Now;
 
-            if (!System.IO.Directory.Exists(m_folderAutoSave))
-                System.IO.Directory.CreateDirectory(m_folderAutoSave);
+            if (!Directory.Exists(m_folderAutoSave))
+                Directory.CreateDirectory(m_folderAutoSave);
 
-            string path = "AUTOSAVE_" + String.Format("{0:yyyy_MM_dd_HH_mm_ss_ffff}", dt);
+            var path = "AUTOSAVE_" + string.Format("{0:yyyy_MM_dd_HH_mm_ss_ffff}", dt);
 
-            string finalPath = System.IO.Path.Combine(m_folderAutoSave, path);
+            var finalPath = Path.Combine(m_folderAutoSave, path);
 
             if (SaveProject(finalPath, true))
-            {
                 return new AutoSave
                 {
                     Date = dt,
                     ProjectPath = path
                 };
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
 
         /// <summary>
-        /// Save project in json format at path
+        ///     Save project in json format at path
         /// </summary>
         /// <param name="path">file path</param>
         /// <param name="isAuto">is auto save for cancel redo ?</param>
         /// <returns></returns>
         public bool SaveProject(string path = "", bool isAuto = false)
         {
-            if (string.IsNullOrEmpty(path))
-            {
-                path = FileBrowser.SaveFile(Project.ProjectName, "json");
-            }
+            if (string.IsNullOrEmpty(path)) path = FileBrowser.SaveFile(Project.ProjectName, "json");
             if (string.IsNullOrEmpty(path)) return false;
 
-            if (!isAuto)
-            {
-                m_currentFilePath = path;
-            }
+            if (!isAuto) m_currentFilePath = path;
 
             var settings = new JsonSerializerSettings();
             settings.Converters.Add(new ColorConverter());
@@ -884,92 +812,83 @@ namespace ErgoShop.Managers
 
             SaveCurrentFloor();
 
-            string jsonString = JsonConvert.SerializeObject(Project, settings);
+            var jsonString = JsonConvert.SerializeObject(Project, settings);
             File.WriteAllText(path, jsonString);
 
             return true;
         }
 
         /// <summary>
-        /// Copy data (make new references) and stores them in Project
+        ///     Copy data (make new references) and stores them in Project
         /// </summary>
         public void SaveCurrentFloor()
         {
             AllElementsManager.Instance.UpdateAllElements(true);
             Project.GetCurrentFloor().ClearAll();
-            List<Room> wcRooms = WallsCreator.Instance.GetRooms();
+            var wcRooms = WallsCreator.Instance.GetRooms();
 
             // Copy of rooms, walls, wallopenings
             foreach (var r in wcRooms)
             {
-                Room newRoom = r.GetCopy() as Room;
+                var newRoom = r.GetCopy() as Room;
                 Project.GetCurrentFloor().Rooms.Add(newRoom);
             }
+
             // WALLS
-            List<Wall> lonelyWalls = new List<Wall>();
-            Wall[] allWalls = new Wall[WallsCreator.Instance.GetWalls().Count];
+            var lonelyWalls = new List<Wall>();
+            var allWalls = new Wall[WallsCreator.Instance.GetWalls().Count];
             WallsCreator.Instance.GetWalls().CopyTo(allWalls);
             // WALLS
             foreach (var w in allWalls)
             {
-                bool isLonely = true;
+                var isLonely = true;
                 foreach (var r in Project.GetCurrentFloor().Rooms)
-                {
                     if (r.Walls.Where(rw => rw.P1 == w.P1 && rw.P2 == w.P2).Count() == 1)
-                    {
                         isLonely = false;
-                    }
-                }
                 if (isLonely)
                 {
-                    Wall newRefWall = w.GetCopy() as Wall;
+                    var newRefWall = w.GetCopy() as Wall;
                     lonelyWalls.Add(newRefWall);
                 }
             }
+
             Project.GetCurrentFloor().Walls = lonelyWalls;
             // FURNITURES
-            List<Furniture> newFref = new List<Furniture>();
+            var newFref = new List<Furniture>();
             foreach (var f in FurnitureCreator.Instance.GetFurnitures())
             {
-                Furniture fu = f.GetCopy() as Furniture;
+                var fu = f.GetCopy() as Furniture;
                 newFref.Add(fu);
             }
 
             Project.GetCurrentFloor().Furnitures = newFref;
 
             // CUSTOMIZED STAIRS
-            List<Stairs> newStairsRef = new List<Stairs>();
-            foreach (var s in StairsCreator.Instance.GetStairs())
-            {
-                newStairsRef.Add(s.GetCopy() as Stairs);
-            }
+            var newStairsRef = new List<Stairs>();
+            foreach (var s in StairsCreator.Instance.GetStairs()) newStairsRef.Add(s.GetCopy() as Stairs);
             Project.GetCurrentFloor().Stairs = newStairsRef;
 
             // TEXT ZONES
-            List<TextZoneElement> newTextZoneRefs = new List<TextZoneElement>();
+            var newTextZoneRefs = new List<TextZoneElement>();
             foreach (var h in HelpersCreator.Instance.GetHelpers())
-            {
                 if (h is TextZoneElement)
                 {
-                    var oldT = (h as TextZoneElement);
+                    var oldT = h as TextZoneElement;
                     newTextZoneRefs.Add(oldT.GetCopy() as TextZoneElement);
                 }
-            }
 
             Project.GetCurrentFloor().TextZoneElements = newTextZoneRefs;
 
             // CHARACTERS
-            List<CharacterElement> newCharRefs = new List<CharacterElement>();
+            var newCharRefs = new List<CharacterElement>();
             foreach (var ce in CharactersCreator.Instance.GetCharacters())
-            {
                 newCharRefs.Add(ce.GetCopy() as CharacterElement);
-            }
 
             Project.GetCurrentFloor().Characters = newCharRefs;
 
             // IMPORTANT : LET GROUPS AT THE END
             // GROUPS : SAVE ONLY IDS
-            List<ElementGroup> newGroupsRefs = new List<ElementGroup>();
+            var newGroupsRefs = new List<ElementGroup>();
             foreach (var eg in GroupsManager.Instance.GetGroups())
             {
                 var newIds = new List<int>();
@@ -989,7 +908,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Destroy current floor and load another one
+        ///     Destroy current floor and load another one
         /// </summary>
         /// <param name="v">floor id</param>
         public void SetCurrentFloor(int v)
@@ -1002,7 +921,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Creates a new floor, and set current floor to it
+        ///     Creates a new floor, and set current floor to it
         /// </summary>
         /// <param name="floorName">Name</param>
         /// <param name="hasToCopyOtherFloor">Copy walls of another floor ?</param>
@@ -1011,7 +930,7 @@ namespace ErgoShop.Managers
         public void AddFloor(string floorName, bool hasToCopyOtherFloor, string copyName, float wheight)
         {
             SetCurrentFloor(Project.Floors.IndexOf(Project.Floors.Where(fl => fl.FloorName == copyName).First()));
-            ErgoShop.POCO.Floor newFloor = new ErgoShop.POCO.Floor
+            var newFloor = new Floor
             {
                 FloorName = floorName,
                 WallHeight = wheight
@@ -1019,29 +938,11 @@ namespace ErgoShop.Managers
 
             if (hasToCopyOtherFloor)
             {
-                ErgoShop.POCO.Floor floorCopy = Project.Floors.First(f => f.FloorName == copyName);
+                var floorCopy = Project.Floors.First(f => f.FloorName == copyName);
                 foreach (var r in floorCopy.Rooms)
+                foreach (var w in r.Walls)
                 {
-                    foreach (var w in r.Walls)
-                    {
-                        Wall copy = new Wall
-                        {
-                            Color = w.Color,
-                            Height = wheight / 100f,
-                            P1 = w.P1,
-                            P2 = w.P2,
-                            Thickness = w.Thickness,
-                            Index = w.Index
-                        };
-                        if (newFloor.Walls.Where(wa => wa.P1 == copy.P1 && wa.P2 == copy.P2).Count() == 0)
-                        {
-                            newFloor.Walls.Add(copy);
-                        }
-                    }
-                }
-                foreach (var w in floorCopy.Walls)
-                {
-                    Wall copy = new Wall
+                    var copy = new Wall
                     {
                         Color = w.Color,
                         Height = wheight / 100f,
@@ -1051,9 +952,22 @@ namespace ErgoShop.Managers
                         Index = w.Index
                     };
                     if (newFloor.Walls.Where(wa => wa.P1 == copy.P1 && wa.P2 == copy.P2).Count() == 0)
-                    {
                         newFloor.Walls.Add(copy);
-                    }
+                }
+
+                foreach (var w in floorCopy.Walls)
+                {
+                    var copy = new Wall
+                    {
+                        Color = w.Color,
+                        Height = wheight / 100f,
+                        P1 = w.P1,
+                        P2 = w.P2,
+                        Thickness = w.Thickness,
+                        Index = w.Index
+                    };
+                    if (newFloor.Walls.Where(wa => wa.P1 == copy.P1 && wa.P2 == copy.P2).Count() == 0)
+                        newFloor.Walls.Add(copy);
                 }
             }
 
@@ -1063,7 +977,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Ask every creator to delete its data and gameobjects
+        ///     Ask every creator to delete its data and gameobjects
         /// </summary>
         public void DestroyEverything()
         {
@@ -1076,7 +990,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Path to %appdata%/ErgoShop/Autosaves
+        ///     Path to %appdata%/ErgoShop/Autosaves
         /// </summary>
         /// <returns></returns>
         public string GetAutoSaveFolderPath()

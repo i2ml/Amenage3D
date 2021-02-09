@@ -1,61 +1,59 @@
-﻿using ErgoShop.Managers;
+﻿using System.Collections.Generic;
+using ErgoShop.Managers;
 using ErgoShop.POCO;
 using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Compute and show angle between two walls
+    ///     Compute and show angle between two walls
     /// </summary>
     public class AngleScript : MonoBehaviour
     {
-        private int m_segments;
         public LineRenderer LineRend;
         public TextMeshPro AngleTM;
-        public float Radius { get; set; }
         private float m_angle;
 
         private float m_directionw1w2 = 1f;
+        private int m_segments;
 
         public Wall w1, w2;
+        public float Radius { get; set; }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             LineRend = GetComponent<LineRenderer>();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
 
         /// <summary>
-        /// METHOD TO UPDATE WALL POSITIONS ACCORDING TO WANTED ANGLE
-        /// NOT USED CURRENTLY, WAS CANCELLED
+        ///     METHOD TO UPDATE WALL POSITIONS ACCORDING TO WANTED ANGLE
+        ///     NOT USED CURRENTLY, WAS CANCELLED
         /// </summary>
         /// <param name="angle"></param>
         public void SetAngle(float angle)
         {
-            float diff = angle - m_angle;
+            var diff = angle - m_angle;
             if (diff == 0) return;
-            Vector3 v = WallFunctions.GetCommonPosition(w1, w2);
+            var v = WallFunctions.GetCommonPosition(w1, w2);
 
-            Quaternion q = Quaternion.Euler(0, 0, diff / 2f * m_directionw1w2);
-            Quaternion qInv = Quaternion.Euler(0, 0, -diff / 2f * m_directionw1w2);
+            var q = Quaternion.Euler(0, 0, diff / 2f * m_directionw1w2);
+            var qInv = Quaternion.Euler(0, 0, -diff / 2f * m_directionw1w2);
 
-            Vector3 neww1dir = q * w1.Direction;
-            Vector3 neww2dir = qInv * w2.Direction;
+            var neww1dir = q * w1.Direction;
+            var neww2dir = qInv * w2.Direction;
 
-            Vector3 neww1P1 = w1.P2 - (neww1dir * w1.Length);
-            Vector3 neww1P2 = w1.P1 + (neww1dir * w1.Length);
-            Vector3 neww2P1 = w2.P2 - (neww2dir * w2.Length);
-            Vector3 neww2P2 = w2.P1 + (neww2dir * w2.Length);
+            var neww1P1 = w1.P2 - neww1dir * w1.Length;
+            var neww1P2 = w1.P1 + neww1dir * w1.Length;
+            var neww2P1 = w2.P2 - neww2dir * w2.Length;
+            var neww2P2 = w2.P1 + neww2dir * w2.Length;
 
             if (w1.P1 == v)
             {
@@ -94,25 +92,20 @@ namespace ErgoShop.UI
         }
 
         /// <summary>
-        /// Draw the computed angle
+        ///     Draw the computed angle
         /// </summary>
         public void DrawAngle()
         {
             m_angle = WallFunctions.GetAngleBetweenWalls(w1, w2);
 
             float startAngle = 0;
-            Vector3 common = WallFunctions.GetCommonPosition(w1, w2);
+            var common = WallFunctions.GetCommonPosition(w1, w2);
 
             if (common == w1.P1)
-            {
                 startAngle = Vector3.SignedAngle(Vector3.left, -w1.Direction, Vector3.forward);
-            }
-            else if (common == w1.P2)
-            {
-                startAngle = Vector3.SignedAngle(Vector3.left, w1.Direction, Vector3.forward);
-            }
+            else if (common == w1.P2) startAngle = Vector3.SignedAngle(Vector3.left, w1.Direction, Vector3.forward);
 
-            List<Vector3> arcPoints = new List<Vector3>();
+            var arcPoints = new List<Vector3>();
 
             m_segments = Mathf.RoundToInt(m_angle);
 
@@ -124,24 +117,20 @@ namespace ErgoShop.UI
                 m_segments = Mathf.RoundToInt(m_angle);
 
                 if (common == w2.P1)
-                {
                     startAngle = Vector3.SignedAngle(Vector3.left, -w2.Direction, Vector3.forward);
-                }
-                else if (common == w2.P2)
-                {
-                    startAngle = Vector3.SignedAngle(Vector3.left, w2.Direction, Vector3.forward);
-                }
+                else if (common == w2.P2) startAngle = Vector3.SignedAngle(Vector3.left, w2.Direction, Vector3.forward);
             }
             else
             {
                 m_directionw1w2 = -1f;
             }
 
-            Vector3 center = common;
-            float sin = Mathf.Sin(Mathf.Deg2Rad * m_angle);
-            float cos = Mathf.Cos(Mathf.Deg2Rad * m_angle);
+            var center = common;
+            var sin = Mathf.Sin(Mathf.Deg2Rad * m_angle);
+            var cos = Mathf.Cos(Mathf.Deg2Rad * m_angle);
             center += w1.Thickness / 2f * w1.Perpendicular * sin + w2.Thickness / 2f * w2.Perpendicular * sin;
-            center += w1.Thickness / 2f * w1.Direction * cos * m_directionw1w2 + w2.Thickness / 2f * w2.Direction * cos * -m_directionw1w2;
+            center += w1.Thickness / 2f * w1.Direction * cos * m_directionw1w2 +
+                      w2.Thickness / 2f * w2.Direction * cos * -m_directionw1w2;
 
             //if (Input.GetKeyDown(KeyCode.D))
             //{
@@ -150,12 +139,12 @@ namespace ErgoShop.UI
             //    go.transform.localScale = Vector3.one * 0.5f;
             //}
 
-            float angle = startAngle;
+            var angle = startAngle;
 
-            for (int i = 0; i <= m_segments; i++)
+            for (var i = 0; i <= m_segments; i++)
             {
-                float x = Mathf.Cos(Mathf.Deg2Rad * angle) * Radius;
-                float y = Mathf.Sin(Mathf.Deg2Rad * angle) * Radius;
+                var x = Mathf.Cos(Mathf.Deg2Rad * angle) * Radius;
+                var y = Mathf.Sin(Mathf.Deg2Rad * angle) * Radius;
 
                 var pos = new Vector3(x, y, -0.00001f) + center;
                 arcPoints.Add(pos);
@@ -166,7 +155,7 @@ namespace ErgoShop.UI
                     AngleTM.text = m_segments + "";
                 }
 
-                angle += (m_angle / m_segments);
+                angle += m_angle / m_segments;
             }
 
             LineRend.positionCount = arcPoints.Count;
@@ -180,15 +169,14 @@ namespace ErgoShop.UI
 
             // Show cotations ? (from room params)
 
-            List<Room> r = WallFunctions.GetRoomsFromWall(w1, WallsCreator.Instance.GetRooms());
-            List<Room> r2 = WallFunctions.GetRoomsFromWall(w2, WallsCreator.Instance.GetRooms());
+            var r = WallFunctions.GetRoomsFromWall(w1, WallsCreator.Instance.GetRooms());
+            var r2 = WallFunctions.GetRoomsFromWall(w2, WallsCreator.Instance.GetRooms());
 
             if (r.Count > 0 && r2.Count > 0 && r[0] == r2[0])
             {
                 LineRend.gameObject.SetActive(LineRend.gameObject.activeInHierarchy && r[0].ShowCotations);
                 AngleTM.gameObject.SetActive(AngleTM.gameObject.activeInHierarchy && r[0].ShowCotations);
             }
-
         }
     }
 }

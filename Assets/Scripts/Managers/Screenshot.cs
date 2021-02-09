@@ -1,17 +1,16 @@
-﻿using Crosstales.FB;
-using ErgoShop.Cameras;
-using System;
+﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Crosstales.FB;
+using ErgoShop.Cameras;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.Managers
 {
     /// <summary>
-    /// Manager to handle screenshot system
+    ///     Manager to handle screenshot system
     /// </summary>
     public class Screenshot : MonoBehaviour
     {
@@ -33,8 +32,9 @@ namespace ErgoShop.Managers
         {
             if (folderPath == "")
             {
-                folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ErgoShop/Screenshots");
-                Directory.CreateDirectory(Screenshot.Instance.folderPath);
+                folderPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    "ErgoShop/Screenshots");
+                Directory.CreateDirectory(Instance.folderPath);
             }
         }
 
@@ -44,8 +44,13 @@ namespace ErgoShop.Managers
                 folderText.text = folderPath;
         }
 
+        private void LateUpdate()
+        {
+            if (Input.GetKeyDown(KeyCode.F8)) TakeScreenshot();
+        }
+
         /// <summary>
-        /// Get complete path with name for screenshot file
+        ///     Get complete path with name for screenshot file
         /// </summary>
         /// <returns></returns>
         public string GetScreenShotName()
@@ -54,50 +59,44 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Build a name for the screenshot with date
+        ///     Build a name for the screenshot with date
         /// </summary>
         /// <returns></returns>
         private string GetNameWithoutNumber()
         {
             return ProjectManager.Instance.Project.ProjectName + "_"
-                + (GlobalManager.Instance.GetActiveCamera().name.Contains("2D") ? "2D" : "3D") + "_"
-                + String.Format("{0:dd-MM-yyyy}", ProjectManager.Instance.Project.Date);
+                                                               + (GlobalManager.Instance.GetActiveCamera().name
+                                                                   .Contains("2D")
+                                                                   ? "2D"
+                                                                   : "3D") + "_"
+                                                               + string.Format("{0:dd-MM-yyyy}",
+                                                                   ProjectManager.Instance.Project.Date);
         }
 
         /// <summary>
-        /// Increment number if same screenshot
+        ///     Increment number if same screenshot
         /// </summary>
         /// <returns></returns>
         public string GetNumber()
         {
-            List<string> paths = Directory.GetFiles(folderPath).ToList();
-            int number = 1;
-            foreach (string path in paths)
+            var paths = Directory.GetFiles(folderPath).ToList();
+            var number = 1;
+            foreach (var path in paths)
             {
                 if (!path.Contains('_')) continue;
-                string nameWithoutNumber = path.Substring(0, path.LastIndexOf('_'));
-                if (nameWithoutNumber == Path.Combine(folderPath, GetNameWithoutNumber()))
-                {
-                    number++;
-                }
+                var nameWithoutNumber = path.Substring(0, path.LastIndexOf('_'));
+                if (nameWithoutNumber == Path.Combine(folderPath, GetNameWithoutNumber())) number++;
             }
+
             return number.ToString().PadLeft(3, '0');
         }
 
-        void LateUpdate()
-        {
-            if (Input.GetKeyDown(KeyCode.F8))
-            {
-                TakeScreenshot();
-            }
-        }
-
         /// <summary>
-        /// Set a folder path to store screenshots and save the path in software settings
+        ///     Set a folder path to store screenshots and save the path in software settings
         /// </summary>
         public void SetFolderPath()
         {
-            string fp = FileBrowser.OpenSingleFolder();
+            var fp = FileBrowser.OpenSingleFolder();
             if (!string.IsNullOrEmpty(fp))
             {
                 folderPath = fp;
@@ -107,33 +106,33 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Take a screenshot using RenderTexture and save it
+        ///     Take a screenshot using RenderTexture and save it
         /// </summary>
-        public void TakeScreenshot(bool isForOdt = false, string odtPath="")
+        public void TakeScreenshot(bool isForOdt = false, string odtPath = "")
         {
-            if (!System.IO.Directory.Exists(folderPath))
-                System.IO.Directory.CreateDirectory(folderPath);
-            string fileName = GetScreenShotName();
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+            var fileName = GetScreenShotName();
 
-            RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+            var rt = new RenderTexture(resWidth, resHeight, 24);
             GlobalManager.Instance.GetActiveCamera().targetTexture = rt;
-            Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+            var screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             GlobalManager.Instance.GetActiveCamera().Render();
             RenderTexture.active = rt;
             screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
             GlobalManager.Instance.GetActiveCamera().targetTexture = null;
             RenderTexture.active = null; // JC: added to avoid errors
             Destroy(rt);
-            byte[] bytes = screenShot.EncodeToPNG();
+            var bytes = screenShot.EncodeToPNG();
 
             if (isForOdt)
             {
-                System.IO.File.WriteAllBytes(odtPath, bytes);
+                File.WriteAllBytes(odtPath, bytes);
             }
             else
             {
-                string filename = GetScreenShotName();
-                System.IO.File.WriteAllBytes(filename, bytes);
+                var filename = GetScreenShotName();
+                File.WriteAllBytes(filename, bytes);
                 Debug.Log(string.Format("Took screenshot to: {0}", filename));
 
                 //ScreenCapture.CaptureScreenshot(filename);
@@ -155,7 +154,7 @@ namespace ErgoShop.Managers
 
             yield return new WaitForSeconds(0.3f);
 
-            string file = Path.Combine(odtImagesFolder, wname + ".png");
+            var file = Path.Combine(odtImagesFolder, wname + ".png");
 
             // Take screenshot
             TakeScreenshot(true, file);
@@ -165,15 +164,14 @@ namespace ErgoShop.Managers
         {
             // Set camera to have whole scene 3D
             GlobalManager.Instance.Set3DMode();
-            
-            GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetPosition(position);
-            GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetRotation(Vector3.right*90f);
 
-            string file = Path.Combine(odtImagesFolder, wname + ".png");
+            GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetPosition(position);
+            GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetRotation(Vector3.right * 90f);
+
+            var file = Path.Combine(odtImagesFolder, wname + ".png");
             // Take screenshot
             TakeScreenshot(true, file);
             return file;
         }
-
     }
 }

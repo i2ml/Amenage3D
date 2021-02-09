@@ -1,8 +1,7 @@
-﻿using ErgoShop.Managers;
+﻿using System.Collections.Generic;
+using ErgoShop.Managers;
 using ErgoShop.POCO;
 using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErgoShop.UI
@@ -13,9 +12,9 @@ namespace ErgoShop.UI
 
         public bool isMoving;
 
-        private Wall w;
-
         private Vector3 m_prevPos;
+
+        private Wall w;
 
         public static WallArrowsScript Instance { get; private set; }
 
@@ -25,7 +24,7 @@ namespace ErgoShop.UI
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (GlobalManager.Instance.GetActiveCamera().tag != "Cam2D")
             {
@@ -35,7 +34,8 @@ namespace ErgoShop.UI
                 downPerpArrow.SetActive(false);
                 return;
             }
-            bool show = SelectedObjectManager.Instance.currentWallsData.Count == 1;
+
+            var show = SelectedObjectManager.Instance.currentWallsData.Count == 1;
             leftArrow.SetActive(show);
             rightArrow.SetActive(show);
             upPerpArrow.SetActive(show);
@@ -44,42 +44,34 @@ namespace ErgoShop.UI
             {
                 w = SelectedObjectManager.Instance.currentWallsData[0];
                 if (leftArrow != currentArrow)
-                {
                     leftArrow.transform.position = w.P1 + m_decal - w.Direction * m_arrowOffset;
-                    //leftArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, -w.Direction);
-                }
+                //leftArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, -w.Direction);
                 if (rightArrow != currentArrow)
-                {
                     rightArrow.transform.position = w.P2 + m_decal + w.Direction * m_arrowOffset;
-                    //rightArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, w.Direction);
-                }
+                //rightArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, w.Direction);
                 if (upPerpArrow != currentArrow)
-                {
                     upPerpArrow.transform.position = w.Center + m_decal - w.Perpendicular * w.Thickness / 2f;
-                    //upPerpArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, -w.Perpendicular);
-                }
+                //upPerpArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, -w.Perpendicular);
                 if (downPerpArrow != currentArrow)
-                {
                     downPerpArrow.transform.position = w.Center + m_decal + w.Perpendicular * w.Thickness / 2f;
-                    //downPerpArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, w.Perpendicular);
-                }
+                //downPerpArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, w.Perpendicular);
             }
+
             if (show)
             {
-                List<GameObject> arrows = new List<GameObject> { leftArrow, rightArrow, upPerpArrow, downPerpArrow };
+                var arrows = new List<GameObject> {leftArrow, rightArrow, upPerpArrow, downPerpArrow};
                 foreach (var go in arrows)
-                {
-                    go.transform.localScale = Vector3.one * Mathf.Abs(GlobalManager.Instance.cam2DTop.transform.position.z / 10f);
-                    // DEBUG
-                    //if(go.name == "P1")
-                    //{
-                    //    go.transform.localScale *= 1.3f;
-                    //}
-                    //if(go.name == "P2")
-                    //{
-                    //    go.transform.localScale *= 0.7f;
-                    //}
-                }
+                    go.transform.localScale =
+                        Vector3.one * Mathf.Abs(GlobalManager.Instance.cam2DTop.transform.position.z / 10f);
+                // DEBUG
+                //if(go.name == "P1")
+                //{
+                //    go.transform.localScale *= 1.3f;
+                //}
+                //if(go.name == "P2")
+                //{
+                //    go.transform.localScale *= 0.7f;
+                //}
                 ClickArrow();
             }
             else
@@ -93,29 +85,25 @@ namespace ErgoShop.UI
             // Press on arrow = select arrow
             if (Input.GetMouseButtonDown(0))
             {
-                GameObject go = InputFunctions.GetHoveredObject2D(GlobalManager.Instance.GetActiveCamera());
+                var go = InputFunctions.GetHoveredObject2D(GlobalManager.Instance.GetActiveCamera());
                 if (!go || go.tag != "WallArrow")
                 {
                     isMoving = false;
                     return;
                 }
-                else
-                {
-                    currentArrow = go;
-                }
+
+                currentArrow = go;
             }
+
             // Release = no arrow
-            if (Input.GetMouseButtonUp(0))
-            {
-                currentArrow = null;
-            }
+            if (Input.GetMouseButtonUp(0)) currentArrow = null;
 
             // if arrow
             if (currentArrow)
             {
-                Vector3 proj = Vector3.zero;
-                Vector3 mousePos = InputFunctions.GetWorldPoint2D(GlobalManager.Instance.GetActiveCamera());
-                if (m_prevPos == mousePos) { return; }
+                var proj = Vector3.zero;
+                var mousePos = InputFunctions.GetWorldPoint2D(GlobalManager.Instance.GetActiveCamera());
+                if (m_prevPos == mousePos) return;
                 switch (currentArrow.name)
                 {
                     case "P1":
@@ -138,14 +126,16 @@ namespace ErgoShop.UI
                         WallsCreator.Instance.AdjustAllWalls();
                         WallPropPanelScript.Instance.UpdateWallProperties();
                         break;
-                    default:
-                        break;
                 }
+
                 currentArrow.transform.position = proj + m_decal;
                 isMoving = true;
                 m_prevPos = mousePos;
             }
-            else isMoving = false;
+            else
+            {
+                isMoving = false;
+            }
         }
     }
 }

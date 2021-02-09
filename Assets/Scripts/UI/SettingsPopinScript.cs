@@ -1,20 +1,12 @@
-﻿using Crosstales.FB;
-using ErgoShop.Managers;
-using ErgoShop.POCO;
+﻿using ErgoShop.Managers;
 using ErgoShop.Utils;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// UI For software settings
+    ///     UI For software settings
     /// </summary>
     public class SettingsPopinScript : MonoBehaviour
     {
@@ -34,15 +26,20 @@ namespace ErgoShop.UI
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
+        }
 
+        private void OnEnable()
+        {
+            if (Time.time > 1)
+                if (SettingsManager.Instance.LoadOK)
+                    UpdateUI();
         }
 
         public void UpdateUI()
@@ -57,7 +54,7 @@ namespace ErgoShop.UI
         }
 
         /// <summary>
-        /// Get all data in UI and store it to json
+        ///     Get all data in UI and store it to json
         /// </summary>
         public void SaveParameters()
         {
@@ -68,24 +65,13 @@ namespace ErgoShop.UI
             SettingsManager.Instance.SoftwareParameters.TagOnlyWall = tagWalltagAllDD.value == 1;
 
             // Project
-            ParsingFunctions.ParseFloatCommaDot(thicknessField.text, out float tf);
-            ParsingFunctions.ParseFloatCommaDot(wallsHeightField.text, out float wf);
+            ParsingFunctions.ParseFloatCommaDot(thicknessField.text, out var tf);
+            ParsingFunctions.ParseFloatCommaDot(wallsHeightField.text, out var wf);
             ProjectManager.Instance.Project.WallHeight = WallsCreator.Instance.wallHeight = wf / 100f;
             ProjectManager.Instance.Project.WallThickness = WallsCreator.Instance.wallThickness = tf / 100f;
 
             // Auto Save Software parameters
             SettingsManager.Instance.SaveParameters();
-        }
-
-        private void OnEnable()
-        {
-            if (Time.time > 1)
-            {
-                if (SettingsManager.Instance.LoadOK)
-                {
-                    UpdateUI();
-                }
-            }
         }
     }
 }

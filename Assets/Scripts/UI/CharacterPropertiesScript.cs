@@ -1,16 +1,15 @@
-﻿using ErgoShop.Managers;
+﻿using System.Collections.Generic;
+using ErgoShop.Managers;
 using ErgoShop.Operations;
 using ErgoShop.POCO;
 using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// UI Properties for selected element
+    ///     UI Properties for selected element
     /// </summary>
     public class CharacterPropertiesScript : PropertiesBehaviour
     {
@@ -34,18 +33,16 @@ namespace ErgoShop.UI
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (CheckPropertiesBindings(SelectedObjectManager.Instance.currentCharacters))
-            {
-                UIManager.Instance.instructionsText.text = "F pour centrer la caméra sur le personnage. Suppr pour supprimer.";
-            }
+                UIManager.Instance.instructionsText.text =
+                    "F pour centrer la caméra sur le personnage. Suppr pour supprimer.";
 
             base.Update();
         }
@@ -60,12 +57,12 @@ namespace ErgoShop.UI
             characterPropertiesPanel.SetActive(chs.Count > 0);
             if (characterPropertiesPanel.activeInHierarchy)
             {
-                CharacterElement model = chs[0];
-                bool sameX = chs.TrueForAll(f => f.Size.x == model.Size.x);
-                bool sameY = chs.TrueForAll(f => f.Size.y == model.Size.y);
-                bool sameZ = chs.TrueForAll(f => f.Size.z == model.Size.z);
-                bool sameSA = chs.TrueForAll(f => f.SpreadArms == model.SpreadArms);
-                bool sameDD = chs.TrueForAll(f => f.Type == model.Type);
+                var model = chs[0];
+                var sameX = chs.TrueForAll(f => f.Size.x == model.Size.x);
+                var sameY = chs.TrueForAll(f => f.Size.y == model.Size.y);
+                var sameZ = chs.TrueForAll(f => f.Size.z == model.Size.z);
+                var sameSA = chs.TrueForAll(f => f.SpreadArms == model.SpreadArms);
+                var sameDD = chs.TrueForAll(f => f.Type == model.Type);
 
                 // FURNITURE PROPERTIES
                 if (needsUpdate)
@@ -74,7 +71,7 @@ namespace ErgoShop.UI
                     characterYField.text = sameY ? Mathf.Floor(chs[0].Size.y * 100f) + "" : "";
                     characterZField.text = sameZ ? Mathf.Floor(chs[0].Size.z * 100f) + "" : "";
 
-                    typeDD.value = sameDD ? (int)chs[0].Type : -1;
+                    typeDD.value = sameDD ? (int) chs[0].Type : -1;
                     spreadArmsToggle.isOn = sameSA ? chs[0].SpreadArms : false;
 
                     if (chs[0].Rotation < 0) chs[0].Rotation += 360f;
@@ -82,10 +79,13 @@ namespace ErgoShop.UI
 
                     moveToggle.isOn = chs[0].IsLocked;
                 }
-                spreadArmsToggle.gameObject.SetActive(chs[0].Type != CharacterType.WheelChairEmpty && chs[0].Type != CharacterType.OnWheelChair);
+
+                spreadArmsToggle.gameObject.SetActive(chs[0].Type != CharacterType.WheelChairEmpty &&
+                                                      chs[0].Type != CharacterType.OnWheelChair);
 
                 needsUpdate = false;
             }
+
             return characterPropertiesPanel.activeInHierarchy;
         }
 
@@ -97,16 +97,16 @@ namespace ErgoShop.UI
         public void SetCharacterX(string x)
         {
             float res = 0;
-            bool ok = ParsingFunctions.ParseFloatCommaDot(x, out res);
+            var ok = ParsingFunctions.ParseFloatCommaDot(x, out res);
             if (!ok) return;
             res /= 100f;
             foreach (var f in SelectedObjectManager.Instance.currentCharacters)
             {
                 f.Size =
-                new Vector3(
-                res,
-                f.Size.y,
-                f.Size.z);
+                    new Vector3(
+                        res,
+                        f.Size.y,
+                        f.Size.z);
                 SelectedObjectManager.Instance.UpdateCharacterSize();
             }
 
@@ -116,45 +116,44 @@ namespace ErgoShop.UI
         public void SetCharacterY(string y)
         {
             float res = 0;
-            bool ok = ParsingFunctions.ParseFloatCommaDot(y, out res);
+            var ok = ParsingFunctions.ParseFloatCommaDot(y, out res);
             if (!ok) return;
             res /= 100f;
             foreach (var f in SelectedObjectManager.Instance.currentCharacters)
             {
                 f.Size =
-                new Vector3(
-                f.Size.x,
-                res,
-                f.Size.z);
+                    new Vector3(
+                        f.Size.x,
+                        res,
+                        f.Size.z);
                 SelectedObjectManager.Instance.UpdateCharacterSize();
             }
+
             UpdateCharacterProperties();
         }
 
         public void SetCharacterZ(string z)
         {
             float res = 0;
-            bool ok = ParsingFunctions.ParseFloatCommaDot(z, out res);
+            var ok = ParsingFunctions.ParseFloatCommaDot(z, out res);
             if (!ok) return;
             res /= 100f;
             foreach (var f in SelectedObjectManager.Instance.currentCharacters)
             {
                 f.Size =
-                new Vector3(
-                f.Size.x,
-                f.Size.y,
-                res);
+                    new Vector3(
+                        f.Size.x,
+                        f.Size.y,
+                        res);
                 SelectedObjectManager.Instance.UpdateCharacterSize();
             }
+
             UpdateCharacterProperties();
         }
 
         public void AddRotationToCharacter(float add)
         {
-            foreach (var f in SelectedObjectManager.Instance.currentCharacters)
-            {
-                SetCharacterRotation(f.Rotation + add);
-            }
+            foreach (var f in SelectedObjectManager.Instance.currentCharacters) SetCharacterRotation(f.Rotation + add);
             UpdateCharacterProperties();
         }
 
@@ -167,13 +166,12 @@ namespace ErgoShop.UI
         public void SetCharacterRotation(float rotation)
         {
             rotation = rotation % 360;
-            Vector3 rot2D = Vector3.zero;
-            Vector3 rot3D = Vector3.zero;
+            var rot2D = Vector3.zero;
+            var rot3D = Vector3.zero;
 
             foreach (var f in SelectedObjectManager.Instance.currentCharacters)
             {
-
-                Vector3 d3 = f.associated3DObject.transform.localEulerAngles;
+                var d3 = f.associated3DObject.transform.localEulerAngles;
                 if (f.IsOnWall)
                 {
                     rot3D = new Vector3(0, d3.y, rotation);
@@ -184,6 +182,7 @@ namespace ErgoShop.UI
                     rot2D = Vector3.forward * rotation * -1;
                     f.associated2DObject.transform.localEulerAngles = rot2D;
                 }
+
                 f.associated3DObject.transform.localEulerAngles = rot3D;
                 f.Rotation = rotation;
                 f.EulerAngles = rot3D;
@@ -195,10 +194,7 @@ namespace ErgoShop.UI
         public void SetCharacterRotation(string r)
         {
             float res = 0;
-            if (ParsingFunctions.ParseFloatCommaDot(r, out res))
-            {
-                SetCharacterRotation(res);
-            }
+            if (ParsingFunctions.ParseFloatCommaDot(r, out res)) SetCharacterRotation(res);
         }
 
         public void SetSpreadArms(bool spread)
@@ -214,7 +210,7 @@ namespace ErgoShop.UI
         {
             foreach (var ch in SelectedObjectManager.Instance.currentCharacters)
             {
-                ch.Type = (CharacterType)v;
+                ch.Type = (CharacterType) v;
                 ch.RebuildSceneData();
                 if (ch.Type == CharacterType.OnWheelChair || ch.Type == CharacterType.WheelChairEmpty)
                 {

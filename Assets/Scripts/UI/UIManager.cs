@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using ErgoShop.POCO;
+﻿using System.Collections;
 using ErgoShop.UI;
 using ErgoShop.Utils;
-using ErgoShop.Utils.Extensions;
 using UnityEngine;
 using UnityEngine.UI;
+
 namespace ErgoShop.Managers
 {
     /// <summary>
-    /// Main UI Manager
-    /// Used to show / hide the several parts of software UI
-    /// Also shows help into screen bottom
+    ///     Main UI Manager
+    ///     Used to show / hide the several parts of software UI
+    ///     Also shows help into screen bottom
     /// </summary>
     public class UIManager : MonoBehaviour
     {
@@ -44,7 +41,7 @@ namespace ErgoShop.Managers
         public static UIManager Instance { get; private set; }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             m_normalColorsForModes = threeDButton.colors;
             m_activeColorsForModes = m_normalColorsForModes;
@@ -56,7 +53,7 @@ namespace ErgoShop.Managers
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             CheckTogglesColors();
             SetInstructionsText();
@@ -65,32 +62,29 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Updates instructions when no selection context
+        ///     Updates instructions when no selection context
         /// </summary>
         private void SetInstructionsText()
         {
             if (HelpersCreator.Instance.IsOccupied())
             {
-
             }
             else if (SelectedObjectManager.Instance.HasNoSelection())
             {
                 if (InputFunctions.IsMouseOutsideUI())
                 {
                     if (GlobalManager.Instance.GetActiveCamera() == GlobalManager.Instance.cam2DTop)
-                    {
-                        UIManager.Instance.instructionsText.text = "Déplacez la caméra avec le clic gauche. F1 pour changer de vue";
-                    }
+                        Instance.instructionsText.text =
+                            "Déplacez la caméra avec le clic gauche. F1 pour changer de vue";
                     else
-                    {
-                        UIManager.Instance.instructionsText.text = "Déplacez la caméra avec le clic molette ou avec les fleches du clavier. Tournez la caméra avec le clic droit. F1 pour changer de vue.";
-                    }
+                        Instance.instructionsText.text =
+                            "Déplacez la caméra avec le clic molette ou avec les fleches du clavier. Tournez la caméra avec le clic droit. F1 pour changer de vue.";
                 }
             }
         }
 
         /// <summary>
-        /// Updates view buttons colors
+        ///     Updates view buttons colors
         /// </summary>
         private void CheckTogglesColors()
         {
@@ -116,15 +110,13 @@ namespace ErgoShop.Managers
         #region public methods
 
         /// <summary>
-        /// Hide forms
+        ///     Hide forms
         /// </summary>
         public void ResetTopForms()
         {
             projectForm.SetActive(false);
-            for (int i = 0; i < selectedOption.transform.childCount; i++)
-            {
+            for (var i = 0; i < selectedOption.transform.childCount; i++)
                 selectedOption.transform.GetChild(i).gameObject.SetActive(false);
-            }
             wallsForm.SetActive(false);
             floorsForm.SetActive(false);
             rectRoomForm.SetActive(false);
@@ -187,7 +179,7 @@ namespace ErgoShop.Managers
             StartCoroutine(ShowHideScreenShotMessage(1));
         }
 
-        public void ShowCustomMessage(string message, float time=1)
+        public void ShowCustomMessage(string message, float time = 1)
         {
             screenShotMessage.text = message;
             StartCoroutine(ShowHideScreenShotMessage(time));

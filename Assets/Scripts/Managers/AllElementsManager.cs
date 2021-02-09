@@ -1,27 +1,25 @@
-﻿using ErgoShop.POCO;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
+using ErgoShop.POCO;
 using UnityEngine;
 
 namespace ErgoShop.Managers
 {
     /// <summary>
-    /// A script computing all current instantiated Elements
-    /// It is used mostly for saving and loading data from floors and projects
+    ///     A script computing all current instantiated Elements
+    ///     It is used mostly for saving and loading data from floors and projects
     /// </summary>
     public class AllElementsManager : MonoBehaviour
     {
-        /// <summary>
-        /// Instance
-        /// </summary>
-        public static AllElementsManager Instance { get; private set; }
-
         private List<Element> m_allElements;
 
         /// <summary>
-        /// Getting the elements implies finding all elements (without updating ids)
+        ///     Instance
+        /// </summary>
+        public static AllElementsManager Instance { get; private set; }
+
+        /// <summary>
+        ///     Getting the elements implies finding all elements (without updating ids)
         /// </summary>
         public List<Element> AllElements
         {
@@ -38,17 +36,17 @@ namespace ErgoShop.Managers
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             m_allElements = new List<Element>();
         }
 
         /// <summary>
-        /// Update ids by setting id equal to position in the list (arbitrary)
+        ///     Update ids by setting id equal to position in the list (arbitrary)
         /// </summary>
         public void UpdateElementsIds()
         {
-            int cpt = 0;
+            var cpt = 0;
             foreach (var elem in m_allElements)
             {
                 elem.Id = cpt;
@@ -63,7 +61,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// GET ALL ELEMENTS AND UPDATE THEIR IDS
+        ///     GET ALL ELEMENTS AND UPDATE THEIR IDS
         /// </summary>
         /// <param name="updateIds">if true, update ids</param>
         public void UpdateAllElements(bool updateIds)
@@ -81,24 +79,20 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Return all element of type Furniture
+        ///     Return all element of type Furniture
         /// </summary>
         /// <returns>a list containing all furnitures</returns>
         public List<Furniture> GetFurnitures()
         {
-            List<Furniture> furnitures = new List<Furniture>();
+            var furnitures = new List<Furniture>();
             foreach (var elem in m_allElements)
-            {
                 if (elem is Furniture)
-                {
                     furnitures.Add(elem as Furniture);
-                }
-            }
             return furnitures;
         }
 
         /// <summary>
-        /// Finds the element with corresponding id
+        ///     Finds the element with corresponding id
         /// </summary>
         /// <param name="id">the id</param>
         /// <returns>the element</returns>
@@ -110,16 +104,13 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Get all elements descriptions
+        ///     Get all elements descriptions
         /// </summary>
         /// <returns>a big string containing all descriptions separated by =======</returns>
         public string GetDescription()
         {
-            string res = "=== ELEMENTS : " + AllElements.Count + " ===\n";
-            foreach (var elem in AllElements)
-            {
-                res += elem.GetDescription() + "\n";
-            }
+            var res = "=== ELEMENTS : " + AllElements.Count + " ===\n";
+            foreach (var elem in AllElements) res += elem.GetDescription() + "\n";
             return res + "=====================";
         }
     }

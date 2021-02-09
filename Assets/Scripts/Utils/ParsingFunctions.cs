@@ -1,21 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ErgoShop.Utils
 {
     /// <summary>
-    /// Parse float
+    ///     Parse float
     /// </summary>
     public static class ParsingFunctions
     {
         public static bool ParseFloatCommaDot(string s, out float res)
         {
-            if(float.TryParse(s, out res))
-            {
-                return true;
-            }
-            s=s.Replace(".", ",");
+            if (float.TryParse(s, out res)) return true;
+            s = s.Replace(".", ",");
             res = 0;
             return float.TryParse(s, out res);
         }

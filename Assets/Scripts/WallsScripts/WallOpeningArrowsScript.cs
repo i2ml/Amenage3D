@@ -1,8 +1,6 @@
 ﻿using ErgoShop.Managers;
 using ErgoShop.POCO;
 using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErgoShop.UI
@@ -21,7 +19,7 @@ namespace ErgoShop.UI
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (GlobalManager.Instance.GetActiveCamera().tag != "Cam2D")
             {
@@ -29,33 +27,29 @@ namespace ErgoShop.UI
                 rightArrow.SetActive(false);
                 return;
             }
-            bool show = SelectedObjectManager.Instance.currentWallOpenings.Count > 0;
+
+            var show = SelectedObjectManager.Instance.currentWallOpenings.Count > 0;
             leftArrow.SetActive(show);
             rightArrow.SetActive(show);
             if (show)
             {
                 wo = SelectedObjectManager.Instance.currentWallOpenings[0];
                 if (leftArrow != currentArrow)
-                {
                     leftArrow.transform.position = wo.Position + m_decal - wo.Wall.Direction * wo.Size.x / 2f;
-                    //p1Arrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, -wo.Wall.Direction);
-                }
+                //p1Arrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, -wo.Wall.Direction);
                 if (rightArrow != currentArrow)
-                {
                     rightArrow.transform.position = wo.Position + m_decal + wo.Wall.Direction * wo.Size.x / 2f;
-                    //p2Arrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, wo.Wall.Direction);
-                }
-                leftArrow.transform.localScale = Vector3.one * Mathf.Abs(GlobalManager.Instance.cam2DTop.transform.position.z / 10f);
-                rightArrow.transform.localScale = Vector3.one * Mathf.Abs(GlobalManager.Instance.cam2DTop.transform.position.z / 10f);
+                //p2Arrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, wo.Wall.Direction);
+                leftArrow.transform.localScale =
+                    Vector3.one * Mathf.Abs(GlobalManager.Instance.cam2DTop.transform.position.z / 10f);
+                rightArrow.transform.localScale =
+                    Vector3.one * Mathf.Abs(GlobalManager.Instance.cam2DTop.transform.position.z / 10f);
             }
+
             if (show)
-            {
                 ClickArrow();
-            }
             else
-            {
                 isMoving = false;
-            }
         }
 
         private void ClickArrow()
@@ -63,29 +57,25 @@ namespace ErgoShop.UI
             // Press on arrow = select arrow
             if (Input.GetMouseButtonDown(0))
             {
-                GameObject go = InputFunctions.GetHoveredObject2D(GlobalManager.Instance.GetActiveCamera());
+                var go = InputFunctions.GetHoveredObject2D(GlobalManager.Instance.GetActiveCamera());
                 if (!go || go.tag != "WallArrow")
                 {
                     isMoving = false;
                     return;
                 }
-                else
-                {
-                    currentArrow = go;
-                }
+
+                currentArrow = go;
             }
+
             // Release = no arrow
-            if (Input.GetMouseButtonUp(0))
-            {
-                currentArrow = null;
-            }
+            if (Input.GetMouseButtonUp(0)) currentArrow = null;
 
             // if arrow
             if (currentArrow)
             {
-                Vector3 proj = Vector3.zero;
-                Vector3 mousePos = InputFunctions.GetWorldPoint2D(GlobalManager.Instance.GetActiveCamera());
-                float d = 0f;
+                var proj = Vector3.zero;
+                var mousePos = InputFunctions.GetWorldPoint2D(GlobalManager.Instance.GetActiveCamera());
+                var d = 0f;
                 switch (currentArrow.name)
                 {
                     case "P1o":
@@ -106,13 +96,15 @@ namespace ErgoShop.UI
                         WallOpeningPropScript.Instance.UpdateWallOpeningProperties();
 
                         break;
-                    default:
-                        break;
                 }
+
                 currentArrow.transform.position = proj + m_decal;
                 isMoving = true;
             }
-            else isMoving = false;
+            else
+            {
+                isMoving = false;
+            }
         }
     }
 }

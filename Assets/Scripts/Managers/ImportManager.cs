@@ -1,18 +1,17 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
-using Dummiesman;
-using Crosstales.FB;
-using ErgoShop.POCO;
-using UnityEngine.UI;
 using System.IO;
-using System;
-using ErgoShop.UI;
 using System.Linq;
+using Crosstales.FB;
+using Dummiesman;
+using ErgoShop.POCO;
+using ErgoShop.UI;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace ErgoShop.Managers
 {
-
     public class ImportManager : MonoBehaviour
     {
         public GameObject CustomFurniturePrefab;
@@ -32,19 +31,18 @@ namespace ErgoShop.Managers
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             customFurnituresList = new List<GameObject>();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
 
         /// <summary>
-        /// Update the list in software settings when a custom furniture is deleted or added
+        ///     Update the list in software settings when a custom furniture is deleted or added
         /// </summary>
         public void UpdateList()
         {
@@ -54,11 +52,11 @@ namespace ErgoShop.Managers
             children.ForEach(child => Destroy(child));
 
 
-            while(customFurnituresList.Count > 0)
+            while (customFurnituresList.Count > 0)
             {
-                GameObject go = customFurnituresList.FirstOrDefault().gameObject;
+                var go = customFurnituresList.FirstOrDefault().gameObject;
                 customFurnituresList.Remove(go);
-                Destroy(go);                
+                Destroy(go);
             }
 
 
@@ -90,11 +88,11 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Select an obj file in browser and waits for a name
+        ///     Select an obj file in browser and waits for a name
         /// </summary>
         public void ImportNewObject()
         {
-            string filePath = FileBrowser.OpenSingleFile("obj");
+            var filePath = FileBrowser.OpenSingleFile("obj");
             if (!string.IsNullOrEmpty(filePath))
             {
                 UIManager.Instance.ShowStringBox("Entrez un nom pour le modèle et appuyez sur Entrée.");
@@ -103,7 +101,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Loads the obj file contained in cf.Path
+        ///     Loads the obj file contained in cf.Path
         /// </summary>
         /// <param name="cf">CustomFurniture we want to load</param>
         /// <returns>GameObject (without colliders !)</returns>
@@ -113,27 +111,26 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Waits for user entering a name in inputfield then copy paste the obj file in AppData
-        /// Also Saves the path and name entered in software settings
+        ///     Waits for user entering a name in inputfield then copy paste the obj file in AppData
+        ///     Also Saves the path and name entered in software settings
         /// </summary>
         /// <param name="filePath">the path we got in ImportNewObject() method</param>
         /// <returns>(coroutine)</returns>
         private IEnumerator WaitForName(string filePath)
         {
-            while (!CustomNamePopinScript.Instance.NameEntered)
-            {
-                yield return null;
-            }
+            while (!CustomNamePopinScript.Instance.NameEntered) yield return null;
 
             CustomNamePopinScript.Instance.NameEntered = false;
 
-            string appdata = Path.Combine(
-                    Environment.GetFolderPath(
-                        Environment.SpecialFolder.ApplicationData), "ErgoShop", "Imports");
+            var appdata = Path.Combine(
+                Environment.GetFolderPath(
+                    Environment.SpecialFolder.ApplicationData), "ErgoShop", "Imports");
 
             Directory.CreateDirectory(appdata);
 
-            string dest = Path.Combine(appdata, Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" + DateTime.Now.Minute + "_" + DateTime.Now.Second + ".obj");
+            var dest = Path.Combine(appdata,
+                Path.GetFileNameWithoutExtension(filePath) + DateTime.Now.Day + "_" + DateTime.Now.Hour + "_" +
+                DateTime.Now.Minute + "_" + DateTime.Now.Second + ".obj");
             Debug.Log("dest = " + dest);
             File.Copy(filePath, dest);
 
@@ -147,6 +144,5 @@ namespace ErgoShop.Managers
             SettingsManager.Instance.SaveParameters();
             UpdateList();
         }
-
     }
 }

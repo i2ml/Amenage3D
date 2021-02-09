@@ -1,10 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-namespace ErgoShop.POCO
+﻿namespace ErgoShop.POCO
 {
     /// <summary>
-    /// A person is just its first and last name for now
+    ///     A person is just its first and last name for now
     /// </summary>
     public class Person
     {

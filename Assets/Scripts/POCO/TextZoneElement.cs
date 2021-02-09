@@ -1,53 +1,54 @@
 ﻿using ErgoShop.Managers;
 using ErgoShop.UI;
 using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErgoShop.POCO
 {
     /// <summary>
-    /// Comment zone in both 2d and 3d view
+    ///     Comment zone in both 2d and 3d view
     /// </summary>
     public class TextZoneElement : HelperElement
     {
         /// <summary>
-        /// Text in the comment box
+        ///     Text in the comment box
         /// </summary>
         public string Text { get; set; }
+
         /// <summary>
-        /// Size of the text
+        ///     Size of the text
         /// </summary>
         public float TextSize { get; set; }
+
         /// <summary>
-        /// text color
+        ///     text color
         /// </summary>
         public Color TextColor { get; set; }
+
         /// <summary>
-        /// Box bg color
+        ///     Box bg color
         /// </summary>
         public Color BackgroundColor { get; set; }
 
         /// <summary>
-        /// Instantiate an identical object
+        ///     Instantiate an identical object
         /// </summary>
         /// <returns>The same Element</returns>
         public override Element GetCopy()
         {
             return new TextZoneElement
             {
-                Id = this.Id,
-                BackgroundColor = this.BackgroundColor,
-                Text = this.Text,
-                TextColor = this.TextColor,
-                TextSize = this.TextSize,
-                Size = this.Size,                
+                Id = Id,
+                BackgroundColor = BackgroundColor,
+                Text = Text,
+                TextColor = TextColor,
+                TextSize = TextSize,
+                Size = Size
             };
         }
 
         /// <summary>
-        /// Get a textual description
+        ///     Get a textual description
         /// </summary>
         /// <returns>A string containing the data</returns>
         public override string GetDescription()
@@ -56,7 +57,7 @@ namespace ErgoShop.POCO
         }
 
         /// <summary>
-        /// Rebuild 2D and 3D objects from data
+        ///     Rebuild 2D and 3D objects from data
         /// </summary>
         public override void RebuildSceneData()
         {
@@ -64,7 +65,7 @@ namespace ErgoShop.POCO
         }
 
         /// <summary>
-        /// Set element size, updates 2d and 3d objects
+        ///     Set element size, updates 2d and 3d objects
         /// </summary>
         /// <param name="newSize">Wanted size</param>
         public override void SetSize(Vector3 newSize)
@@ -73,7 +74,7 @@ namespace ErgoShop.POCO
             {
                 x = Mathf.Abs(Size.x),
                 y = Mathf.Abs(Size.y),
-                z = Mathf.Abs(Size.z),
+                z = Mathf.Abs(Size.z)
             };
             Size = newSize;
             associated2DObject.GetComponent<TextZoneScript>().bg.size = VectorFunctions.Switch3D2D(Size);

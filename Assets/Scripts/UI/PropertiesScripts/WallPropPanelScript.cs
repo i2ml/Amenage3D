@@ -1,21 +1,21 @@
-﻿using ErgoShop.Managers;
+﻿using System.Collections.Generic;
+using ErgoShop.Managers;
 using ErgoShop.Operations;
 using ErgoShop.POCO;
 using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// UI Properties for wall and rooms
+    ///     UI Properties for wall and rooms
     /// </summary>
     public class WallPropPanelScript : PropertiesBehaviour
     {
         // Bindings for wall properties
         public GameObject wallPropertiesForm;
+
         //public GameObject wallColorsGameObject;
         public GameObject roomOptionGameObject;
         public GameObject splitWallButton;
@@ -32,25 +32,25 @@ namespace ErgoShop.UI
         public static WallPropPanelScript Instance { get; private set; }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             Instance = this;
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (SelectedObjectManager.Instance.currentRoomData == null)
             {
                 if (CheckPropertiesBindings(SelectedObjectManager.Instance.currentWallsData))
-                {
-                    UIManager.Instance.instructionsText.text = "F pour centrer la caméra sur le(s) mur(s). Suppr pour supprimer.";
-                }
+                    UIManager.Instance.instructionsText.text =
+                        "F pour centrer la caméra sur le(s) mur(s). Suppr pour supprimer.";
             }
             else
             {
                 wallPropertiesForm.SetActive(false);
             }
+
             base.Update();
         }
 
@@ -70,13 +70,10 @@ namespace ErgoShop.UI
         public void SetWallThickness(string thick)
         {
             float res = 0;
-            bool ok = ParsingFunctions.ParseFloatCommaDot(thick, out res);
+            var ok = ParsingFunctions.ParseFloatCommaDot(thick, out res);
             if (ok)
             {
-                foreach (var w in SelectedObjectManager.Instance.currentWallsData)
-                {
-                    w.Thickness = res / 100f;
-                }
+                foreach (var w in SelectedObjectManager.Instance.currentWallsData) w.Thickness = res / 100f;
                 UpdateWallProperties();
 
                 WallsCreator.Instance.AdjustAllWalls();
@@ -86,10 +83,11 @@ namespace ErgoShop.UI
         public void SetWallLength(string length)
         {
             float res = 0;
-            bool ok = ParsingFunctions.ParseFloatCommaDot(length, out res);
+            var ok = ParsingFunctions.ParseFloatCommaDot(length, out res);
             if (ok)
             {
-                WallsCreator.Instance.UpdateWallLength(SelectedObjectManager.Instance.currentWallsData[0], res / 100f, true);
+                WallsCreator.Instance.UpdateWallLength(SelectedObjectManager.Instance.currentWallsData[0], res / 100f,
+                    true);
                 SelectedObjectManager.Instance.StartCoroutine(
                     SelectedObjectManager.Instance.SWLRoutine(
                         SelectedObjectManager.Instance.currentWallsData[0], res / 100f, true));
@@ -107,9 +105,9 @@ namespace ErgoShop.UI
                 // WALL PROPERTIES
                 if (wallPropertiesForm.activeInHierarchy)
                 {
-                    float thick = wallsData[0].Thickness;
-                    Color col = wallsData[0].Color;
-                    wallDimensionsGameObject.SetActive((wallsData.Count == 1));
+                    var thick = wallsData[0].Thickness;
+                    var col = wallsData[0].Color;
+                    wallDimensionsGameObject.SetActive(wallsData.Count == 1);
                     if (needsUpdate)
                     {
                         heightText.text = wallsData[0].Height * 100f + " cm";
@@ -145,6 +143,7 @@ namespace ErgoShop.UI
             {
                 colorPicker.gameObject.SetActive(false);
             }
+
             needsUpdate = !wallPropertiesForm.activeInHierarchy;
             return wallPropertiesForm.activeInHierarchy;
         }

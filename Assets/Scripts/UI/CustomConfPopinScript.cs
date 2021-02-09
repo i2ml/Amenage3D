@@ -1,16 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Can be generic confirmation popin to show a choice between yes and no to an user
+    ///     Can be generic confirmation popin to show a choice between yes and no to an user
     /// </summary>
     public class CustomConfPopinScript : MonoBehaviour
     {
-        public bool MadeChoice = false;
-        public bool IsYes = false;
+        public bool MadeChoice;
+        public bool IsYes;
 
         public static CustomConfPopinScript Instance { get; private set; }
 

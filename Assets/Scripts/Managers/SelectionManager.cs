@@ -1,35 +1,48 @@
 ﻿using ErgoShop.Interactable;
 using ErgoShop.UI;
 using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErgoShop.Managers
 {
     /// <summary>
-    /// Class to draw a rectangle to select several elements
-    /// Is used by SelectedObjectManagers
+    ///     Class to draw a rectangle to select several elements
+    ///     Is used by SelectedObjectManagers
     /// </summary>
     public class SelectionManager : MonoBehaviour
     {
         /// <summary>
-        /// Texture used to show what we are selecting
+        ///     Texture used to show what we are selecting
         /// </summary>
-        static Texture2D _whiteTexture;
+        private static Texture2D _whiteTexture;
+
+        public bool IsSelecting;
+        private bool firstClickOk;
+        private Vector3 firstPosition;
 
         public static SelectionManager Instance { get; private set; }
 
-        public bool IsSelecting = false;
-        private Vector3 firstPosition;
-        private bool firstClickOk;
+        public static Texture2D WhiteTexture
+        {
+            get
+            {
+                if (_whiteTexture == null)
+                {
+                    _whiteTexture = new Texture2D(1, 1);
+                    _whiteTexture.SetPixel(0, 0, Color.white);
+                    _whiteTexture.Apply();
+                }
+
+                return _whiteTexture;
+            }
+        }
 
         private void Awake()
         {
             Instance = this;
         }
 
-        void Update()
+        private void Update()
         {
             // If we press the left mouse button, save mouse location and begin selection
             if (InputFunctions.IsClickingOutsideUI())
@@ -39,21 +52,18 @@ namespace ErgoShop.Managers
             }
 
             if (Input.GetMouseButton(0) && firstClickOk && Vector3.Distance(firstPosition, Input.mousePosition) > 5f)
-            {
                 IsSelecting = true;
-            }
 
             // If we let go of the left mouse button, end selection
-            if (Input.GetMouseButtonUp(0) || ElementArrowsScript.Instance.isMoving || WallArrowsScript.Instance.isMoving || SelectedObjectManager.Instance.IsOccupied() || WallsCreator.Instance.IsCreating())
-            {
-                firstClickOk = false;
-            }
+            if (Input.GetMouseButtonUp(0) || ElementArrowsScript.Instance.isMoving ||
+                WallArrowsScript.Instance.isMoving || SelectedObjectManager.Instance.IsOccupied() ||
+                WallsCreator.Instance.IsCreating()) firstClickOk = false;
         }
 
         /// <summary>
-        /// Draw function
+        ///     Draw function
         /// </summary>
-        void OnGUI()
+        private void OnGUI()
         {
             if (IsSelecting)
             {
@@ -65,7 +75,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Check if a position is between our selection rectangle bounds
+        ///     Check if a position is between our selection rectangle bounds
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
@@ -74,14 +84,12 @@ namespace ErgoShop.Managers
             if (!IsSelecting)
                 return false;
 
-            Camera camera = GlobalManager.Instance.GetActiveCamera();
+            var camera = GlobalManager.Instance.GetActiveCamera();
 
             if (camera == GlobalManager.Instance.cam2DTop.GetComponent<Camera>())
-            {
                 position = VectorFunctions.Switch3D2D(position);
-            }
 
-            Bounds viewportBounds =
+            var viewportBounds =
                 GetViewportBounds(camera, firstPosition, Input.mousePosition);
 
             return viewportBounds.Contains(
@@ -89,7 +97,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Get bounds from camera and rectangle positions
+        ///     Get bounds from camera and rectangle positions
         /// </summary>
         /// <param name="camera"></param>
         /// <param name="screenPosition1"></param>
@@ -104,7 +112,7 @@ namespace ErgoShop.Managers
             var bounds = new Bounds();
 
             // 3D
-            if (camera.gameObject.layer == (int)ErgoLayers.ThreeD)
+            if (camera.gameObject.layer == (int) ErgoLayers.ThreeD)
             {
                 min.z = camera.nearClipPlane;
                 max.z = camera.farClipPlane;
@@ -122,11 +130,10 @@ namespace ErgoShop.Managers
             bounds.SetMinMax(min, max);
 
             return bounds;
-
         }
 
         /// <summary>
-        /// Draws border for rectangle selection
+        ///     Draws border for rectangle selection
         /// </summary>
         /// <param name="rect"></param>
         /// <param name="thickness"></param>
@@ -144,7 +151,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Get screen rectangle to help setting viewport
+        ///     Get screen rectangle to help setting viewport
         /// </summary>
         /// <param name="screenPosition1"></param>
         /// <param name="screenPosition2"></param>
@@ -161,23 +168,8 @@ namespace ErgoShop.Managers
             return Rect.MinMaxRect(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
         }
 
-        public static Texture2D WhiteTexture
-        {
-            get
-            {
-                if (_whiteTexture == null)
-                {
-                    _whiteTexture = new Texture2D(1, 1);
-                    _whiteTexture.SetPixel(0, 0, Color.white);
-                    _whiteTexture.Apply();
-                }
-
-                return _whiteTexture;
-            }
-        }
-
         /// <summary>
-        /// Draw rectangle
+        ///     Draw rectangle
         /// </summary>
         /// <param name="rect"></param>
         /// <param name="color"></param>

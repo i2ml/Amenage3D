@@ -1,30 +1,29 @@
-﻿using ErgoShop.POCO;
-using Newtonsoft.Json;
-using System;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using ErgoShop.POCO;
+using Newtonsoft.Json;
 using UnityEngine;
 
 namespace ErgoShop.Managers
 {
     /// <summary>
-    /// Manager to handle sotftware settings
-    /// Settings are splitted into two categories :
+    ///     Manager to handle sotftware settings
+    ///     Settings are splitted into two categories :
     ///     -> Project Settings, stored in Project file
     ///     -> Software Settings, stored in appdata in another json file
     /// </summary>
     public class SettingsManager : MonoBehaviour
     {
+        private string m_folder = "";
+        private string m_jsonPath = "";
+
         /// <summary>
-        /// Software settings
+        ///     Software settings
         /// </summary>
         public ErgoShopParameters SoftwareParameters { get; set; }
 
         public bool LoadOK { get; set; }
-
-        private string m_folder = "";
-        private string m_jsonPath = "";
 
         public static SettingsManager Instance { get; private set; }
 
@@ -34,7 +33,7 @@ namespace ErgoShop.Managers
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             m_folder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "ErgoShop");
             m_jsonPath = Path.Combine(m_folder, "ergoshop_parameters.json");
@@ -54,18 +53,18 @@ namespace ErgoShop.Managers
             }
 
             // Custom Furnitures
-            if (SoftwareParameters.CustomFurnitures == null) SoftwareParameters.CustomFurnitures = new List<CustomFurniture>();
+            if (SoftwareParameters.CustomFurnitures == null)
+                SoftwareParameters.CustomFurnitures = new List<CustomFurniture>();
             ImportManager.Instance.UpdateList();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
 
         /// <summary>
-        /// Load parameters from json file. If none is found, create a new one
+        ///     Load parameters from json file. If none is found, create a new one
         /// </summary>
         /// <returns>true if parameters found</returns>
         public bool LoadParameters()
@@ -76,7 +75,8 @@ namespace ErgoShop.Managers
             // %APPDATA%/ErgoShop
             if (File.Exists(m_jsonPath))
             {
-                SoftwareParameters = JsonConvert.DeserializeObject<ErgoShopParameters>(File.ReadAllText(m_jsonPath), settings);
+                SoftwareParameters =
+                    JsonConvert.DeserializeObject<ErgoShopParameters>(File.ReadAllText(m_jsonPath), settings);
 
                 //gm = FindObjectOfType<GlobalManager>();
                 if (string.IsNullOrEmpty(SoftwareParameters.ScreenShotFolder))
@@ -85,23 +85,24 @@ namespace ErgoShop.Managers
                 }
                 else
                 {
-                    Screenshot.Instance.folderPath = SettingsManager.Instance.SoftwareParameters.ScreenShotFolder;
+                    Screenshot.Instance.folderPath = Instance.SoftwareParameters.ScreenShotFolder;
                 }
 
                 return true;
             }
+
             return false;
         }
 
         /// <summary>
-        /// Save parameters into json file
+        ///     Save parameters into json file
         /// </summary>
         public void SaveParameters()
         {
             var settings = new JsonSerializerSettings();
             //settings.Converters.Add(new ColorConverter());
             //settings.Converters.Add(new QuaternionConverter());
-            string jsonString = JsonConvert.SerializeObject(SoftwareParameters, settings);
+            var jsonString = JsonConvert.SerializeObject(SoftwareParameters, settings);
             File.WriteAllText(m_jsonPath, jsonString);
         }
     }

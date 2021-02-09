@@ -1,28 +1,25 @@
 ﻿using ErgoShop.Managers;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Confirmation popin logic when save/load project
+    ///     Confirmation popin logic when save/load project
     /// </summary>
     public class ConfirmationPopinScript : MonoBehaviour
     {
         public bool wantToQuit, wantToSave, goQuit;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             goQuit = false;
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
 
         public void QuitAndSave()
@@ -53,7 +50,7 @@ namespace ErgoShop.UI
             wantToQuit = false;
             wantToSave = false;
             goQuit = false;
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 }

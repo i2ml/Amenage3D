@@ -1,20 +1,22 @@
-﻿using ErgoShop.Managers;
-using ErgoShop.POCO;
-using ErgoShop.Utils;
-using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System;
+using ErgoShop.Managers;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// UI for project properties like the person name, version of project etc...
+    ///     UI for project properties like the person name, version of project etc...
     /// </summary>
     public class ProjectFormScript : MonoBehaviour
     {
-        public InputField projectField, firstNameField, lastNameField, dateField, homeTypeField, versionField, commentField;
+        public InputField projectField,
+            firstNameField,
+            lastNameField,
+            dateField,
+            homeTypeField,
+            versionField,
+            commentField;
 
         public static ProjectFormScript Instance { get; private set; }
 
@@ -24,22 +26,18 @@ namespace ErgoShop.UI
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            if (dateField.text == "")
-            {
-                dateField.text = DateTime.Now.ToShortDateString();
-            }
+            if (dateField.text == "") dateField.text = DateTime.Now.ToShortDateString();
         }
 
         /// <summary>
-        /// Load properties from project data
+        ///     Load properties from project data
         /// </summary>
         public void LoadProject()
         {
@@ -77,7 +75,7 @@ namespace ErgoShop.UI
 
         public void SetDate(string date)
         {
-            DateTime dt = DateTime.Now;
+            var dt = DateTime.Now;
             try
             {
                 dt = DateTime.Parse(date);
@@ -86,6 +84,7 @@ namespace ErgoShop.UI
             {
                 dt = DateTime.Now;
             }
+
             ProjectManager.Instance.Project.Date = dt;
             dateField.text = ProjectManager.Instance.Project.Date.ToShortDateString();
         }

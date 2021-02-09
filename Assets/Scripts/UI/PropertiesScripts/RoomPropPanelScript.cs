@@ -1,19 +1,18 @@
 ﻿using ErgoShop.Managers;
 using ErgoShop.POCO;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// UI Properties for selected element
+    ///     UI Properties for selected element
     /// </summary>
     public class RoomPropPanelScript : PropertiesBehaviour
     {
         // Bindings for room properties
         public GameObject roomPropertiesForm;
+
         //public GameObject wallColorsForRoomGameObject;
         //public GameObject roomGroundColorGameObject;
         public InputField roomNameInput;
@@ -29,18 +28,17 @@ namespace ErgoShop.UI
         public static RoomPropPanelScript Instance { get; private set; }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             Instance = this;
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (CheckPropertiesBindings(SelectedObjectManager.Instance.currentRoomData))
-            {
-                UIManager.Instance.instructionsText.text = "F pour centrer la caméra sur la pièce. Suppr pour supprimer.";
-            }
+                UIManager.Instance.instructionsText.text =
+                    "F pour centrer la caméra sur la pièce. Suppr pour supprimer.";
             base.Update();
         }
 
@@ -73,6 +71,7 @@ namespace ErgoShop.UI
                 roomPropertiesForm.SetActive(false);
                 return false;
             }
+
             // ROOM PROPERTIES
             if (roomPropertiesForm.activeInHierarchy)
             {
@@ -82,11 +81,12 @@ namespace ErgoShop.UI
                     // Room name
                     roomNameInput.text = roomData.Name;
                     roomIsRectToggle.isOn = roomData.LockAngles;
-                    Color model = roomData.Walls[0].Color;
+                    var model = roomData.Walls[0].Color;
                     if (roomData.Walls.TrueForAll(w => w.Color == model))
                     {
                         wallsImageToggle.gameObject.SetActive(true);
-                        wallsColorPicker.Color = new Color(roomData.Walls[0].Color.r, roomData.Walls[0].Color.g, roomData.Walls[0].Color.b);
+                        wallsColorPicker.Color = new Color(roomData.Walls[0].Color.r, roomData.Walls[0].Color.g,
+                            roomData.Walls[0].Color.b);
                         wallsImageToggle.color = wallsColorPicker.Color;
                     }
                     else
@@ -94,26 +94,29 @@ namespace ErgoShop.UI
                         wallsColorPicker.gameObject.SetActive(false);
                         wallsImageToggle.gameObject.SetActive(false);
                     }
-                    groundImageToggle.color = new Color(roomData.Ground.Color.r, roomData.Ground.Color.g, roomData.Ground.Color.b);
+
+                    groundImageToggle.color = new Color(roomData.Ground.Color.r, roomData.Ground.Color.g,
+                        roomData.Ground.Color.b);
                     groundColorPicker.Color = groundImageToggle.color;
                 }
 
-                wallsImageToggle.color = new Color(wallsColorPicker.Color.r, wallsColorPicker.Color.g, wallsColorPicker.Color.b);
-                groundImageToggle.color = new Color(groundColorPicker.Color.r, groundColorPicker.Color.g, groundColorPicker.Color.b);
+                wallsImageToggle.color = new Color(wallsColorPicker.Color.r, wallsColorPicker.Color.g,
+                    wallsColorPicker.Color.b);
+                groundImageToggle.color = new Color(groundColorPicker.Color.r, groundColorPicker.Color.g,
+                    groundColorPicker.Color.b);
 
                 if (roomData.Walls[0].Color != wallsImageToggle.color)
                 {
-                    foreach (var w in roomData.Walls)
-                    {
-                        w.Color = wallsImageToggle.color;
-                    }
+                    foreach (var w in roomData.Walls) w.Color = wallsImageToggle.color;
                     WallsCreator.Instance.AdjustAllWalls();
                 }
+
                 if (roomData.Ground.Color != groundImageToggle.color)
                 {
                     roomData.Ground.Color = groundImageToggle.color;
                     WallsCreator.Instance.AdjustGroundsAndCeils();
                 }
+
                 m_needsUpdate = false;
 
                 //// Ground Color
@@ -153,6 +156,5 @@ namespace ErgoShop.UI
         {
             roomPropertiesForm.SetActive(false);
         }
-
     }
 }

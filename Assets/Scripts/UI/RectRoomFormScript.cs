@@ -1,13 +1,11 @@
 ﻿using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Form to create a rectangular room by setting height and width
+    ///     Form to create a rectangular room by setting height and width
     /// </summary>
     public class RectRoomFormScript : MonoBehaviour
     {
@@ -21,32 +19,24 @@ namespace ErgoShop.UI
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
 
         public float GetHeight()
         {
-            if (ParsingFunctions.ParseFloatCommaDot(heightField.text, out float res))
-            {
-                return res;
-            }
+            if (ParsingFunctions.ParseFloatCommaDot(heightField.text, out var res)) return res;
             return -1f;
         }
 
         public float GetWidth()
         {
-            if (ParsingFunctions.ParseFloatCommaDot(widthField.text, out float res))
-            {
-                return res;
-            }
+            if (ParsingFunctions.ParseFloatCommaDot(widthField.text, out var res)) return res;
             return -1f;
         }
     }

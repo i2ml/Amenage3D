@@ -1,22 +1,19 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace ErgoShop.ConstraintsScripts
 {
     /// <summary>
-    /// Bake the accessible area for a 45cm radius disk
-    /// Find the tools at github at https://github.com/Unity-Technologies/NavMeshComponents
+    ///     Bake the accessible area for a 45cm radius disk
+    ///     Find the tools at github at https://github.com/Unity-Technologies/NavMeshComponents
     /// </summary>
     public class NavigationBaker : MonoBehaviour
     {
+        private bool m_goBake;
         private NavMeshSurface m_surface;
 
-        private bool m_goBake;
-
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             m_surface = GetComponent<NavMeshSurface>();
         }
@@ -37,14 +34,14 @@ namespace ErgoShop.ConstraintsScripts
         //}
 
         /// <summary>
-        /// Function called by the "Calculer le passage" button
+        ///     Function called by the "Calculer le passage" button
         /// </summary>
         public void BakeNavMeshSurface()
         {
             GetComponent<MeshFilter>().mesh = null;
             m_surface.BuildNavMesh();
-            NavMeshTriangulation triangles = NavMesh.CalculateTriangulation();
-            Mesh mesh = new Mesh();
+            var triangles = NavMesh.CalculateTriangulation();
+            var mesh = new Mesh();
             mesh.vertices = triangles.vertices;
             mesh.triangles = triangles.indices;
             GetComponent<MeshFilter>().mesh = mesh;
@@ -54,6 +51,5 @@ namespace ErgoShop.ConstraintsScripts
         {
             GetComponent<MeshFilter>().mesh = null;
         }
-
     }
 }

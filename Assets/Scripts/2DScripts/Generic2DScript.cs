@@ -1,23 +1,22 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ErgoShop.TwoDScripts
 {
     /// <summary>
-    /// Adapt text transform to the sprite
+    ///     Adapt text transform to the sprite
     /// </summary>
     public class Generic2DScript : MonoBehaviour
     {
         private Transform text;
+
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             text = transform.GetChild(0);
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             text.parent = transform.parent;
             text.position = transform.position;

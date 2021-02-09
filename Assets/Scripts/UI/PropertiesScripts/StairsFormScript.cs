@@ -1,15 +1,12 @@
 ﻿using ErgoShop.Managers;
 using ErgoShop.Utils;
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// UI Properties for selected element
+    ///     UI Properties for selected element
     /// </summary>
     public class StairsFormScript : PropertiesBehaviour
     {
@@ -19,31 +16,13 @@ namespace ErgoShop.UI
         private bool needsUpdate;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             needsUpdate = true;
         }
 
-        void Show()
-        {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(true);
-            }
-            GetComponent<Image>().enabled = true;
-        }
-
-        public override void Hide()
-        {
-            for (int i = 0; i < transform.childCount; i++)
-            {
-                transform.GetChild(i).gameObject.SetActive(false);
-            }
-            GetComponent<Image>().enabled = false;
-        }
-
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (SelectedObjectManager.Instance.currentStairs.Count == 0)
             {
@@ -51,6 +30,7 @@ namespace ErgoShop.UI
                 Hide();
                 return;
             }
+
             Show();
 
             if (needsUpdate)
@@ -60,15 +40,16 @@ namespace ErgoShop.UI
                 nbStepsSlider.value = s.NbSteps;
                 nbStepsSlider.transform.parent.GetChild(1).GetComponent<InputField>().text = s.NbSteps + "";
                 widthSlider.value = s.Width * 100f;
-                widthSlider.transform.parent.GetChild(1).GetComponent<InputField>().text = (s.Width * 100f) + "";
+                widthSlider.transform.parent.GetChild(1).GetComponent<InputField>().text = s.Width * 100f + "";
                 heightSlider.value = s.Height * 100f;
-                heightSlider.transform.parent.GetChild(1).GetComponent<InputField>().text = (s.Height * 100f) + "";
+                heightSlider.transform.parent.GetChild(1).GetComponent<InputField>().text = s.Height * 100f + "";
                 depthSlider.value = s.Depth * 100f;
-                depthSlider.transform.parent.GetChild(1).GetComponent<InputField>().text = (s.Depth * 100f) + "";
+                depthSlider.transform.parent.GetChild(1).GetComponent<InputField>().text = s.Depth * 100f + "";
                 curvatureSlider.value = s.Curvature;
                 curvatureSlider.transform.parent.GetChild(1).GetComponent<InputField>().text = s.Curvature + "";
                 innerRadiusSlider.value = s.InnerRadius * 100f;
-                innerRadiusSlider.transform.parent.GetChild(1).GetComponent<InputField>().text = (s.InnerRadius * 100f) + "";
+                innerRadiusSlider.transform.parent.GetChild(1).GetComponent<InputField>().text =
+                    s.InnerRadius * 100f + "";
                 buildSidesToggle.isOn = s.BuildSides;
                 toTheLeftToggle.isOn = s.ToTheLeft;
 
@@ -81,6 +62,18 @@ namespace ErgoShop.UI
             base.Update();
         }
 
+        private void Show()
+        {
+            for (var i = 0; i < transform.childCount; i++) transform.GetChild(i).gameObject.SetActive(true);
+            GetComponent<Image>().enabled = true;
+        }
+
+        public override void Hide()
+        {
+            for (var i = 0; i < transform.childCount; i++) transform.GetChild(i).gameObject.SetActive(false);
+            GetComponent<Image>().enabled = false;
+        }
+
         public void SetCanMove(bool v)
         {
             SelectedObjectManager.Instance.currentStairs.ForEach(s => s.IsLocked = v);
@@ -89,7 +82,7 @@ namespace ErgoShop.UI
 
         public void SetNBSteps(float nb)
         {
-            SelectedObjectManager.Instance.currentStairs.ForEach(s => s.NbSteps = (int)nb);
+            SelectedObjectManager.Instance.currentStairs.ForEach(s => s.NbSteps = (int) nb);
             SelectedObjectManager.Instance.currentStairs.ForEach(s => s.RebuildSceneData());
         }
 
@@ -144,10 +137,7 @@ namespace ErgoShop.UI
         public void SetRotation(string s)
         {
             float res = 0;
-            if (ParsingFunctions.ParseFloatCommaDot(s, out res))
-            {
-                SetRotation(res);
-            }
+            if (ParsingFunctions.ParseFloatCommaDot(s, out res)) SetRotation(res);
         }
 
         public void SetRotationSlider(float f)

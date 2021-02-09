@@ -1,12 +1,11 @@
-﻿using ErgoShop.POCO;
-using System.Collections;
+﻿using System;
 using System.Collections.Generic;
-using UnityEngine;
+using ErgoShop.POCO;
 
 namespace ErgoShop.Managers
 {
     /// <summary>
-    /// Currently NOT USED
+    ///     Currently NOT USED
     /// </summary>
     public class FloorsCreator : CreatorBehaviour
     {
@@ -18,26 +17,25 @@ namespace ErgoShop.Managers
         {
             Instance = this;
         }
-        // Start is called before the first frame update
-        void Start()
-        {
 
+        // Start is called before the first frame update
+        private void Start()
+        {
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
 
         public override void DestroyEverything()
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
 
         public override Element CopyPaste(Element elem)
         {
-            throw new System.NotImplementedException();
+            throw new NotImplementedException();
         }
     }
 }

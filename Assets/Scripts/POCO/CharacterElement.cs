@@ -1,60 +1,60 @@
 ﻿using ErgoShop.Managers;
 using ErgoShop.Utils;
 using ErgoShop.Utils.Extensions;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErgoShop.POCO
 {
     /// <summary>
-    /// Character is used to check environnemental constraints. Can be a dummy or a wheelchair (or both)
+    ///     Character is used to check environnemental constraints. Can be a dummy or a wheelchair (or both)
     /// </summary>
     public class CharacterElement : MovableElement
     {
         public CharacterType Type { get; set; }
+
         /// <summary>
-        /// Spread arms (T-Pose) or let them along the body
+        ///     Spread arms (T-Pose) or let them along the body
         /// </summary>
         public bool SpreadArms { get; set; }
 
         /// <summary>
-        /// Instantiate an identical object
+        ///     Instantiate an identical object
         /// </summary>
         /// <returns>The same Element</returns>
         public override Element GetCopy()
         {
             return new CharacterElement
             {
-                Type = this.Type,
-                SpreadArms = this.SpreadArms,
-                Position = this.Position,
-                Size = this.Size,
+                Type = Type,
+                SpreadArms = SpreadArms,
+                Position = Position,
+                Size = Size,
                 CanBePutOnFurniture = true,
-                Id = this.Id,
-                IsLocked = this.IsLocked,
-                EulerAngles = this.EulerAngles,
-                Rotation = this.Rotation
+                Id = Id,
+                IsLocked = IsLocked,
+                EulerAngles = EulerAngles,
+                Rotation = Rotation
             };
         }
 
         /// <summary>
-        /// Get a textual description
+        ///     Get a textual description
         /// </summary>
         /// <returns>A string containing the data</returns>
         public override string GetDescription()
         {
-            return "Personnage " + (Type == CharacterType.StandUp ? " debout" : (Type == CharacterType.Sitting ? " assis" : " allongé"))
-                + (SpreadArms ? " bras écartés\n" : "\n")
-                + "Dimensions : "
-                + ParsingFunctions.ToStringCentimeters(Size.x)
-                + "/" + ParsingFunctions.ToStringCentimeters(Size.y)
-                + "/" + ParsingFunctions.ToStringCentimeters(Size.z)
-                +"\n";
+            return "Personnage " + (Type == CharacterType.StandUp ? " debout" :
+                                     Type == CharacterType.Sitting ? " assis" : " allongé")
+                                 + (SpreadArms ? " bras écartés\n" : "\n")
+                                 + "Dimensions : "
+                                 + ParsingFunctions.ToStringCentimeters(Size.x)
+                                 + "/" + ParsingFunctions.ToStringCentimeters(Size.y)
+                                 + "/" + ParsingFunctions.ToStringCentimeters(Size.z)
+                                 + "\n";
         }
 
         /// <summary>
-        /// Rebuild 2D and 3D objects from data
+        ///     Rebuild 2D and 3D objects from data
         /// </summary>
         public override void RebuildSceneData()
         {
@@ -74,18 +74,16 @@ namespace ErgoShop.POCO
 
             associated2DObject.tag = "Character";
             associated3DObject.tag = "Character";
-            associated2DObject.gameObject.SetLayerRecursively((int)ErgoLayers.Top);
-            associated3DObject.gameObject.SetLayerRecursively((int)ErgoLayers.ThreeD);
+            associated2DObject.gameObject.SetLayerRecursively((int) ErgoLayers.Top);
+            associated3DObject.gameObject.SetLayerRecursively((int) ErgoLayers.ThreeD);
 
-            Vector3 s = Size;
-            Vector3 ms = MeshSize;
+            var s = Size;
+            var ms = MeshSize;
 
             associated2DObject.transform.localScale = VectorFunctions.Switch3D2D(
                 new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z));
             associated3DObject.transform.localScale =
                 new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z);
-
         }
-
     }
 }

@@ -1,12 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Change color when creating wall/room
+    ///     Change color when creating wall/room
     /// </summary>
     public class WallButtonsActiveScript : MonoBehaviour
     {
@@ -15,7 +13,7 @@ namespace ErgoShop.UI
         private ColorBlock cb, activeCB;
 
         // Start is called before the first frame update
-        void Awake()
+        private void Awake()
         {
             cb = new ColorBlock
             {
@@ -38,9 +36,8 @@ namespace ErgoShop.UI
             };
         }
 
-        void Update()
+        private void Update()
         {
-
         }
 
         private void OnEnable()

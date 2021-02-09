@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace ErgoShop.Utils
+﻿namespace ErgoShop.Utils
 {
     /// <summary>
-    /// Not used
+    ///     Not used
     /// </summary>
     public static class CollectionFunctions
     {

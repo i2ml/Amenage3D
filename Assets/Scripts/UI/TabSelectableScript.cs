@@ -1,24 +1,21 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Script to catch any Tabulation to move between UI Elements
+    ///     Script to catch any Tabulation to move between UI Elements
     /// </summary>
     public class TabSelectableScript : MonoBehaviour
     {
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             if (Input.GetKeyDown(KeyCode.Tab))
             {
@@ -26,7 +23,8 @@ namespace ErgoShop.UI
                 {
                     if (EventSystem.current.currentSelectedGameObject != null)
                     {
-                        Selectable selectable = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnUp();
+                        var selectable = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>()
+                            .FindSelectableOnUp();
                         if (selectable != null)
                             selectable.Select();
                     }
@@ -35,7 +33,8 @@ namespace ErgoShop.UI
                 {
                     if (EventSystem.current.currentSelectedGameObject != null)
                     {
-                        Selectable selectable = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
+                        var selectable = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>()
+                            .FindSelectableOnDown();
                         if (selectable != null)
                             selectable.Select();
                     }

@@ -1,41 +1,34 @@
 ﻿using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Update an input field according to slider value
+    ///     Update an input field according to slider value
     /// </summary>
     public class SliderToInput : MonoBehaviour
     {
         public Slider slider;
         public InputField input;
+
         public float multix;
+
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             if (multix == 0) multix = 1;
-            slider.onValueChanged.AddListener(v =>
-            {
-                input.text = v * multix + "";
-            });
+            slider.onValueChanged.AddListener(v => { input.text = v * multix + ""; });
             input.onEndEdit.AddListener(s =>
             {
                 float f;
-                if (ParsingFunctions.ParseFloatCommaDot(s, out f))
-                {
-                    slider.value = f / multix;
-                }
+                if (ParsingFunctions.ParseFloatCommaDot(s, out f)) slider.value = f / multix;
             });
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-
         }
     }
 }

@@ -1,15 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Ask name for an imported model obj
+    ///     Ask name for an imported model obj
     /// </summary>
     public class CustomNamePopinScript : MonoBehaviour
     {
-        public bool NameEntered = false;
+        public bool NameEntered;
         public string Name;
 
         public static CustomNamePopinScript Instance { get; private set; }
@@ -23,8 +21,7 @@ namespace ErgoShop.UI
         {
             NameEntered = true;
             Name = name;
-            this.gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
-
     }
 }

@@ -1,15 +1,15 @@
-﻿using ErgoShop.Managers;
+﻿using System.Collections.Generic;
+using ErgoShop.Managers;
 using ErgoShop.POCO;
 using ErgoShop.Utils;
 using ErgoShop.Utils.Extensions;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Handle 4 cotations around an element in 3D to compute north west east and south lengths between element and next obstacles/walls
+    ///     Handle 4 cotations around an element in 3D to compute north west east and south lengths between element and next
+    ///     obstacles/walls
     /// </summary>
     public class CurrentCotation3DScript : MonoBehaviour
     {
@@ -20,7 +20,7 @@ namespace ErgoShop.UI
         private Wall m_wall;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             up.isUp = true;
             down.isDown = true;
@@ -29,8 +29,9 @@ namespace ErgoShop.UI
 
             up.is3D = down.is3D = left.is3D = right.is3D = true;
         }
+
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             m_element = null;
             if (SelectedObjectManager.Instance.currentFurnitureData.Count == 1)
@@ -46,11 +47,11 @@ namespace ErgoShop.UI
 
             if (m_element)
             {
-                Bounds b = m_element.GetMeshBounds();
-                Vector3 upPoint = Vector3.positiveInfinity;
-                Vector3 downPoint = Vector3.positiveInfinity;
-                Vector3 leftPoint = Vector3.positiveInfinity;
-                Vector3 rightPoint = Vector3.positiveInfinity;
+                var b = m_element.GetMeshBounds();
+                var upPoint = Vector3.positiveInfinity;
+                var downPoint = Vector3.positiveInfinity;
+                var leftPoint = Vector3.positiveInfinity;
+                var rightPoint = Vector3.positiveInfinity;
                 if (SelectedObjectManager.Instance.currentFurnitureData[0].IsOnWall)
                 {
                     upPoint = new Vector3(b.center.x, b.max.y, b.center.z);
@@ -61,20 +62,22 @@ namespace ErgoShop.UI
                     upPoint = new Vector3(b.center.x, b.center.y, b.min.z);
                     downPoint = new Vector3(b.center.x, b.center.y, b.max.z);
                 }
+
                 leftPoint = b.center + m_element.transform.right * b.size.x / 2f * -1f;
                 rightPoint = b.center + m_element.transform.right * b.size.x / 2f;
 
-                up.start = upPoint;//GetPointFromRay(upPoint, Vector3.down, null);
-                down.start = downPoint;//GetPointFromRay(downPoint, Vector3.up, null);
-                left.start = leftPoint;//GetPointFromRay(leftPoint, Vector3.right, null);
-                right.start = rightPoint;//GetPointFromRay(rightPoint, Vector3.left, null);
+                up.start = upPoint; //GetPointFromRay(upPoint, Vector3.down, null);
+                down.start = downPoint; //GetPointFromRay(downPoint, Vector3.up, null);
+                left.start = leftPoint; //GetPointFromRay(leftPoint, Vector3.right, null);
+                right.start = rightPoint; //GetPointFromRay(rightPoint, Vector3.left, null);
 
                 if (SelectedObjectManager.Instance.currentFurnitureData[0].IsOnWall)
                 {
                     up.end = GetPointFromRayFromCot3D(up, Vector3.up, m_element);
                     down.end = GetPointFromRayFromCot3D(down, Vector3.down, m_element);
                     left.end = GetPointFromRayFromCot3D(left, VectorFunctions.Switch2D3D(m_wall.Direction), m_element);
-                    right.end = GetPointFromRayFromCot3D(right, VectorFunctions.Switch2D3D(-m_wall.Direction), m_element);
+                    right.end = GetPointFromRayFromCot3D(right, VectorFunctions.Switch2D3D(-m_wall.Direction),
+                        m_element);
                 }
                 else
                 {
@@ -84,27 +87,34 @@ namespace ErgoShop.UI
                     right.end = GetPointFromRayFromCot3D(right, Vector3.right, m_element); //m_element.transform.right
                 }
 
-                up.gameObject.SetActive(up.end != Vector3.positiveInfinity && up.Length > 0 && up.Length != float.PositiveInfinity);
-                down.gameObject.SetActive(down.end != Vector3.positiveInfinity && down.Length > 0 && down.Length != float.PositiveInfinity);
-                left.gameObject.SetActive(left.end != Vector3.positiveInfinity && left.Length > 0 && left.Length != float.PositiveInfinity);
-                right.gameObject.SetActive(right.end != Vector3.positiveInfinity && right.Length > 0 && right.Length != float.PositiveInfinity);
+                up.gameObject.SetActive(up.end != Vector3.positiveInfinity && up.Length > 0 &&
+                                        up.Length != float.PositiveInfinity);
+                down.gameObject.SetActive(down.end != Vector3.positiveInfinity && down.Length > 0 &&
+                                          down.Length != float.PositiveInfinity);
+                left.gameObject.SetActive(left.end != Vector3.positiveInfinity && left.Length > 0 &&
+                                          left.Length != float.PositiveInfinity);
+                right.gameObject.SetActive(right.end != Vector3.positiveInfinity && right.Length > 0 &&
+                                           right.Length != float.PositiveInfinity);
 
                 // ROTATION FACE TO CAM IN 3D
 
-                List<CotationsScript> cs = new List<CotationsScript>() { up, down, left, right };
+                var cs = new List<CotationsScript> {up, down, left, right};
 
-                Transform camTrans = GlobalManager.Instance.GetActiveCamera().transform;
+                var camTrans = GlobalManager.Instance.GetActiveCamera().transform;
 
                 foreach (var c in cs)
                 {
-                    List<Transform> tr = new List<Transform>() { c.middle1.transform, c.middle2.transform };
+                    var tr = new List<Transform> {c.middle1.transform, c.middle2.transform};
                     foreach (var t in tr)
                     {
                         t.LookAt(camTrans);
                         t.localEulerAngles = new Vector3(0, t.localEulerAngles.y, 180);
                     }
-                    c.arrow1.localEulerAngles = new Vector3(c.arrow1.localEulerAngles.x, c.middle1.transform.localEulerAngles.y, c.arrow1.localEulerAngles.z);
-                    c.arrow2.localEulerAngles = new Vector3(c.arrow2.localEulerAngles.x, c.middle1.transform.localEulerAngles.y, c.arrow2.localEulerAngles.z);
+
+                    c.arrow1.localEulerAngles = new Vector3(c.arrow1.localEulerAngles.x,
+                        c.middle1.transform.localEulerAngles.y, c.arrow1.localEulerAngles.z);
+                    c.arrow2.localEulerAngles = new Vector3(c.arrow2.localEulerAngles.x,
+                        c.middle1.transform.localEulerAngles.y, c.arrow2.localEulerAngles.z);
                     //c.cotationTM.transform.LookAt(camTrans);
                     //c.cotationTM.transform.rotation *= Quaternion.Euler(Vector3.up * 180f);
                     //c.arrow2.localEulerAngles = new Vector3(0,c.arrow2.localEulerAngles.y, c.arrow2.localEulerAngles.z+180);
@@ -128,19 +138,15 @@ namespace ErgoShop.UI
 
         private Vector3 GetPointFromRay3D(Vector3 origin, Vector3 dir, GameObject avoid)
         {
-            RaycastHit[] hits = Physics.RaycastAll(origin, dir, Mathf.Infinity, 1 << (int)ErgoLayers.ThreeD);
-            List<Vector3> goodHits = new List<Vector3>();
+            var hits = Physics.RaycastAll(origin, dir, Mathf.Infinity, 1 << (int) ErgoLayers.ThreeD);
+            var goodHits = new List<Vector3>();
             foreach (var hit in hits)
-            {
                 if (hit.collider.gameObject != avoid && hit.collider.tag != "Cotation")
                 {
                     // check settings to find good collider
                     if (SettingsManager.Instance.SoftwareParameters.TagOnlyWall)
                     {
-                        if (hit.collider.gameObject.tag == "Wall")
-                        {
-                            goodHits.Add(hit.point);
-                        }
+                        if (hit.collider.gameObject.tag == "Wall") goodHits.Add(hit.point);
                     }
                     else
                     {
@@ -152,21 +158,14 @@ namespace ErgoShop.UI
                 {
                     Debug.Log("Ignored " + hit.collider.name);
                 }
-            }
 
-            Vector3 bestHit = Vector3.positiveInfinity;
+            var bestHit = Vector3.positiveInfinity;
 
             foreach (var gh in goodHits)
-            {
                 if (Vector3.Distance(gh, origin) < Vector3.Distance(bestHit, origin))
-                {
                     bestHit = gh;
-                }
-            }
 
             return bestHit;
         }
-
-
     }
 }

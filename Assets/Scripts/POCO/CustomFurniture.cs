@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace ErgoShop.POCO
+﻿namespace ErgoShop.POCO
 {
     /// <summary>
-    /// Data to store path to obj file + name to display in the settings
+    ///     Data to store path to obj file + name to display in the settings
     /// </summary>
     public class CustomFurniture
     {

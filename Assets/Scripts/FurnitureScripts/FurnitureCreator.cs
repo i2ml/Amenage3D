@@ -1,41 +1,41 @@
-﻿using ErgoShop.Operations;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ErgoShop.POCO;
 using ErgoShop.UI;
 using ErgoShop.Utils;
 using ErgoShop.Utils.Extensions;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ErgoShop.Managers
 {
     /// <summary>
-    /// Furnitures manager. Handle creation, movment, delete.
+    ///     Furnitures manager. Handle creation, movment, delete.
     /// </summary>
     public class FurnitureCreator : CreatorBehaviour
     {
+        // Instance
+        public static FurnitureCreator Instance;
+
         // Unity hierarchy
         public Transform parent2DTop, parent3D;
 
         // main ground if no room
         public GameObject ground3D;
 
-        // script used to instantiate default furnitures (NOT CUSTOM ONES)
-        private FurnitureScript m_currentFurniScript;
-        // current furniture being created
-        private Furniture m_currentFurniture;
-        // current furniture being created associated gameobjects
-        private GameObject m_currentFurniture2DTop, m_currentFurniture3D;
         // Default sprite used for 2D view
         public GameObject backUpFurniture2DTop;
 
+        // script used to instantiate default furnitures (NOT CUSTOM ONES)
+        private FurnitureScript m_currentFurniScript;
+
+        // current furniture being created
+        private Furniture m_currentFurniture;
+
+        // current furniture being created associated gameobjects
+        private GameObject m_currentFurniture2DTop, m_currentFurniture3D;
+
         // ALL FURNITURES INSTIANTED FOR THE CURRENT FLOOR
         private List<Furniture> m_furnituresData;
-
-        // Instance
-        public static FurnitureCreator Instance;
 
         private void Awake()
         {
@@ -43,18 +43,17 @@ namespace ErgoShop.Managers
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             m_currentFurniScript = null;
             m_furnituresData = new List<Furniture>();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             // RIGIDBODIES
             foreach (var f in m_furnituresData)
-            {
                 if (f != m_currentFurniture)
                 {
                     var rb = f.associated3DObject.GetComponent<Rigidbody>();
@@ -70,37 +69,34 @@ namespace ErgoShop.Managers
                         else
                         {
                             if (f.CanBePutOnFurniture)
-                            {
                                 rb.constraints = RigidbodyConstraints.FreezeRotation;
-                            }
                             else
-                            {
-                                rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionY;
-                            }
+                                rb.constraints = RigidbodyConstraints.FreezeRotation |
+                                                 RigidbodyConstraints.FreezePositionY;
                         }
                     }
                     else
                     {
                         rb.constraints = RigidbodyConstraints.FreezeAll;
                     }
+
                     // update 2D position if moving
                     if (f.associated3DObject?.GetComponent<Rigidbody>().velocity.magnitude > 0)
                     {
                         f.Position = f.associated3DObject.transform.position;
                         f.associated2DObject.transform.position =
-                            VectorFunctions.GetExactPositionFrom3DObject(f.associated2DObject, f.associated3DObject, f.Position);
+                            VectorFunctions.GetExactPositionFrom3DObject(f.associated2DObject, f.associated3DObject,
+                                f.Position);
                         //VectorFunctions.Switch3D2D(f.Position);
                         rb.velocity *= 0.5f;
-
                     }
+
                     f.text2D.transform.position = f.associated2DObject.transform.position;
                 }
-            }
+
             // In creation -> check view then position it
             if (m_currentFurniture != null)
-            {
                 m_currentFurniture.Move(InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera()));
-            }
             // Validate
             if (Input.GetMouseButtonDown(0) && m_currentFurniture != null)
             {
@@ -112,16 +108,15 @@ namespace ErgoShop.Managers
                     Destroy(m_currentFurniScript.gameObject);
                     m_currentFurniScript = null;
                 }
+
                 //m_currentFurniture3D.GetComponent<MeshCollider>().enabled = true;
             }
-            if (Input.GetMouseButtonDown(1))
-            {
-                CancelFurniture();
-            }
+
+            if (Input.GetMouseButtonDown(1)) CancelFurniture();
         }
 
         /// <summary>
-        /// Destroy current furniture to cancel its creation
+        ///     Destroy current furniture to cancel its creation
         /// </summary>
         private void CancelFurniture()
         {
@@ -140,7 +135,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Seek all associated objects in furnitures to find the Furniture object concerned
+        ///     Seek all associated objects in furnitures to find the Furniture object concerned
         /// </summary>
         /// <param name="go">Associated Gameobject, can be 2D or 3D</param>
         /// <returns>The Furniture data or null if not found</returns>
@@ -150,20 +145,15 @@ namespace ErgoShop.Managers
             if (go.tag != "Furniture") return GetFurnitureFromGameObject(go.transform.parent.gameObject);
             foreach (var f in m_furnituresData)
             {
-                if (f.associated2DObject == go)
-                {
-                    return f;
-                }
-                if (f.associated3DObject == go)
-                {
-                    return f;
-                }
+                if (f.associated2DObject == go) return f;
+                if (f.associated3DObject == go) return f;
             }
+
             return null;
         }
 
         /// <summary>
-        /// Destroy a Furniture by destroying gameobject and set data to null
+        ///     Destroy a Furniture by destroying gameobject and set data to null
         /// </summary>
         /// <param name="f">The furniture</param>
         public void DestroyFurniture(Furniture f)
@@ -179,7 +169,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Get all furnitures
+        ///     Get all furnitures
         /// </summary>
         /// <returns>all current floor furnitures</returns>
         public List<Furniture> GetFurnitures()
@@ -188,7 +178,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Add a custom furniture contained in %appdata%/ErgoShop/Imports on scene
+        ///     Add a custom furniture contained in %appdata%/ErgoShop/Imports on scene
         /// </summary>
         /// <param name="modelGO">the gameobject returned by the obj importer</param>
         /// <param name="cf">Data containing path and name</param>
@@ -232,20 +222,21 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Since custom furnitures are not prepared like the default ones, we need to add colliders and rigidbody.
-        /// For now the custom furnitures can only by "ground" ones
-        /// TO DO for later : add bool to set constraints for on wall furnitures
+        ///     Since custom furnitures are not prepared like the default ones, we need to add colliders and rigidbody.
+        ///     For now the custom furnitures can only by "ground" ones
+        ///     TO DO for later : add bool to set constraints for on wall furnitures
         /// </summary>
         /// <param name="modelGO">the gameobject returned by the obj importer</param>
         private void AddCollider(GameObject modelGO)
         {
             modelGO.AddComponent<BoxCollider>();
             modelGO.AddComponent<Rigidbody>();
-            modelGO.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
+            modelGO.GetComponent<Rigidbody>().constraints =
+                RigidbodyConstraints.FreezePositionY | RigidbodyConstraints.FreezeRotation;
         }
 
         /// <summary>
-        /// Sets the text mesh in 2D view
+        ///     Sets the text mesh in 2D view
         /// </summary>
         /// <param name="f">Furniture data</param>
         private void InitFurnitureText(Furniture f)
@@ -258,20 +249,20 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Adapt sprite scaling according to mesh size and user's wanted size
+        ///     Adapt sprite scaling according to mesh size and user's wanted size
         /// </summary>
         private void SetFurni2DSize()
         {
-            Vector3 s = m_currentFurniture.Size;
-            Vector3 ms = m_currentFurniture.MeshSize;
-            Vector3 sOnMs = new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z);
+            var s = m_currentFurniture.Size;
+            var ms = m_currentFurniture.MeshSize;
+            var sOnMs = new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z);
             m_currentFurniture.associated2DObject.transform.localScale =
                 VectorFunctions.Switch3D2D(sOnMs);
             m_currentFurniture.AdjustSpriteSize();
         }
 
         /// <summary>
-        /// Add a furniture (not custom) on scene
+        ///     Add a furniture (not custom) on scene
         /// </summary>
         /// <param name="furniture">Gameobject containing data in a FurnitureScript (prefab data)</param>
         public void AddFurniture(GameObject furniture)
@@ -279,13 +270,9 @@ namespace ErgoShop.Managers
             m_currentFurniScript = Instantiate(furniture).GetComponent<FurnitureScript>();
 
             if (!m_currentFurniScript.furniture2DTop)
-            {
                 m_currentFurniture2DTop = Instantiate(backUpFurniture2DTop, parent2DTop);
-            }
             else
-            {
                 m_currentFurniture2DTop = Instantiate(m_currentFurniScript.furniture2DTop, parent2DTop);
-            }
             //m_currentFurniture2DFace = Instantiate(m_currentFurniScript.furniture2DFace, parent2DFace);
             m_currentFurniture3D = Instantiate(m_currentFurniScript.furniture3D, parent3D);
 
@@ -325,20 +312,17 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Destroy every furniture (gameobjects and data)
+        ///     Destroy every furniture (gameobjects and data)
         /// </summary>
         public override void DestroyEverything()
         {
-            while (m_furnituresData.Count > 0)
-            {
-                DestroyFurniture(m_furnituresData.First());
-            }
+            while (m_furnituresData.Count > 0) DestroyFurniture(m_furnituresData.First());
             m_furnituresData = new List<Furniture>();
             FurnitureListScroll.Instance.UpdateList();
         }
 
         /// <summary>
-        /// Load furnitures from floor data
+        ///     Load furnitures from floor data
         /// </summary>
         /// <param name="floor">Floor</param>
         public void LoadFurnituresFromFloor(Floor floor)
@@ -350,12 +334,13 @@ namespace ErgoShop.Managers
                 m_furnituresData.Add(f);
                 RebuildFurniture(f);
             }
+
             // Update element list
             FurnitureListScroll.Instance.UpdateList();
         }
 
         /// <summary>
-        /// Force a furniture to rebuild gameobjects (scene data) and adjust the transforms
+        ///     Force a furniture to rebuild gameobjects (scene data) and adjust the transforms
         /// </summary>
         /// <param name="f">Furniture data</param>
         private void RebuildFurniture(Furniture f)
@@ -379,37 +364,36 @@ namespace ErgoShop.Managers
                 f.associated3DObject = Instantiate(f.associated3DObject, parent3D);
                 // 2D
                 if (f.associated2DObject)
-                {
                     f.associated2DObject = Instantiate(f.associated2DObject, parent2DTop);
-                }
                 else
-                {
                     f.associated2DObject = Instantiate(backUpFurniture2DTop, parent2DTop);
-                }
             }
 
-            Vector3 s = f.Size;
-            Vector3 ms = f.MeshSize;
+            var s = f.Size;
+            var ms = f.MeshSize;
 
             f.associated3DObject.transform.position = f.Position;
             f.associated3DObject.transform.localEulerAngles =
                 f.EulerAngles;
             f.associated3DObject.transform.localScale =
                 new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z);
-            f.associated3DObject.SetLayerRecursively((int)ErgoLayers.ThreeD);
+            f.associated3DObject.SetLayerRecursively((int) ErgoLayers.ThreeD);
             //f.associated3DObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
 
-            f.associated2DObject.transform.position = VectorFunctions.Switch3D2D(f.Position); // VectorFunctions.GetExactPositionFrom3DObject(f.associated2DObject, f.associated3DObject, f.Position);
+            f.associated2DObject.transform.position =
+                VectorFunctions
+                    .Switch3D2D(f
+                        .Position); // VectorFunctions.GetExactPositionFrom3DObject(f.associated2DObject, f.associated3DObject, f.Position);
             f.associated2DObject.transform.localEulerAngles =
-                    f.EulerAngles.y * Vector3.forward * -1f;
+                f.EulerAngles.y * Vector3.forward * -1f;
             f.associated2DObject.transform.localScale = VectorFunctions.Switch3D2D(new Vector3(
                 f.Size.x / f.MeshSize.x,
                 f.Size.y / f.MeshSize.y,
                 f.Size.z / f.MeshSize.z
-                ));
+            ));
 
-            f.associated2DObject.SetLayerRecursively((int)ErgoLayers.Top);
+            f.associated2DObject.SetLayerRecursively((int) ErgoLayers.Top);
 
             f.associated3DObject.tag = "Furniture";
             f.associated2DObject.tag = "Furniture";
@@ -419,7 +403,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Paste a copied furniture by getting a copy and instantiate it, and rebuilding gameobjects
+        ///     Paste a copied furniture by getting a copy and instantiate it, and rebuilding gameobjects
         /// </summary>
         /// <param name="m_copiedElement">Copied furniture</param>
         /// <returns>The new furniture, identical to the copied one</returns>
@@ -427,15 +411,15 @@ namespace ErgoShop.Managers
         {
             if (m_copiedElement is Furniture)
             {
-                Furniture f = m_copiedElement as Furniture;
-                Furniture newOne = f.GetCopy() as Furniture;
+                var f = m_copiedElement as Furniture;
+                var newOne = f.GetCopy() as Furniture;
                 RebuildFurniture(newOne);
                 m_furnituresData.Add(newOne);
                 FurnitureListScroll.Instance.UpdateList();
                 return newOne;
             }
+
             return null;
         }
-
     }
 }

@@ -1,37 +1,43 @@
-﻿using ErgoShop.Operations;
+﻿using System.Collections.Generic;
+using System.Linq;
+using ErgoShop.Operations;
 using ErgoShop.POCO;
 using ErgoShop.Utils;
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace ErgoShop.Managers
 {
     /// <summary>
-    /// Manager to create characters (with or without wheelchair)
+    ///     Manager to create characters (with or without wheelchair)
     /// </summary>
     public class CharactersCreator : CreatorBehaviour
     {
         // 3D
-        public GameObject standingPrefab, standingSpreadPrefab,
-            sittingPrefab, sittingSpreadPrefab,
-            lyingDownPrefab, lyingDownSpreadPrefab;
+        public GameObject standingPrefab,
+            standingSpreadPrefab,
+            sittingPrefab,
+            sittingSpreadPrefab,
+            lyingDownPrefab,
+            lyingDownSpreadPrefab;
+
         public GameObject wheelChair3DPrefab, wheelChairWithPerson3DPrefab;
 
         // 2D
-        public GameObject standing2DPrefab, standingSpread2DPrefab,
-        sitting2DPrefab, sittingSpread2DPrefab,
-        lyingDown2DPrefab, lyingDownSpread2DPrefab;
+        public GameObject standing2DPrefab,
+            standingSpread2DPrefab,
+            sitting2DPrefab,
+            sittingSpread2DPrefab,
+            lyingDown2DPrefab,
+            lyingDownSpread2DPrefab;
+
         public GameObject wheelChair2DPrefab, wheelChairWithPerson2DPrefab;
 
+        private List<CharacterElement> m_characters;
+
         /// <summary>
-        /// Instance
+        ///     Instance
         /// </summary>
         public static CharactersCreator Instance { get; private set; }
-
-        private List<CharacterElement> m_characters;
 
         private void Awake()
         {
@@ -39,35 +45,29 @@ namespace ErgoShop.Managers
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             m_characters = new List<CharacterElement>();
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             foreach (var c in m_characters)
-            {
                 c.associated2DObject.transform.position = new Vector3
-                    (
-                        c.associated2DObject.transform.position.x,
-                        c.associated2DObject.transform.position.y,
-                        -0.05f
-                    );
-
-            }
+                (
+                    c.associated2DObject.transform.position.x,
+                    c.associated2DObject.transform.position.y,
+                    -0.05f
+                );
         }
 
         /// <summary>
-        /// Destroy every element (gameobjects and data)
+        ///     Destroy every element (gameobjects and data)
         /// </summary>
         public override void DestroyEverything()
         {
-            while (m_characters.Count > 0)
-            {
-                DestroyCharacter(m_characters.First());
-            }
+            while (m_characters.Count > 0) DestroyCharacter(m_characters.First());
             m_characters = new List<CharacterElement>();
         }
 
@@ -77,28 +77,19 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Load CharacterElement from floor data
+        ///     Load CharacterElement from floor data
         /// </summary>
         /// <param name="floor">Floor</param>
         public void LoadCharactersFromFloor(Floor floor)
         {
-            while (m_characters.Count > 0)
-            {
-                DestroyCharacter(m_characters.First());
-            }
+            while (m_characters.Count > 0) DestroyCharacter(m_characters.First());
             m_characters = new List<CharacterElement>();
-            foreach (var ch in floor.Characters)
-            {
-                m_characters.Add(ch);
-            }
-            foreach (var ch in m_characters)
-            {
-                ch.RebuildSceneData();
-            }
+            foreach (var ch in floor.Characters) m_characters.Add(ch);
+            foreach (var ch in m_characters) ch.RebuildSceneData();
         }
 
         /// <summary>
-        /// Create new character and add it to scene
+        ///     Create new character and add it to scene
         /// </summary>
         public void CreateNewCharacter()
         {
@@ -115,7 +106,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Instantiate the good prefab mesh according to CharacterType
+        ///     Instantiate the good prefab mesh according to CharacterType
         /// </summary>
         /// <param name="type">Enum containing 5 types of characters, with or without wheelchair and differents positions</param>
         /// <param name="spread"></param>
@@ -135,11 +126,12 @@ namespace ErgoShop.Managers
                 case CharacterType.OnWheelChair:
                     return Instantiate(wheelChairWithPerson3DPrefab);
             }
+
             return null;
         }
 
         /// <summary>
-        /// Destroy an associated gameobject 2d 3d
+        ///     Destroy an associated gameobject 2d 3d
         /// </summary>
         /// <param name="go">any</param>
         public void DestroyGameObject(GameObject go)
@@ -148,7 +140,7 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Create the sprite according to the type
+        ///     Create the sprite according to the type
         /// </summary>
         /// <param name="type">char type</param>
         /// <param name="spread">spread arms or not</param>
@@ -168,25 +160,25 @@ namespace ErgoShop.Managers
                 case CharacterType.OnWheelChair:
                     return Instantiate(wheelChairWithPerson2DPrefab);
             }
+
             return null;
         }
 
         /// <summary>
-        /// Seek all associated objects in characeters to find the CharacterElement object concerned
+        ///     Seek all associated objects in characeters to find the CharacterElement object concerned
         /// </summary>
         /// <param name="go">Associated gameobject, can be 2D or 3D</param>
         /// <returns>The CharacterElement data or null if not found</returns>
         public CharacterElement GetCharacterFromGameObject(GameObject go)
         {
             foreach (var ch in m_characters)
-            {
-                if (ch.associated2DObject == go || ch.associated3DObject == go) return ch;
-            }
+                if (ch.associated2DObject == go || ch.associated3DObject == go)
+                    return ch;
             return null;
         }
 
         /// <summary>
-        /// Destroy data and gamobjects from a character
+        ///     Destroy data and gamobjects from a character
         /// </summary>
         /// <param name="h">CharacterElement data</param>
         public void DestroyCharacter(CharacterElement h)
@@ -198,19 +190,17 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
-        /// Paste a copied CharacterElement by getting a copy and instantiate it, and rebuilding gameobjects
+        ///     Paste a copied CharacterElement by getting a copy and instantiate it, and rebuilding gameobjects
         /// </summary>
         /// <param name="m_copiedElement">Copied CharacterElement</param>
         /// <returns>The new CharacterElement, identical to the copied one</returns>
         public override Element CopyPaste(Element elem)
         {
             var ch = elem as CharacterElement;
-            CharacterElement newCh = ch.GetCopy() as CharacterElement;
+            var newCh = ch.GetCopy() as CharacterElement;
             m_characters.Add(newCh);
             newCh.RebuildSceneData();
             return newCh;
         }
-
     }
-
 }

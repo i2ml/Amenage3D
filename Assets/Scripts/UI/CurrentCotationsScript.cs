@@ -2,14 +2,13 @@
 using ErgoShop.POCO;
 using ErgoShop.Utils;
 using ErgoShop.Utils.Extensions;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Handle 4 cotations around an element in 2D to compute north west east and south lengths between element and next obstacles/walls
+    ///     Handle 4 cotations around an element in 2D to compute north west east and south lengths between element and next
+    ///     obstacles/walls
     /// </summary>
     public class CurrentCotationsScript : MonoBehaviour
     {
@@ -18,7 +17,7 @@ namespace ErgoShop.UI
         private GameObject m_element;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             up.isUp = true;
             down.isDown = true;
@@ -27,9 +26,9 @@ namespace ErgoShop.UI
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
-            bool isFurniWall = false;
+            var isFurniWall = false;
             Wall w = null;
             m_element = null;
             if (SelectedObjectManager.Instance.currentFurnitureData.Count == 1)
@@ -50,16 +49,16 @@ namespace ErgoShop.UI
 
             if (m_element)
             {
-                Bounds b = m_element.GetSpriteBounds();
-                Vector3 upPoint = new Vector3(b.center.x, b.max.y);
-                Vector3 downPoint = new Vector3(b.center.x, b.min.y);
-                Vector3 leftPoint = new Vector3(b.min.x, b.center.y);
-                Vector3 rightPoint = new Vector3(b.max.x, b.center.y);
+                var b = m_element.GetSpriteBounds();
+                var upPoint = new Vector3(b.center.x, b.max.y);
+                var downPoint = new Vector3(b.center.x, b.min.y);
+                var leftPoint = new Vector3(b.min.x, b.center.y);
+                var rightPoint = new Vector3(b.max.x, b.center.y);
 
-                up.start = upPoint;//GetPointFromRay(upPoint, Vector3.down, null);
-                down.start = downPoint;//GetPointFromRay(downPoint, Vector3.up, null);
-                left.start = leftPoint;//GetPointFromRay(leftPoint, Vector3.right, null);
-                right.start = rightPoint;//GetPointFromRay(rightPoint, Vector3.left, null);
+                up.start = upPoint; //GetPointFromRay(upPoint, Vector3.down, null);
+                down.start = downPoint; //GetPointFromRay(downPoint, Vector3.up, null);
+                left.start = leftPoint; //GetPointFromRay(leftPoint, Vector3.right, null);
+                right.start = rightPoint; //GetPointFromRay(rightPoint, Vector3.left, null);
 
                 up.end = GetPointFromRayFromCot(up, Vector3.up, m_element);
                 down.end = GetPointFromRayFromCot(down, Vector3.down, m_element);
@@ -107,9 +106,8 @@ namespace ErgoShop.UI
 
         private Vector3 GetPointFromRay(Vector3 origin, Vector2 dir, GameObject avoid)
         {
-            RaycastHit2D[] hits = Physics2D.RaycastAll(origin, dir, Mathf.Infinity, 1 << (int)ErgoLayers.Top);
+            var hits = Physics2D.RaycastAll(origin, dir, Mathf.Infinity, 1 << (int) ErgoLayers.Top);
             foreach (var hit in hits)
-            {
                 if (hit.collider.gameObject != avoid
                     && hit.collider.name != "2D - Top"
                     && hit.collider.tag != "RoomText"
@@ -119,18 +117,16 @@ namespace ErgoShop.UI
                 {
                     if (SettingsManager.Instance.SoftwareParameters.TagOnlyWall)
                     {
-                        if (hit.collider.gameObject.tag == "Wall")
-                        {
-                            return hit.point;
-                        }
+                        if (hit.collider.gameObject.tag == "Wall") return hit.point;
                     }
                     else
                     {
                         return hit.point;
                     }
+
                     //Debug.Log("GO : " + hit.collider.gameObject.name + " ORIGIN : " + origin + " DIR : " + dir + " POINT : " + hit.point);
                 }
-            }
+
             return Vector3.positiveInfinity;
         }
     }

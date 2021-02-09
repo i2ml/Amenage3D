@@ -1,14 +1,12 @@
 ﻿using ErgoShop.Managers;
 using ErgoShop.POCO;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Text Zone UI for selected zone
+    ///     Text Zone UI for selected zone
     /// </summary>
     public class TextZonePropertiesScript : PropertiesBehaviour
     {
@@ -32,21 +30,16 @@ namespace ErgoShop.UI
         }
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             foreach (var tz in SelectedObjectManager.Instance.currentHelperElements)
-            {
                 if (CheckPropertiesBindings(tz as TextZoneElement))
-                {
                     UIManager.Instance.instructionsText.text = "Propriétes du texte à gauche de l'écran";
-                }
-            }
             base.Update();
         }
 
@@ -72,8 +65,10 @@ namespace ErgoShop.UI
 
                     needsUpdate = false;
                 }
+
                 imageToggle.color = new Color(colorPicker.Color.r, colorPicker.Color.g, colorPicker.Color.b);
-                imageToggleBG.color = new Color(colorPickerBG.Color.r, colorPickerBG.Color.g, colorPickerBG.Color.b, 0.5f);
+                imageToggleBG.color =
+                    new Color(colorPickerBG.Color.r, colorPickerBG.Color.g, colorPickerBG.Color.b, 0.5f);
                 tz.TextColor = imageToggle.color;
                 tz.BackgroundColor = imageToggleBG.color;
 
@@ -84,35 +79,31 @@ namespace ErgoShop.UI
                 tz.associated3DObject.GetComponent<TextZoneScript>().tm.color = tz.TextColor;
                 tz.associated3DObject.GetComponent<TextZoneScript>().bg.color = tz.BackgroundColor;
                 tz.associated3DObject.GetComponent<TextZoneScript>().textSize = tz.TextSize;
-
             }
+
             return textPropertiesPanel.activeInHierarchy;
         }
 
         public void SetText(string s)
         {
             foreach (var tz in SelectedObjectManager.Instance.currentHelperElements)
-            {
                 if (tz is TextZoneElement)
                 {
                     (tz as TextZoneElement).Text = s;
                     (tz as TextZoneElement).associated2DObject.GetComponent<TextZoneScript>().tm.text = s;
                     (tz as TextZoneElement).associated3DObject.GetComponent<TextZoneScript>().tm.text = s;
                 }
-            }
         }
 
         public void SetFontSize(float v)
         {
             foreach (var tz in SelectedObjectManager.Instance.currentHelperElements)
-            {
                 if (tz is TextZoneElement)
                 {
                     (tz as TextZoneElement).TextSize = v;
                     (tz as TextZoneElement).associated2DObject.GetComponent<TextZoneScript>().textSize = v;
                     (tz as TextZoneElement).associated3DObject.GetComponent<TextZoneScript>().textSize = v;
                 }
-            }
         }
 
         public override void Hide()

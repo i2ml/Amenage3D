@@ -1,28 +1,30 @@
 ﻿using ErgoShop.Managers;
 using ErgoShop.Utils;
 using Newtonsoft.Json;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ErgoShop.POCO
 {
     /// <summary>
-    /// WallOpening : Can be door or window. Several types
+    ///     WallOpening : Can be door or window. Several types
     /// </summary>
     public class WallOpening : MovableElement
-    {        
+    {
+        //[JsonIgnore]
+        //public List<GameObject> WallParts { get; set; }
+
         /// <summary>
-        /// Percentage position from Wall P1 (extremity)
+        ///     Percentage position from Wall P1 (extremity)
         /// </summary>
         public float PercentagePosition { get; set; }
 
         /// <summary>
-        /// Pull or Push ?
+        ///     Pull or Push ?
         /// </summary>
         public bool IsPull { get; set; }
+
         /// <summary>
-        /// handle to open is left
+        ///     handle to open is left
         /// </summary>
         public bool IsLeft { get; set; }
 
@@ -32,22 +34,14 @@ namespace ErgoShop.POCO
         public bool IsDouble { get; set; }
 
         // Unity data
-        [JsonIgnore]
-        public Wall Wall { get; set; }
-        [JsonIgnore]
-        public float DistanceLeft { get; set; }
-        [JsonIgnore]
-        public float DistanceRight { get; set; }
-        //[JsonIgnore]
-        //public List<GameObject> WallParts { get; set; }
+        [JsonIgnore] public Wall Wall { get; set; }
 
-        public WallOpening()
-        {
-            //WallParts = new List<GameObject>();
-        }
+        [JsonIgnore] public float DistanceLeft { get; set; }
+
+        [JsonIgnore] public float DistanceRight { get; set; }
 
         /// <summary>
-        /// Update opening global position from its position according to the first wall extremity (p1)
+        ///     Update opening global position from its position according to the first wall extremity (p1)
         /// </summary>
         public void SetPositionFromPercentagePosition()
         {
@@ -55,17 +49,17 @@ namespace ErgoShop.POCO
         }
 
         /// <summary>
-        /// Update the position according to wall P1 (in percentage)
+        ///     Update the position according to wall P1 (in percentage)
         /// </summary>
         public void SetPercentagePositionFromPosition()
         {
-            float dist = Vector3.Distance(Position, Wall.P1);
-            float wSize = Wall.Length;
+            var dist = Vector3.Distance(Position, Wall.P1);
+            var wSize = Wall.Length;
             PercentagePosition = dist / wSize;
         }
 
         /// <summary>
-        /// Update Global Position. The position is 2D !!
+        ///     Update Global Position. The position is 2D !!
         /// </summary>
         /// <param name="v">Position 2D</param>
         public override void SetPosition(Vector3 v)
@@ -75,24 +69,22 @@ namespace ErgoShop.POCO
         }
 
         /// <summary>
-        /// Computes where the opposite of the handle is.
+        ///     Computes where the opposite of the handle is.
         /// </summary>
         /// <returns>Opposite side of the handle. Returns the two extremities if its a double window/door</returns>
         public Vector3[] GetCorners()
         {
             if (IsDouble)
-            {
-                return new Vector3[]
+                return new[]
                 {
-                    Position + Wall.Direction * Size.x/2f,
-                    Position - Wall.Direction * Size.x/2f
+                    Position + Wall.Direction * Size.x / 2f,
+                    Position - Wall.Direction * Size.x / 2f
                 };
-            }
-            return new Vector3[] { Position + Wall.Direction * (IsLeft ? 1 : -1f) * Size.x / 2f };
+            return new[] {Position + Wall.Direction * (IsLeft ? 1 : -1f) * Size.x / 2f};
         }
 
         /// <summary>
-        /// Move the opening along the wall, according to mouse.
+        ///     Move the opening along the wall, according to mouse.
         /// </summary>
         /// <param name="offset">The starting position when the users clicks</param>
         public override void Move(Vector3 offset)
@@ -101,7 +93,7 @@ namespace ErgoShop.POCO
         }
 
         /// <summary>
-        /// Rebuild 2D and 3D objects from data
+        ///     Rebuild 2D and 3D objects from data
         /// </summary>
         public override void RebuildSceneData()
         {
@@ -109,35 +101,37 @@ namespace ErgoShop.POCO
         }
 
         /// <summary>
-        /// Instantiate an identical object
+        ///     Instantiate an identical object
         /// </summary>
         /// <returns>The same Element</returns>
         public override Element GetCopy()
         {
             return new WallOpening
             {
-                Size = this.Size,
-                Position = this.Position,
-                PercentagePosition = this.PercentagePosition,
-                IsLeft = this.IsLeft,
-                IsPull = this.IsPull,
-                IsWindow = this.IsWindow,
-                IsDouble = this.IsDouble,
-                WindowHeight = this.WindowHeight,
-                Wall = this.Wall
+                Size = Size,
+                Position = Position,
+                PercentagePosition = PercentagePosition,
+                IsLeft = IsLeft,
+                IsPull = IsPull,
+                IsWindow = IsWindow,
+                IsDouble = IsDouble,
+                WindowHeight = WindowHeight,
+                Wall = Wall
             };
         }
 
         /// <summary>
-        /// Get a textual description
+        ///     Get a textual description
         /// </summary>
         /// <returns>A string containing the data</returns>
         public override string GetDescription()
         {
-            string dble = IsDouble ? " double" : " simple";
+            var dble = IsDouble ? " double" : " simple";
             return "Ouverture\n"
-            + (IsWindow ? "Fenetre" + dble + "\nHauteur : " + ParsingFunctions.ToStringCentimeters(WindowHeight) : "Porte\n")
-            + "Longueur : " + ParsingFunctions.ToStringCentimeters(Size.x) + "\n";
+                   + (IsWindow
+                       ? "Fenetre" + dble + "\nHauteur : " + ParsingFunctions.ToStringCentimeters(WindowHeight)
+                       : "Porte\n")
+                   + "Longueur : " + ParsingFunctions.ToStringCentimeters(Size.x) + "\n";
         }
     }
 }

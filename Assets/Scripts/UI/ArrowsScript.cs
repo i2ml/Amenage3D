@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ErgoShop.UI
 {
@@ -8,11 +6,11 @@ namespace ErgoShop.UI
     {
         public GameObject leftArrow, rightArrow;
 
+        protected GameObject currentArrow;
+
         protected float m_arrowOffset;
 
         protected Vector3 m_decal = Vector3.forward * -0.02f;
-
-        protected GameObject currentArrow;
 
         protected void Start()
         {

@@ -1,14 +1,12 @@
 ﻿using ErgoShop.Managers;
 using ErgoShop.Utils;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// UI to create and change floors
+    ///     UI to create and change floors
     /// </summary>
     public class FloorPropertiesScript : MonoBehaviour
     {
@@ -21,8 +19,9 @@ namespace ErgoShop.UI
         public Toggle copyToggle;
 
         public static FloorPropertiesScript Instance { get; private set; }
+
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
             Instance = this;
             currentFloorDD.onValueChanged.AddListener(v =>
@@ -33,10 +32,7 @@ namespace ErgoShop.UI
 
             copyToggle.onValueChanged.AddListener(b =>
             {
-                if (b)
-                {
-                    LoadFloorsFromProject();
-                }
+                if (b) LoadFloorsFromProject();
             });
 
             floorToCopyDD.onValueChanged.AddListener(v =>
@@ -47,13 +43,13 @@ namespace ErgoShop.UI
         }
 
         // Update is called once per frame
-        void Update()
+        private void Update()
         {
             floorToCopyDD.gameObject.SetActive(copyToggle.isOn);
         }
 
         /// <summary>
-        /// update dropdown ui
+        ///     update dropdown ui
         /// </summary>
         /// <param name="name"></param>
         public void AddFloorToDD(string name)
@@ -65,7 +61,7 @@ namespace ErgoShop.UI
         }
 
         /// <summary>
-        /// Load a floor according to selected one in dropdown
+        ///     Load a floor according to selected one in dropdown
         /// </summary>
         /// <param name="v"></param>
         public void SetCurrentFloor(int v)
@@ -75,7 +71,7 @@ namespace ErgoShop.UI
         }
 
         /// <summary>
-        /// Get floors in project and update dropdowns
+        ///     Get floors in project and update dropdowns
         /// </summary>
         public void LoadFloorsFromProject()
         {
@@ -95,13 +91,13 @@ namespace ErgoShop.UI
         }
 
         /// <summary>
-        /// Create a new floor with parameters
+        ///     Create a new floor with parameters
         /// </summary>
         public void CreateFloor()
         {
-            if (!ParsingFunctions.ParseFloatCommaDot(heightField.text, out float wh)) return;
-            ProjectManager.Instance.AddFloor(nameField.text, copyToggle.isOn, floorToCopyDD.options[floorToCopyDD.value].text, wh);
+            if (!ParsingFunctions.ParseFloatCommaDot(heightField.text, out var wh)) return;
+            ProjectManager.Instance.AddFloor(nameField.text, copyToggle.isOn,
+                floorToCopyDD.options[floorToCopyDD.value].text, wh);
         }
-
     }
 }

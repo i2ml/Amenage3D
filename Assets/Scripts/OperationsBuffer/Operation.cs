@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-namespace ErgoShop.Operations
+﻿namespace ErgoShop.Operations
 {
     //public enum OperationType
     //{
@@ -13,16 +9,15 @@ namespace ErgoShop.Operations
     //    SetCotation
     //}
 
-        /// <summary>
-        /// NOT USED
-        /// </summary>
+    /// <summary>
+    ///     NOT USED
+    /// </summary>
     public class Operation : IOperation
     {
         //public OperationType Type { get; set; }
 
         public void Cancel()
         {
-
         }
     }
 }

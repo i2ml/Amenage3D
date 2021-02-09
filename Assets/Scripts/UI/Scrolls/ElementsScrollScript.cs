@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace ErgoShop.UI
 {
     /// <summary>
-    /// Update the content size so the vertical layout can display its children correctly
+    ///     Update the content size so the vertical layout can display its children correctly
     /// </summary>
     [ExecuteInEditMode]
     public class ElementsScrollScript : MonoBehaviour
@@ -14,25 +12,20 @@ namespace ErgoShop.UI
         public RectTransform Content;
 
         // Start is called before the first frame update
-        void Start()
+        private void Start()
         {
-
         }
 
         /// <summary>
-        /// Update the content size so the vertical layout can display its children correctly
+        ///     Update the content size so the vertical layout can display its children correctly
         /// </summary>
-        void Update()
+        private void Update()
         {
-            int children = 0;
-            for (int i = 0; i < Content.childCount; i++)
-            {
+            var children = 0;
+            for (var i = 0; i < Content.childCount; i++)
                 if (Content.GetChild(i).gameObject.activeInHierarchy)
-                {
                     children++;
-                }
-            }
-            float height = Mathf.Max(children * 30f, ElementsScroll.sizeDelta.y);
+            var height = Mathf.Max(children * 30f, ElementsScroll.sizeDelta.y);
             Content.sizeDelta = new Vector2(0, height);
         }
     }
