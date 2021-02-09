@@ -271,11 +271,13 @@ namespace ErgoShop.Managers
             var doc = new odf.TextDocument();
 
             // FONTS
-            var arial = new Font();
-            arial.Name = "Arial";
-            arial.Family = "Arial";
-            arial.GenericFontFamily = GenericFontFamily.Swiss;
-            arial.Pitch = FontPitch.Variable;
+            var arial = new Font
+            {
+                Name = "Arial",
+                Family = "Arial",
+                GenericFontFamily = GenericFontFamily.Swiss,
+                Pitch = FontPitch.Variable
+            };
 
             doc.Fonts.Add(arial);
             // STYLES
@@ -601,7 +603,7 @@ namespace ErgoShop.Managers
         ///     Build the txt file
         /// </summary>
         /// <returns>string containing all descriptions and data</returns>
-        public string GetExportTxt()
+        private string GetExportTxt()
         {
             var res = "";
             res += "===================================================\n";
