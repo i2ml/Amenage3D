@@ -21,8 +21,8 @@ namespace ErgoShop.UI
                 colorMultiplier = 1,
                 disabledColor = Color.gray,
                 fadeDuration = 0.1f,
-                highlightedColor = new Color(0, 160 / 255f, 1f),
-                pressedColor = new Color(14 / 255f, 166 / 255f, 0 / 255f)
+                highlightedColor = new Color(150, 150 , 150 ),
+                pressedColor = new Color(150 , 150 , 150 )
             };
 
             activeCB = new ColorBlock
