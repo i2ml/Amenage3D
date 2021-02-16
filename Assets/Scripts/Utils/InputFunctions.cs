@@ -124,7 +124,10 @@ namespace ErgoShop.Utils
             foreach (var hit in hits)
                 if (isOnWall)
                 {
-                    if (hit.collider.gameObject.name.Contains("Wall")) return hit.point;
+                    if (hit.collider.gameObject.name.Contains("Wall") 
+                        || hit.collider.gameObject.name.Contains("Door")) return hit.point;
+                    if (hit.collider.gameObject.CompareTag("Wall") 
+                        || hit.collider.gameObject.CompareTag("WallOpening")) return hit.point; return hit.point;
                 }
                 else
                 {

@@ -1635,6 +1635,7 @@ namespace ErgoShop.Managers
         {
             Debug.Log("MOVE WALLOPENING");
             Vector3 pos;
+            //test if we are in 2d or 3D
             if (GlobalManager.Instance.GetActiveCamera().gameObject.layer != (int) ErgoLayers.ThreeD)
             {
                 pos = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
