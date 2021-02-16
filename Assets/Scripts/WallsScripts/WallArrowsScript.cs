@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using ErgoShop.Managers;
+using ErgoShop.Operations;
 using ErgoShop.POCO;
 using ErgoShop.Utils;
 using UnityEngine;
@@ -96,7 +97,11 @@ namespace ErgoShop.UI
             }
 
             // Release = no arrow
-            if (Input.GetMouseButtonUp(0)) currentArrow = null;
+            if (Input.GetMouseButtonUp(0) && currentArrow != null)
+            {
+                OperationsBufferScript.Instance.AddAutoSave("Mise à jour mur");
+                currentArrow = null;
+            }
 
             // if arrow
             if (currentArrow)

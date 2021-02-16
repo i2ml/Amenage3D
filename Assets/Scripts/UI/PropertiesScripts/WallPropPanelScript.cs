@@ -116,7 +116,11 @@ namespace ErgoShop.UI
 
                         colorPicker.Color = new Color(wallsData[0].Color.r, wallsData[0].Color.g, wallsData[0].Color.b);
                         imageToggle.color = colorPicker.Color;
-                        OperationsBufferScript.Instance.AddAutoSave("Mise à jour mur");
+                        if (!WallArrowsScript.Instance.isMoving)
+                        {
+                            OperationsBufferScript.Instance.AddAutoSave("Modification propriété mur");
+                        }
+                        
                     }
 
                     imageToggle.color = new Color(colorPicker.Color.r, colorPicker.Color.g, colorPicker.Color.b);
