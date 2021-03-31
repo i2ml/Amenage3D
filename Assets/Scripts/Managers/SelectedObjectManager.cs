@@ -753,7 +753,7 @@ namespace ErgoShop.Managers
         /// </summary>
         public void FocusOnSelectionFace()
         {
-            var center = GetSelectedElementsCenter();
+            Vector3 center = GetSelectedElementsCenter();
             center = new Vector3(center.x, 2f, center.z);
 
             GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetPosition(center + Vector3.forward * 5f);
@@ -765,7 +765,7 @@ namespace ErgoShop.Managers
         /// </summary>
         public void FocusOnSelection()
         {
-            var center = GetSelectedElementsCenter();
+            Vector3 center = GetSelectedElementsCenter();
             center += Vector3.right * -2f;
 
             GlobalManager.Instance.cam2DTop.GetComponent<Camera2DMove>().SetPosition(center);
@@ -859,15 +859,19 @@ namespace ErgoShop.Managers
         /// <returns></returns>
         private Vector3 GetSelectedElementsCenter()
         {
-            var center = Vector3.zero;
+            Vector3 center = Vector3.up * 10; 
+
             foreach (var e in currentSelectedElements)
                 if (e is MovableElement)
                     center += (e as MovableElement).Position;
-            center = new Vector3(
-                center.x / currentSelectedElements.Count(),
-                center.y / currentSelectedElements.Count(),
-                center.z / currentSelectedElements.Count()
-            );
+
+            center = new Vector3
+                (
+                    center.x / currentSelectedElements.Count(),
+                    center.y / currentSelectedElements.Count(),
+                    center.z / currentSelectedElements.Count()
+                 );
+
             return center;
         }
 
