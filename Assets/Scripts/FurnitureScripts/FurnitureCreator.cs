@@ -112,7 +112,7 @@ namespace ErgoShop.Managers
                 //m_currentFurniture3D.GetComponent<MeshCollider>().enabled = true;
             }
 
-            if (Input.GetMouseButtonDown(1)) CancelFurniture();
+           // if (Input.GetMouseButtonDown(1)) CancelFurniture();
         }
 
         /// <summary>
