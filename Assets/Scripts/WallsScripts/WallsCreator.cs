@@ -39,6 +39,8 @@ namespace ErgoShop.Managers
         // Update is called once per frame
         private void Update()
         {
+            UpdateIsOneWall();
+
             foreach (var w in m_wallsData) UpdateWallCotation(w);
 
             UpdateCeils();
@@ -71,6 +73,7 @@ namespace ErgoShop.Managers
 
         public static WallsCreator Instance { get; private set; }
 
+        public bool isOneWall = false;
         #endregion
 
         #region private fields
@@ -103,6 +106,21 @@ namespace ErgoShop.Managers
         #endregion
 
         #region private methods
+
+        /// <summary>
+        /// Find if is one wall or not 
+        /// </summary>
+        private void UpdateIsOneWall()
+        {
+            if (m_wallsData.Count <= 0 )
+            {
+                isOneWall = false;
+            }
+            else
+            {
+                isOneWall = true;
+            }
+        }
 
         /// <summary>
         ///     Show Ceils only if camera IN room
@@ -231,14 +249,14 @@ namespace ErgoShop.Managers
             if (wo.associated3DObject) Destroy(wo.associated3DObject);
 
             var wOpening2D = wo.IsWindow ? Instantiate(window2DPrefab) : Instantiate(door2DPrefab);
-            wOpening2D.SetLayerRecursively((int) ErgoLayers.Top);
+            wOpening2D.SetLayerRecursively((int)ErgoLayers.Top);
             wOpening2D.tag = "WallOpening";
             wo.associated2DObject = wOpening2D;
 
             var wOpening3D = wo.IsWindow
                 ? wo.IsDouble ? Instantiate(window3DPrefab) : Instantiate(simpleWindow3DPrefab)
                 : Instantiate(door3DPrefab);
-            wOpening3D.SetLayerRecursively((int) ErgoLayers.ThreeD);
+            wOpening3D.SetLayerRecursively((int)ErgoLayers.ThreeD);
             wOpening3D.tag = "WallOpening";
             wo.associated3DObject = wOpening3D;
         }
@@ -643,7 +661,7 @@ namespace ErgoShop.Managers
                 if (room.associated2DObject == null)
                 {
                     room.associated2DObject = Instantiate(roomTextPrefab);
-                    room.associated2DObject.layer = (int) ErgoLayers.Top;
+                    room.associated2DObject.layer = (int)ErgoLayers.Top;
                     room.associated2DObject.transform.parent = room2D;
                 }
 
@@ -678,7 +696,7 @@ namespace ErgoShop.Managers
 
                 if (room.Ground.planeGenerated) Destroy(room.Ground.planeGenerated);
                 room.Ground.planeGenerated = Instantiate(polyShapePrefab);
-                room.Ground.planeGenerated.layer = (int) ErgoLayers.ThreeD;
+                room.Ground.planeGenerated.layer = (int)ErgoLayers.ThreeD;
                 room.Ground.planeGenerated.transform.parent = room3D;
                 room.Ground.planeGenerated.transform.localPosition = Vector3.up * 0.001f + center3D;
                 room.Ground.planeGenerated.tag = "Ground";
@@ -686,7 +704,7 @@ namespace ErgoShop.Managers
 
                 if (room.Ceil.planeGenerated) Destroy(room.Ceil.planeGenerated);
                 room.Ceil.planeGenerated = Instantiate(polyShapePrefab);
-                room.Ceil.planeGenerated.layer = (int) ErgoLayers.ThreeD;
+                room.Ceil.planeGenerated.layer = (int)ErgoLayers.ThreeD;
                 room.Ceil.planeGenerated.transform.parent = room3D;
                 room.Ceil.planeGenerated.transform.localPosition = Vector3.up * room.Height + center3D;
                 Destroy(room.Ceil.planeGenerated.GetComponent<MeshCollider>());
@@ -743,8 +761,8 @@ namespace ErgoShop.Managers
             }
 
             foreach (var w in m_wallsData)
-            foreach (var w2 in m_wallsData)
-                StickWalls(w, w2);
+                foreach (var w2 in m_wallsData)
+                    StickWalls(w, w2);
 
             //foreach(var w in m_wallsData)
 
@@ -755,7 +773,7 @@ namespace ErgoShop.Managers
                 if (!r.associated2DObject)
                 {
                     r.associated2DObject = Instantiate(roomTextPrefab);
-                    r.associated2DObject.layer = (int) ErgoLayers.Top;
+                    r.associated2DObject.layer = (int)ErgoLayers.Top;
                     r.associated2DObject.transform.parent = room2D;
                     r.associated2DObject.GetComponent<TextMesh>().text = r.Name;
                 }
@@ -1332,7 +1350,7 @@ namespace ErgoShop.Managers
 
         private Vector3 ShootRayFrom(Vector3 origin, Vector3 dir, Wall w)
         {
-            var hits = Physics2D.RaycastAll(origin, dir, Mathf.Infinity, 1 << (int) ErgoLayers.Top);
+            var hits = Physics2D.RaycastAll(origin, dir, Mathf.Infinity, 1 << (int)ErgoLayers.Top);
             foreach (var hit in hits)
                 if (hit.collider.gameObject.tag == "Wall")
                 {
@@ -1391,17 +1409,17 @@ namespace ErgoShop.Managers
         public void CheckRoomsFusion(float dist = 0.5f)
         {
             foreach (var r1 in m_roomsData)
-            foreach (var r2 in m_roomsData)
-                if (r1 != r2)
-                    foreach (var w1 in r1.Walls)
-                    foreach (var w2 in r2.Walls)
-                        if (w1 != w2)
-                            if (WallFunctions.IsWallContainingOther(w1, w2, dist))
-                            {
-                                UIManager.Instance.ShowMergeRoomsMessage();
-                                StartCoroutine(WaitForMerge(r1, r2, w1, w2, dist));
-                                break;
-                            }
+                foreach (var r2 in m_roomsData)
+                    if (r1 != r2)
+                        foreach (var w1 in r1.Walls)
+                            foreach (var w2 in r2.Walls)
+                                if (w1 != w2)
+                                    if (WallFunctions.IsWallContainingOther(w1, w2, dist))
+                                    {
+                                        UIManager.Instance.ShowMergeRoomsMessage();
+                                        StartCoroutine(WaitForMerge(r1, r2, w1, w2, dist));
+                                        break;
+                                    }
         }
 
         private IEnumerator WaitForMerge(Room r1, Room r2, Wall w1, Wall w2, float dist)
@@ -1636,7 +1654,7 @@ namespace ErgoShop.Managers
             Debug.Log("MOVE WALLOPENING");
             Vector3 pos;
             //test if we are in 2d or 3D
-            if (GlobalManager.Instance.GetActiveCamera().gameObject.layer != (int) ErgoLayers.ThreeD)
+            if (GlobalManager.Instance.GetActiveCamera().gameObject.layer != (int)ErgoLayers.ThreeD)
             {
                 pos = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
             }
@@ -1722,8 +1740,8 @@ namespace ErgoShop.Managers
         {
             var wos = new List<WallOpening>();
             foreach (var w in m_wallsData)
-            foreach (var o in w.Openings)
-                wos.Add(o);
+                foreach (var o in w.Openings)
+                    wos.Add(o);
             return wos;
         }
 

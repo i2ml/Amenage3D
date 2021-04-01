@@ -37,6 +37,8 @@ namespace ErgoShop.Managers
         // ALL FURNITURES INSTIANTED FOR THE CURRENT FLOOR
         private List<Furniture> m_furnituresData;
 
+        private WallsCreator Sc_WallsCreator;
+
         private void Awake()
         {
             Instance = this;
@@ -47,6 +49,12 @@ namespace ErgoShop.Managers
         {
             m_currentFurniScript = null;
             m_furnituresData = new List<Furniture>();
+
+            Sc_WallsCreator = FindObjectOfType<WallsCreator>();
+            if (Sc_WallsCreator == null)
+            {
+                Debug.LogWarning("FurnitureCreator 'Sc_WallCreator' is null");
+            }
         }
 
         // Update is called once per frame
@@ -112,7 +120,7 @@ namespace ErgoShop.Managers
                 //m_currentFurniture3D.GetComponent<MeshCollider>().enabled = true;
             }
 
-           // if (Input.GetMouseButtonDown(1)) CancelFurniture();
+            // if (Input.GetMouseButtonDown(1)) CancelFurniture();
         }
 
         /// <summary>
@@ -184,6 +192,7 @@ namespace ErgoShop.Managers
         /// <param name="cf">Data containing path and name</param>
         public void AddCustomFurniture(GameObject modelGO, CustomFurniture cf)
         {
+
             AddCollider(modelGO);
 
             m_currentFurniture3D = modelGO;
@@ -267,48 +276,65 @@ namespace ErgoShop.Managers
         /// <param name="furniture">Gameobject containing data in a FurnitureScript (prefab data)</param>
         public void AddFurniture(GameObject furniture)
         {
-            m_currentFurniScript = Instantiate(furniture).GetComponent<FurnitureScript>();
-
-            if (!m_currentFurniScript.furniture2DTop)
-                m_currentFurniture2DTop = Instantiate(backUpFurniture2DTop, parent2DTop);
-            else
-                m_currentFurniture2DTop = Instantiate(m_currentFurniScript.furniture2DTop, parent2DTop);
-            //m_currentFurniture2DFace = Instantiate(m_currentFurniScript.furniture2DFace, parent2DFace);
-            m_currentFurniture3D = Instantiate(m_currentFurniScript.furniture3D, parent3D);
-
-            m_currentFurniture3D.tag = "Furniture";
-            m_currentFurniture2DTop.tag = "Furniture";
-
-            m_currentFurniture2DTop.SetLayerRecursively(9);
-            m_currentFurniture3D.SetLayerRecursively(10);
-
-            m_currentFurniture = new Furniture
+            FurnitureScript Sc_FurnitureScript = furniture.GetComponent<FurnitureScript>();
+            if (Sc_FurnitureScript == null)
             {
-                associated2DObject = m_currentFurniture2DTop,
-                associated3DObject = m_currentFurniture3D,
-                Name = m_currentFurniScript.furnitureName,
-                Position = m_currentFurniture3D.transform.position,
-                Rotation = 0,
-                PrefabName = m_currentFurniScript.resourceName,
-                Type = m_currentFurniScript.furnitureType,
-                IsOnWall = m_currentFurniScript.isOnWall,
-                CanBePutOnFurniture = m_currentFurniScript.canBePutOnFurniture,
-                ScaleModifier = m_currentFurniScript.scaleRatio
-            };
+                Debug.LogError("FurnitureCreator 'Sc_FurnitureScript' is null");
+            }
+            else
+            {
+                if (!Sc_WallsCreator.isOneWall && Sc_FurnitureScript.isOnWall)
+                {
+                    //To Do..
+                    //Management of the case where the object needs a wall but there is not one
+                    Debug.Log("The object needs a wall");
+                }
+                else
+                {
+                    m_currentFurniScript = Instantiate(furniture).GetComponent<FurnitureScript>();
 
-            m_currentFurniture.Size = m_currentFurniture.MeshSize * m_currentFurniture.ScaleModifier;
+                    if (!m_currentFurniScript.furniture2DTop)
+                        m_currentFurniture2DTop = Instantiate(backUpFurniture2DTop, parent2DTop);
+                    else
+                        m_currentFurniture2DTop = Instantiate(m_currentFurniScript.furniture2DTop, parent2DTop);
+                    //m_currentFurniture2DFace = Instantiate(m_currentFurniScript.furniture2DFace, parent2DFace);
+                    m_currentFurniture3D = Instantiate(m_currentFurniScript.furniture3D, parent3D);
 
-            InitFurnitureText(m_currentFurniture);
+                    m_currentFurniture3D.tag = "Furniture";
+                    m_currentFurniture2DTop.tag = "Furniture";
 
-            SetFurni2DSize();
+                    m_currentFurniture2DTop.SetLayerRecursively(9);
+                    m_currentFurniture3D.SetLayerRecursively(10);
 
-            m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
+                    m_currentFurniture = new Furniture
+                    {
+                        associated2DObject = m_currentFurniture2DTop,
+                        associated3DObject = m_currentFurniture3D,
+                        Name = m_currentFurniScript.furnitureName,
+                        Position = m_currentFurniture3D.transform.position,
+                        Rotation = 0,
+                        PrefabName = m_currentFurniScript.resourceName,
+                        Type = m_currentFurniScript.furnitureType,
+                        IsOnWall = m_currentFurniScript.isOnWall,
+                        CanBePutOnFurniture = m_currentFurniScript.canBePutOnFurniture,
+                        ScaleModifier = m_currentFurniScript.scaleRatio
+                    };
 
-            m_furnituresData.Add(m_currentFurniture);
-            FurnitureListScroll.Instance.UpdateList();
-            SelectedObjectManager.Instance.Select(m_currentFurniture);
-            SelectedObjectManager.Instance.PlaceFurniture(true);
-            //OperationsBufferScript.Instance.AddAutoSave("Ajout de " + m_currentFurniture.Name);
+                    m_currentFurniture.Size = m_currentFurniture.MeshSize * m_currentFurniture.ScaleModifier;
+
+                    InitFurnitureText(m_currentFurniture);
+
+                    SetFurni2DSize();
+
+                    m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
+
+                    m_furnituresData.Add(m_currentFurniture);
+                    FurnitureListScroll.Instance.UpdateList();
+                    SelectedObjectManager.Instance.Select(m_currentFurniture);
+                    SelectedObjectManager.Instance.PlaceFurniture(true);
+                    //OperationsBufferScript.Instance.AddAutoSave("Ajout de " + m_currentFurniture.Name);
+                }
+            }
         }
 
         /// <summary>
@@ -377,7 +403,7 @@ namespace ErgoShop.Managers
                 f.EulerAngles;
             f.associated3DObject.transform.localScale =
                 new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z);
-            f.associated3DObject.SetLayerRecursively((int) ErgoLayers.ThreeD);
+            f.associated3DObject.SetLayerRecursively((int)ErgoLayers.ThreeD);
             //f.associated3DObject.GetComponent<Rigidbody>().constraints = RigidbodyConstraints.FreezeAll;
 
 
@@ -393,7 +419,7 @@ namespace ErgoShop.Managers
                 f.Size.z / f.MeshSize.z
             ));
 
-            f.associated2DObject.SetLayerRecursively((int) ErgoLayers.Top);
+            f.associated2DObject.SetLayerRecursively((int)ErgoLayers.Top);
 
             f.associated3DObject.tag = "Furniture";
             f.associated2DObject.tag = "Furniture";

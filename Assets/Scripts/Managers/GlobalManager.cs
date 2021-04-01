@@ -68,6 +68,11 @@ namespace ErgoShop.Managers
         /// </summary>
         public Texture2D plusTexture;
 
+        ///<summary>
+        ///Ref FurnitureScript
+        /// </summary>
+        public WallsCreator Sc_WallsCreator;
+
         /// <summary>
         ///     Current view
         /// </summary>
@@ -87,6 +92,12 @@ namespace ErgoShop.Managers
         private void Start()
         {
             eventSystem = FindObjectOfType<EventSystem>();
+
+            Sc_WallsCreator = FindObjectOfType<WallsCreator>();
+            if (Sc_WallsCreator == null)
+            {
+                Debug.LogWarning("GlobalManager 'WallsCreator' Script is null");
+            }
 
             Set2DTopMode();
 
