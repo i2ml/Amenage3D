@@ -121,6 +121,7 @@ namespace ErgoShop.Managers
             }
 
             // if (Input.GetMouseButtonDown(1)) CancelFurniture();
+            if (Input.GetButtonDown("Cancel")) { CancelFurniture(); }
         }
 
         /// <summary>
