@@ -112,7 +112,7 @@ namespace ErgoShop.Managers
         /// </summary>
         private void UpdateIsOneWall()
         {
-            if (m_wallsData.Count <= 0 )
+            if (m_wallsData.Count <= 0)
             {
                 isOneWall = false;
             }
@@ -168,7 +168,6 @@ namespace ErgoShop.Managers
                         wb.DesactiveRoom();
                         break;
                 }
-
                 UpdateTextFromCreationMode();
             }
         }
@@ -217,7 +216,21 @@ namespace ErgoShop.Managers
             if (Input.GetMouseButtonUp(0) && InputFunctions.IsMouseOutsideUI()) SetWallOpeningEnd(isWindow);
 
             // Cancel    
-            if (Input.GetMouseButtonDown(1)) CancelWallOpening();
+            if (Input.GetMouseButtonDown(1))
+            {
+                CancelWallOpening();
+            }
+
+            //Cancel
+            if (Input.GetButtonDown("Cancel"))
+            {
+                Debug.Log("yup");
+                CancelWallOpening();
+            }
+            else
+            {
+                Debug.Log(Input.GetButtonDown("Cancel"));
+            }
         }
 
         /// <summary>
@@ -336,14 +349,25 @@ namespace ErgoShop.Managers
                 if (m_creating) AdjustRoom();
             }
 
-            if (Input.GetMouseButtonDown(1)) CancelRoom();
+            //Annule la creation de la room 
+            if (Input.GetMouseButtonDown(1))
+            {
+                CancelRoom();
+            }
+            if (Input.GetMouseButtonDown(0) && !InputFunctions.IsMouseOutsideUI())
+            {
+                CancelRoom();
+            }
+
+
         }
 
         /// <summary>
         ///     cancel wall
         /// </summary>
-        private void CancelWallOpening()
+        public void CancelWallOpening()
         {
+
             if (m_currentWallOpeningData != null)
             {
                 DestroyWallOpening(m_currentWallOpeningData);
@@ -363,7 +387,7 @@ namespace ErgoShop.Managers
         /// <summary>
         ///     cancel room by destroying current walls
         /// </summary>
-        private void CancelRoom()
+        public void CancelRoom()
         {
             if (m_currentRoomData != null)
                 for (var i = 0; i < 4; i++)
@@ -640,7 +664,10 @@ namespace ErgoShop.Managers
             AdjustAllWalls();
         }
 
-        private void AdjustWall()
+        /// <summary>
+        /// //////////////////////////////////
+        /// </summary>
+        public void AdjustWall()
         {
             if (m_currentWallData == null) return;
             m_endPosition = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
@@ -1391,6 +1418,11 @@ namespace ErgoShop.Managers
 
         public void DestroyRoom(Room r)
         {
+            if (r == null)
+            {
+                r = m_roomsData.First();
+            }
+
             foreach (var w in r.Walls) UpdateRoomFromWalls(r.Walls, false, r);
 
             foreach (var w in r.Walls)

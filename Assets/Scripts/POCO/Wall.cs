@@ -199,11 +199,11 @@ namespace ErgoShop.POCO
 
             if (Vector3.Dot(Center - pos2D, Perpendicular) < 0)
             {
-                Debug.Log("Perpendicular");
+                //Debug.Log("Perpendicular");
                 return VectorFunctions.Switch2D3D(Perpendicular);
             }
 
-            Debug.Log("Pas Perpendicular");
+            //Debug.Log("Pas Perpendicular");
             return VectorFunctions.Switch2D3D(-Perpendicular);
         }
 

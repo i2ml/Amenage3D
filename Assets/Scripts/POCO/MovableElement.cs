@@ -125,7 +125,7 @@ namespace ErgoShop.POCO
                     // If on wall then stick to wall
                     if (IsOnWall)
                     {
-                        Debug.Log("Sticking...");
+                        //Debug.Log("Sticking...");
                         Wall closestWall = null;
                         // Seek closest projection for a wall
                         foreach (var wd in WallsCreator.Instance.GetWalls())

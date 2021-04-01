@@ -86,6 +86,7 @@ namespace ErgoShop.Managers
         private void Awake()
         {
             Instance = this;
+
         }
 
         // Start is called before the first frame update

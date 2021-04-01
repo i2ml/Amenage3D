@@ -384,12 +384,10 @@ namespace ErgoShop.Managers
                 {
                     UpdateUIProperties();
 
-                    Debug.Log(go.name);
-
                     if (!InputFunctions.CTRL()
                         && go.tag != "WallArrow" && go.tag != "Cotation" && go.tag != "ElementArrow")
                     {
-                        Debug.Log("RESET");
+                        //Debug.Log("RESET");
                         ResetSelection();
                         PropertiesFormManager.Instance.HideAllProperties();
                     }
@@ -1149,7 +1147,6 @@ namespace ErgoShop.Managers
         /// <param name="init"></param>
         public void PlaceFurniture(bool init = false)
         {
-            Debug.Log("Place fu");
             if (init) m_prevPos = Vector3.zero;
             m_currentPlacingFurniture.Move(m_prevPos);
             if (Input.GetMouseButtonDown(0))
