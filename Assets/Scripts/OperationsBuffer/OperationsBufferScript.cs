@@ -86,9 +86,14 @@ namespace ErgoShop.Operations
             {
                 // CANCEL
                 if (Input.GetKeyDown(KeyCode.Z))
+                {
                     Cancel();
+                }
                 // REDO
-                else if (Input.GetKeyDown(KeyCode.Y)) Redo();
+                else if (Input.GetKeyDown(KeyCode.Y))
+                {
+                    Redo();
+                }
                 //if(operations.Count > 0)
                 //{
                 //    Operation currentOperation = operations.Last();
@@ -114,8 +119,8 @@ namespace ErgoShop.Operations
         {
             if (m_idx > 0)
             {
-                ProjectManager.Instance.LoadAutoSave(m_projects[m_idx]);
                 m_idx--;
+                ProjectManager.Instance.LoadAutoSave(m_projects[m_idx]);
             }
 
             OperationsScrollScript.Instance.SetCurrentColor(m_idx);
