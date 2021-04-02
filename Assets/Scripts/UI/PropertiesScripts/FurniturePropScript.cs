@@ -31,7 +31,7 @@ namespace ErgoShop.UI
         }
 
         // Update is called once per frame
-        private void Update()
+        new private void Update()
         {
             if (CheckPropertiesBindings(SelectedObjectManager.Instance.currentFurnitureData))
                 UIManager.Instance.instructionsText.text =
