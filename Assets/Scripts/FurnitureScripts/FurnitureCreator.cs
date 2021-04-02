@@ -295,9 +295,14 @@ namespace ErgoShop.Managers
                     m_currentFurniScript = Instantiate(furniture).GetComponent<FurnitureScript>();
 
                     if (!m_currentFurniScript.furniture2DTop)
+                    {
                         m_currentFurniture2DTop = Instantiate(backUpFurniture2DTop, parent2DTop);
+                    }
                     else
+                    {
                         m_currentFurniture2DTop = Instantiate(m_currentFurniScript.furniture2DTop, parent2DTop);
+                    }
+
                     //m_currentFurniture2DFace = Instantiate(m_currentFurniScript.furniture2DFace, parent2DFace);
                     m_currentFurniture3D = Instantiate(m_currentFurniScript.furniture3D, parent3D);
 
@@ -331,8 +336,11 @@ namespace ErgoShop.Managers
 
                     m_furnituresData.Add(m_currentFurniture);
                     FurnitureListScroll.Instance.UpdateList();
-                    SelectedObjectManager.Instance.Select(m_currentFurniture);
+                   SelectedObjectManager.Instance.Select(m_currentFurniture);
                     SelectedObjectManager.Instance.PlaceFurniture(true);
+
+
+
                     //OperationsBufferScript.Instance.AddAutoSave("Ajout de " + m_currentFurniture.Name);
                 }
             }

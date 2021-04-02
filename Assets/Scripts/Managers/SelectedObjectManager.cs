@@ -482,6 +482,7 @@ namespace ErgoShop.Managers
 
                             if (currentFurnitureData.Count == 1)
                                 FurniturePropScript.Instance.UpdateFurnitureProperties();
+
                             ResetWalls();
                             ResetWallOpening();
                         }
@@ -940,8 +941,10 @@ namespace ErgoShop.Managers
             ResetHelpers();
             ResetCharacters();
             ResetGroups();
+
             if (currentCotation && currentCotation.cotationField)
                 currentCotation.cotationField.transform.position = Vector3.one * 10000;
+
             currentCotation = null;
             currentSelectedElements.Clear();
             UpdateUIProperties();
@@ -962,6 +965,7 @@ namespace ErgoShop.Managers
             DeleteStairs();
             DeleteHelpers();
             DeleteCharacters();
+
             OperationsBufferScript.Instance.AddAutoSave("Suppression");
         }
 
