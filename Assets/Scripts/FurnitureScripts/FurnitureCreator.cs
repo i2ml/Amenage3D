@@ -232,6 +232,33 @@ namespace ErgoShop.Managers
         }
 
         /// <summary>
+        /// Rename Furniture
+        /// </summary>
+        /// <param name="_newName"></param>
+        /// <param name="_f"></param>
+        public void RenamFurniture(Furniture _f = null)
+        {
+            if (_f != null)
+            {
+                GameObject obj = GameObject.Find("NamFieldFurnitureProperty");
+                if (obj == null)
+                {
+                    Debug.LogError("NamFieldFurnitureProperty not find in FurnitureCreator Script !");
+                }
+                else
+                {
+                    foreach (var item in m_furnituresData)
+                    {
+                        if (item == _f)
+                        {
+                            //_f.Name = _newName;
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
         ///     Since custom furnitures are not prepared like the default ones, we need to add colliders and rigidbody.
         ///     For now the custom furnitures can only by "ground" ones
         ///     TO DO for later : add bool to set constraints for on wall furnitures
@@ -336,7 +363,7 @@ namespace ErgoShop.Managers
 
                     m_furnituresData.Add(m_currentFurniture);
                     FurnitureListScroll.Instance.UpdateList();
-                   SelectedObjectManager.Instance.Select(m_currentFurniture);
+                    SelectedObjectManager.Instance.Select(m_currentFurniture);
                     SelectedObjectManager.Instance.PlaceFurniture(true);
 
 
