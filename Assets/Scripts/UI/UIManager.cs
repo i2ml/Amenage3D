@@ -3,6 +3,7 @@ using ErgoShop.UI;
 using ErgoShop.Utils;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace ErgoShop.Managers
 {
@@ -32,7 +33,9 @@ namespace ErgoShop.Managers
         //public Button textureButton, planButton, , faceButton, ;
         public Button topButton, threeDButton;
 
-        public Text instructionsText, customNamePopinInstructions;
+        public TextMeshProUGUI instructionsText;
+
+        public Text  customNamePopinInstructions;
 
         public Text screenShotMessage;
 
