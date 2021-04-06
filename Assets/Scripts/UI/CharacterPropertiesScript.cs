@@ -38,7 +38,7 @@ namespace ErgoShop.UI
         }
 
         // Update is called once per frame
-        private void Update()
+        new void Update()
         {
             if (CheckPropertiesBindings(SelectedObjectManager.Instance.currentCharacters))
                 UIManager.Instance.instructionsText.text =
@@ -71,7 +71,7 @@ namespace ErgoShop.UI
                     characterYField.text = sameY ? Mathf.Floor(chs[0].Size.y * 100f) + "" : "";
                     characterZField.text = sameZ ? Mathf.Floor(chs[0].Size.z * 100f) + "" : "";
 
-                    typeDD.value = sameDD ? (int) chs[0].Type : -1;
+                    typeDD.value = sameDD ? (int)chs[0].Type : -1;
                     spreadArmsToggle.isOn = sameSA ? chs[0].SpreadArms : false;
 
                     if (chs[0].Rotation < 0) chs[0].Rotation += 360f;
@@ -210,7 +210,7 @@ namespace ErgoShop.UI
         {
             foreach (var ch in SelectedObjectManager.Instance.currentCharacters)
             {
-                ch.Type = (CharacterType) v;
+                ch.Type = (CharacterType)v;
                 ch.RebuildSceneData();
                 if (ch.Type == CharacterType.OnWheelChair || ch.Type == CharacterType.WheelChairEmpty)
                 {

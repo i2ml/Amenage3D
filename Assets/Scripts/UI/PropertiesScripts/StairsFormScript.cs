@@ -22,7 +22,7 @@ namespace ErgoShop.UI
         }
 
         // Update is called once per frame
-        private void Update()
+        new private void Update()
         {
             if (SelectedObjectManager.Instance.currentStairs.Count == 0)
             {

@@ -151,7 +151,7 @@ namespace ErgoShop.Interactable
             if (InputFunctions.IsClickingOutsideUI())
             {
                 var go = InputFunctions.GetHoveredObject2D(GlobalManager.Instance.GetActiveCamera());
-                Debug.Log("CLICK ARROW " + go);
+               // Debug.Log("CLICK ARROW " + go);
                 if (!go || go.tag != "ElementArrow")
                 {
                     isMoving = false;
@@ -178,7 +178,7 @@ namespace ErgoShop.Interactable
                 var direction = Vector3.zero;
                 var mousePos = InputFunctions.GetWorldPoint2D(GlobalManager.Instance.GetActiveCamera());
                 if (m_prevPos == mousePos) return;
-                Debug.Log("FLECHE " + currentArrow.name);
+                //Debug.Log("FLECHE " + currentArrow.name);
                 switch (currentArrow.name)
                 {
                     case "Up":

@@ -3,6 +3,7 @@ using ErgoShop.UI;
 using ErgoShop.Utils;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace ErgoShop.Managers
 {
@@ -13,6 +14,9 @@ namespace ErgoShop.Managers
     /// </summary>
     public class UIManager : MonoBehaviour
     {
+        //Manage
+        private WallsCreator Sc_WallsCreator;
+
         // Forms
         public GameObject projectForm, wallsForm, floorsForm, furnitureForm, othersForm, rectRoomForm, selectedOption;
 
@@ -29,7 +33,9 @@ namespace ErgoShop.Managers
         //public Button textureButton, planButton, , faceButton, ;
         public Button topButton, threeDButton;
 
-        public Text instructionsText, customNamePopinInstructions;
+        public TextMeshProUGUI instructionsText;
+
+        public Text  customNamePopinInstructions;
 
         public Text screenShotMessage;
 
@@ -115,8 +121,41 @@ namespace ErgoShop.Managers
         public void ResetTopForms()
         {
             projectForm.SetActive(false);
+
             for (var i = 0; i < selectedOption.transform.childCount; i++)
+            {
                 selectedOption.transform.GetChild(i).gameObject.SetActive(false);
+            }
+
+            wallsForm.SetActive(false);
+            floorsForm.SetActive(false);
+            rectRoomForm.SetActive(false);
+            othersForm.SetActive(false);
+            furnitureForm.SetActive(false);
+        }
+
+        //uniquement pour le menu de creation de mur
+        public void ResetTopFormsForCreationWall()
+        {
+            projectForm.SetActive(false);
+
+            for (var i = 0; i < selectedOption.transform.childCount; i++)
+            {
+                selectedOption.transform.GetChild(i).gameObject.SetActive(false);
+            }
+
+            if (Sc_WallsCreator == null)
+            {
+                Sc_WallsCreator = FindObjectOfType<WallsCreator>();
+                if (Sc_WallsCreator == null)
+                {
+                    Debug.LogError("UIManager 'Sc_WallsCreator' is null");
+                }
+            }
+
+
+            Sc_WallsCreator.CancelRoom();
+
             wallsForm.SetActive(false);
             floorsForm.SetActive(false);
             rectRoomForm.SetActive(false);

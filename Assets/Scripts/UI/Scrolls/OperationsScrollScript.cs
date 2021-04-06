@@ -2,6 +2,7 @@
 using ErgoShop.Operations;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace ErgoShop.UI
 {
@@ -45,7 +46,10 @@ namespace ErgoShop.UI
         {
             // Clear old buttons
             var children = new List<GameObject>();
-            foreach (Transform child in m_elemScroll.Content) children.Add(child.gameObject);
+            foreach (Transform child in m_elemScroll.Content)
+            {
+                children.Add(child.gameObject);
+            }
             children.ForEach(child => Destroy(child));
             m_buttons.Clear();
 
@@ -55,16 +59,54 @@ namespace ErgoShop.UI
             {
                 var autosave = operations[i];
                 var btn = Instantiate(OperationButtonPrefab, m_elemScroll.Content);
-                btn.transform.GetChild(0).GetComponent<Text>().text = autosave.OperationName;
+
+                btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = autosave.OperationName;
+                btn.gameObject.name = autosave.OperationName;
+
                 btn.GetComponent<RectTransform>().sizeDelta = new Vector2(300f, 30f);
+
                 // Add anonynmous method to button
                 btn.GetComponent<Button>().onClick.AddListener(() =>
                 {
                     GoToOperation(autosave);
                     SetCurrentColor(btn.GetComponent<Button>());
                 });
-                if (i == operations.Count - 1) SetCurrentColor(btn.GetComponent<Button>());
+
+                if (i == operations.Count - 1)
+                {
+                    SetCurrentColor(btn.GetComponent<Button>());
+                }
                 m_buttons.Add(btn.GetComponent<Button>());
+            }
+        }
+
+        void SortAlphab()
+        {
+            List<string> sortList = new List<string>();
+            foreach (var item in m_buttons)
+            {
+                sortList.Add(item.GetComponentInChildren<TextMeshProUGUI>().text);
+            }
+            sortList.Sort();
+
+            Debug.Log("///////////____________SortListe______________////////////");
+            for (int j = 0; j < sortList.Count - 1; j++)
+            {
+                Debug.Log(sortList[j]);
+
+                for (int i = 0; i < m_buttons.Count - 1; i++)
+                {
+                    if (sortList[j] == m_buttons[i].gameObject.GetComponentInChildren<TextMeshProUGUI>().text)
+                    {
+                        if (j > 0)
+                        {
+                            var tmp = sortList[j - 1];
+                            sortList[j - 1] = sortList[j];
+                            sortList[j] = tmp;
+                            //i = 0;
+                        }
+                    }
+                }
             }
         }
 

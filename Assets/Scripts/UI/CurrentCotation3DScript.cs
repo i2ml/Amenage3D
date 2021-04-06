@@ -156,7 +156,7 @@ namespace ErgoShop.UI
                 }
                 else
                 {
-                    Debug.Log("Ignored " + hit.collider.name);
+                    //Debug.Log("Ignored " + hit.collider.name);
                 }
 
             var bestHit = Vector3.positiveInfinity;

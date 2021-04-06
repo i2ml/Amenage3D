@@ -384,12 +384,10 @@ namespace ErgoShop.Managers
                 {
                     UpdateUIProperties();
 
-                    Debug.Log(go.name);
-
                     if (!InputFunctions.CTRL()
                         && go.tag != "WallArrow" && go.tag != "Cotation" && go.tag != "ElementArrow")
                     {
-                        Debug.Log("RESET");
+                        //Debug.Log("RESET");
                         ResetSelection();
                         PropertiesFormManager.Instance.HideAllProperties();
                     }
@@ -484,6 +482,7 @@ namespace ErgoShop.Managers
 
                             if (currentFurnitureData.Count == 1)
                                 FurniturePropScript.Instance.UpdateFurnitureProperties();
+
                             ResetWalls();
                             ResetWallOpening();
                         }
@@ -753,7 +752,7 @@ namespace ErgoShop.Managers
         /// </summary>
         public void FocusOnSelectionFace()
         {
-            var center = GetSelectedElementsCenter();
+            Vector3 center = GetSelectedElementsCenter();
             center = new Vector3(center.x, 2f, center.z);
 
             GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetPosition(center + Vector3.forward * 5f);
@@ -765,7 +764,7 @@ namespace ErgoShop.Managers
         /// </summary>
         public void FocusOnSelection()
         {
-            var center = GetSelectedElementsCenter();
+            Vector3 center = GetSelectedElementsCenter();
             center += Vector3.right * -2f;
 
             GlobalManager.Instance.cam2DTop.GetComponent<Camera2DMove>().SetPosition(center);
@@ -859,15 +858,19 @@ namespace ErgoShop.Managers
         /// <returns></returns>
         private Vector3 GetSelectedElementsCenter()
         {
-            var center = Vector3.zero;
+            Vector3 center = Vector3.up * 10; 
+
             foreach (var e in currentSelectedElements)
                 if (e is MovableElement)
                     center += (e as MovableElement).Position;
-            center = new Vector3(
-                center.x / currentSelectedElements.Count(),
-                center.y / currentSelectedElements.Count(),
-                center.z / currentSelectedElements.Count()
-            );
+
+            center = new Vector3
+                (
+                    center.x / currentSelectedElements.Count(),
+                    center.y / currentSelectedElements.Count(),
+                    center.z / currentSelectedElements.Count()
+                 );
+
             return center;
         }
 
@@ -938,8 +941,10 @@ namespace ErgoShop.Managers
             ResetHelpers();
             ResetCharacters();
             ResetGroups();
+
             if (currentCotation && currentCotation.cotationField)
                 currentCotation.cotationField.transform.position = Vector3.one * 10000;
+
             currentCotation = null;
             currentSelectedElements.Clear();
             UpdateUIProperties();
@@ -960,6 +965,7 @@ namespace ErgoShop.Managers
             DeleteStairs();
             DeleteHelpers();
             DeleteCharacters();
+
             OperationsBufferScript.Instance.AddAutoSave("Suppression");
         }
 
@@ -1145,7 +1151,6 @@ namespace ErgoShop.Managers
         /// <param name="init"></param>
         public void PlaceFurniture(bool init = false)
         {
-            Debug.Log("Place fu");
             if (init) m_prevPos = Vector3.zero;
             m_currentPlacingFurniture.Move(m_prevPos);
             if (Input.GetMouseButtonDown(0))
