@@ -1,7 +1,5 @@
 ﻿using ErgoShop.Managers;
-using ErgoShop.Utils;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace ErgoShop.Cameras
 {
@@ -76,12 +74,8 @@ namespace ErgoShop.Cameras
                 }
 
                 if (Input.GetMouseButtonUp(1)) EndMoveCam();
-
-                if (InputFunctions.IsMouseOutsideUI() && InputFunctions.OnScreen())
-                {
-                    desiredDistance -= Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate *
-                                       Mathf.Abs(desiredDistance) * moveSpeed;
-                }
+                desiredDistance -= Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate *
+                                   Mathf.Abs(desiredDistance) * moveSpeed;
             }
 
             desiredDistance = Mathf.Clamp(desiredDistance, minDistance, maxDistance);

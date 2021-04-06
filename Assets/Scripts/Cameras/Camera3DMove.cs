@@ -83,12 +83,8 @@ namespace ErgoShop.Cameras
 
             if (canMove)
             {
-                if (InputFunctions.IsMouseOutsideUI() && InputFunctions.OnScreen())
-                {
-                    position += transform.forward * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate *
+                position += transform.forward * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate *
                             moveSpeed;
-                }
-
                 if (mousePos - prevMousePos != Vector3.zero)
                     position += transform.rotation * (mousePos - prevMousePos) * -1 * Time.deltaTime * moveSpeed;
             }

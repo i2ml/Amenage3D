@@ -293,6 +293,7 @@ namespace ErgoShop.Managers
             cam2DTop.GetComponent<Camera>().targetTexture = null;
             cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position - Vector3.right * 2.5f);
         }
+
         #endregion
     }
 }

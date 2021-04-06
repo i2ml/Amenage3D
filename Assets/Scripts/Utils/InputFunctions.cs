@@ -45,22 +45,6 @@ namespace ErgoShop.Utils
             return Input.GetMouseButtonDown(0) && !GlobalManager.Instance.eventSystem.IsPointerOverGameObject();
         }
 
-        /// <summary>
-        ///     true if mouse on screenWindow
-        /// </summary>
-        /// <returns></returns>
-        public static bool OnScreen()
-        {
-            Resolution resolution = Screen.currentResolution;
-
-            return
-                Input.mousePosition.x < resolution.width &&
-                Input.mousePosition.x > 0 &&
-                Input.mousePosition.y < resolution.height &&
-                Input.mousePosition.y > 0;
-
-        }
-
         public static Vector3 GetWorldPoint2D(Camera cam2D)
         {
             var mousePos = Input.mousePosition;
@@ -74,7 +58,7 @@ namespace ErgoShop.Utils
 
         public static Vector3 GetWorldPoint(Camera cam)
         {
-            if (cam.gameObject.layer != (int)ErgoLayers.ThreeD) return GetWorldPoint2D(cam);
+            if (cam.gameObject.layer != (int) ErgoLayers.ThreeD) return GetWorldPoint2D(cam);
 
             var ray = cam.ScreenPointToRay(Input.mousePosition);
             RaycastHit hit;
@@ -140,9 +124,9 @@ namespace ErgoShop.Utils
             foreach (var hit in hits)
                 if (isOnWall)
                 {
-                    if (hit.collider.gameObject.name.Contains("Wall")
+                    if (hit.collider.gameObject.name.Contains("Wall") 
                         || hit.collider.gameObject.name.Contains("Door")) return hit.point;
-                    if (hit.collider.gameObject.CompareTag("Wall")
+                    if (hit.collider.gameObject.CompareTag("Wall") 
                         || hit.collider.gameObject.CompareTag("WallOpening")) return hit.point; return hit.point;
                 }
                 else
@@ -193,7 +177,7 @@ namespace ErgoShop.Utils
 
         public static GameObject GetHoveredObject(Camera cam)
         {
-            if (cam.gameObject.layer == (int)ErgoLayers.Top) return GetHoveredObject2D(cam);
+            if (cam.gameObject.layer == (int) ErgoLayers.Top) return GetHoveredObject2D(cam);
             if (!IsMouseOutsideUI()) return null;
             var es = GlobalManager.Instance.eventSystem;
             var ray = cam.ScreenPointToRay(Input.mousePosition);
