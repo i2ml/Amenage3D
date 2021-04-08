@@ -767,9 +767,20 @@ namespace ErgoShop.Managers
             Vector3 center = GetSelectedElementsCenter();
             center += Vector3.right * -2f;
 
-            GlobalManager.Instance.cam2DTop.GetComponent<Camera2DMove>().SetPosition(center);
-            GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetPosition(center + Vector3.up * 10f);
-            GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetRotation(new Vector3(90, 0, 0));
+            if (GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam2DTop)
+            {
+                GlobalManager.Instance.cam2DTop.GetComponent<Camera2DMove>().SetPosition(center);
+            }
+            else
+            {
+                GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetPosition(center + Vector3.up * 10f);
+                GlobalManager.Instance.cam3D.GetComponent<Camera3DMove>().SetRotation(new Vector3(90, 0, 0));
+
+                //GlobalManager.Instance.cam3D.transform.LookAt(center);
+            }
+
+
+
             //Vector3 center2D = Vector3.zero;
             //bool lookAtWall = false;
             //Transform selectionTrans=null;
@@ -858,7 +869,7 @@ namespace ErgoShop.Managers
         /// <returns></returns>
         private Vector3 GetSelectedElementsCenter()
         {
-            Vector3 center = Vector3.up * 10; 
+            Vector3 center = Vector3.up * 10;
 
             foreach (var e in currentSelectedElements)
                 if (e is MovableElement)
@@ -1245,11 +1256,11 @@ namespace ErgoShop.Managers
         public void ResetGroups()
         {
             foreach (var eg in currentElementGroups)
-            foreach (var elem in eg.Elements)
-            {
-                OutlineFunctions.SetOutlineEnabled(elem.associated2DObject, false);
-                OutlineFunctions.SetOutlineEnabled(elem.associated3DObject, false);
-            }
+                foreach (var elem in eg.Elements)
+                {
+                    OutlineFunctions.SetOutlineEnabled(elem.associated2DObject, false);
+                    OutlineFunctions.SetOutlineEnabled(elem.associated3DObject, false);
+                }
 
             currentElementGroups.Clear();
         }
