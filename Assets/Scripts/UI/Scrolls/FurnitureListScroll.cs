@@ -94,5 +94,19 @@ namespace ErgoShop.UI
                 });
             }
         }
+
+        /// <summary>
+        /// Return True if List is EMPTY
+        /// </summary>
+        /// <returns></returns>
+        public bool isEmpty()
+        {
+            int result = 0;
+            foreach (RectTransform child in m_elemScroll.Content)
+            {
+                result++;
+            }
+            return result > 0 ? false : true;
+        }
     }
 }
