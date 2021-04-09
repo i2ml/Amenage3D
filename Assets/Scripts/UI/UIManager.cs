@@ -35,7 +35,7 @@ namespace ErgoShop.Managers
 
         public TextMeshProUGUI instructionsText;
 
-        public Text  customNamePopinInstructions;
+        public Text customNamePopinInstructions;
 
         public Text screenShotMessage;
 
@@ -79,12 +79,19 @@ namespace ErgoShop.Managers
             {
                 if (InputFunctions.IsMouseOutsideUI())
                 {
-                    if (GlobalManager.Instance.GetActiveCamera() == GlobalManager.Instance.cam2DTop)
-                        Instance.instructionsText.text =
-                            "Déplacez la caméra avec le clic gauche. F1 pour changer de vue";
+                    if (GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam2DTop)
+                    {
+                        Instance.instructionsText.text = "Déplacez la caméra avec le clic gauche. F1 pour changer de vue vers la 3D";
+                    }
+                    else if(GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam3D)
+                    {
+                        Instance.instructionsText.text = "Déplacez la caméra avec les fleche et avec le clic molette tournez votre vue. F1 pour changer de vue vers la 2D";
+                    }
                     else
-                        Instance.instructionsText.text =
-                            "Déplacez la caméra avec le clic molette ou avec les fleches du clavier. Tournez la caméra avec le clic droit. F1 pour changer de vue.";
+                    {
+                        Instance.instructionsText.text = "Déplacez la caméra avec le clic molette ou avec les fleches du clavier. Tournez la caméra avec le clic droit. F1 pour changer de vue.";
+                    }
+                    //Debug.Log(GlobalManager.Instance.GetActiveCamera());
                 }
             }
         }
@@ -234,7 +241,7 @@ namespace ErgoShop.Managers
         public void ShowFurnitureForm()
         {
             ResetTopForms();
-            //furnitureForm.SetActive(true);
+            furnitureForm.SetActive(true);
             selectedOption.transform.GetChild(2).gameObject.SetActive(true);
             SelectedObjectManager.Instance.ResetSelection();
             FloorPropertiesScript.Instance.LoadFloorsFromProject();

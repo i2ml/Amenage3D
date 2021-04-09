@@ -42,7 +42,12 @@ namespace ErgoShop.UI
             wantToQuit = true;
             wantToSave = false;
             goQuit = true;
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
+#endif
         }
 
         public void CancelQuitting()

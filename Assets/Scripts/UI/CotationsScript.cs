@@ -64,6 +64,8 @@ namespace ErgoShop.UI
         // Update is called once per frame
         private void Update()
         {
+            cotationTM.color = Color.black;
+
             if (myElement == null && !isUp && !isDown && !isLeft && !isRight && !isMeasure) Destroy(gameObject);
 
             if (!cotationField)

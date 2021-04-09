@@ -1200,6 +1200,7 @@ namespace ErgoShop.Managers
                 w.cotOne.decalTextOffset = 0f;
                 w.cotTwo.decalTextOffset = 0f;
             }
+
         }
 
         private void UpdateDetailedWallCotation(Wall w)
@@ -1214,8 +1215,7 @@ namespace ErgoShop.Managers
             if (w.detailedCotations.Count != totalCotsToHave)
             {
                 needAdd = true;
-                Debug.Log(
-                    "Reset detailed cotations because " + w.detailedCotations.Count + " versus " + totalCotsToHave);
+                Debug.Log("Reset detailed cotations because " + w.detailedCotations.Count + " versus " + totalCotsToHave);
                 foreach (var cot in w.detailedCotations) Destroy(cot.gameObject);
                 foreach (var cot in w.detailedCotations2) Destroy(cot.gameObject);
                 w.detailedCotations.Clear();

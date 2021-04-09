@@ -127,9 +127,14 @@ namespace ErgoShop.Managers
                 //{
                 //    cam3D.GetComponent<Camera3DMove>().SetTopView();
                 //}
-                cam3D.transform.localEulerAngles = Vector3.right * 90f;
-                cam3D.GetComponent<Camera3DMove>().SetPosition(VectorFunctions.Switch2D3D(
-                    cam2DTop.transform.position + Vector3.right * 2.5f, cam2DTop.transform.position.z * -1f));
+
+                ///<summary>
+                ///suivre la cam 2D
+                /// </summary>
+
+                //cam3D.transform.localEulerAngles = Vector3.right * 90f;
+                //cam3D.GetComponent<Camera3DMove>().SetPosition(VectorFunctions.Switch2D3D(
+                //    cam2DTop.transform.position + Vector3.right * 2.5f, cam2DTop.transform.position.z * -1f));
             }
             else if (m_mode == ViewMode.ThreeD)
             {
@@ -240,7 +245,11 @@ namespace ErgoShop.Managers
 
         public void QuitApp()
         {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
+#endif
         }
 
         #region view modes

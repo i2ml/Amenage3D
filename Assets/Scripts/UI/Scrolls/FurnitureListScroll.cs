@@ -15,6 +15,8 @@ namespace ErgoShop.UI
     {
         public GameObject OperationButtonPrefab;
 
+        public bool sortList = false;
+
         private ElementsScrollScript m_elemScroll;
 
         public static FurnitureListScroll Instance { get; private set; }
@@ -57,21 +59,27 @@ namespace ErgoShop.UI
             //}
 
             List<Furniture> allFurnitures = FurnitureCreator.Instance.GetFurnitures();
-            bool finish = false;
-            while (!finish)
+
+
+
+            if (sortList)
             {
-                //Aucun Ellement a trier
-                finish = true;
-
-                for (int i = 0; i < allFurnitures.Count - 1; i++)
+                bool finish = false;
+                while (!finish)
                 {
-                    if (allFurnitures[i].Name.CompareTo(allFurnitures[i + 1].Name) > 0)
-                    {
-                        finish = false; // quelque chose a trier 
+                    //Aucun Ellement a trier
+                    finish = true;
 
-                        Furniture furniture_tmp = allFurnitures[i + 1];
-                        allFurnitures[i + 1] = allFurnitures[i];
-                        allFurnitures[i] = furniture_tmp;
+                    for (int i = 0; i < allFurnitures.Count - 1; i++)
+                    {
+                        if (allFurnitures[i].Name.CompareTo(allFurnitures[i + 1].Name) > 0)
+                        {
+                            finish = false; // quelque chose a trier 
+
+                            Furniture furniture_tmp = allFurnitures[i + 1];
+                            allFurnitures[i + 1] = allFurnitures[i];
+                            allFurnitures[i] = furniture_tmp;
+                        }
                     }
                 }
             }
@@ -80,7 +88,7 @@ namespace ErgoShop.UI
 
             foreach (var furniture in allFurnitures)
             {
-                var btn = Instantiate(OperationButtonPrefab, m_elemScroll.Content);
+                GameObject btn = Instantiate(OperationButtonPrefab, m_elemScroll.Content);
 
                 btn.name = furniture.Name;
                 btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = furniture.Name;
@@ -93,6 +101,20 @@ namespace ErgoShop.UI
                     SelectedObjectManager.Instance.FocusOnSelection();
                 });
             }
+        }
+
+        /// <summary>
+        /// Return True if List is EMPTY
+        /// </summary>
+        /// <returns></returns>
+        public bool isEmpty()
+        {
+            int result = 0;
+            foreach (RectTransform child in m_elemScroll.Content)
+            {
+                result++;
+            }
+            return result > 0 ? false : true;
         }
     }
 }
