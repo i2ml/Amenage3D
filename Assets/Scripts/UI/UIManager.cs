@@ -241,7 +241,7 @@ namespace ErgoShop.Managers
         public void ShowFurnitureForm()
         {
             ResetTopForms();
-            //furnitureForm.SetActive(true);
+            furnitureForm.SetActive(true);
             selectedOption.transform.GetChild(2).gameObject.SetActive(true);
             SelectedObjectManager.Instance.ResetSelection();
             FloorPropertiesScript.Instance.LoadFloorsFromProject();
