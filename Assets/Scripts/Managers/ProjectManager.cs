@@ -537,6 +537,7 @@ namespace ErgoShop.Managers
             table1.Rows.Add(row1);
 
             foreach (var f in Project.Floors)
+            {
                 foreach (var fu in f.Furnitures)
                     if (fu.Type == "AideTechnique")
                     {
@@ -546,6 +547,7 @@ namespace ErgoShop.Managers
                         ro.Cells.Add(new odf.Cell(""));
                         table1.Rows.Add(ro);
                     }
+            }
 
             // If table is empty, add an empty line
             if (table1.Rows.Count == 1)

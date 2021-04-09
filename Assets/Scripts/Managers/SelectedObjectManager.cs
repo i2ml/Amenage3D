@@ -667,14 +667,14 @@ namespace ErgoShop.Managers
         {
             foreach (var f in currentFurnitureData)
             {
-                var s = f.Size;
-                var ms = f.MeshSize;
-                var sOnMs = new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z);
+                    var s = f.Size;
+                    var ms = f.MeshSize;
+                    var sOnMs = new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z);
 
-                f.associated3DObject.transform.localScale = sOnMs;
-                f.associated2DObject.transform.localScale = VectorFunctions.Switch3D2D(sOnMs) / f.ScaleModifier;
+                    f.associated3DObject.transform.localScale = sOnMs;
+                    f.associated2DObject.transform.localScale = VectorFunctions.Switch3D2D(sOnMs) / f.ScaleModifier;
 
-                f.AdjustSpriteSize();
+                    f.AdjustSpriteSize();
             }
 
             OperationsBufferScript.Instance.AddAutoSave("Changement taille de " + currentFurnitureData.Count +

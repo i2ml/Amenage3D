@@ -62,6 +62,7 @@ namespace ErgoShop.Managers
         {
             // RIGIDBODIES
             foreach (var f in m_furnituresData)
+            {
                 if (f != m_currentFurniture)
                 {
                     var rb = f.associated3DObject.GetComponent<Rigidbody>();
@@ -89,7 +90,7 @@ namespace ErgoShop.Managers
                     }
 
                     // update 2D position if moving
-                    if (f.associated3DObject?.GetComponent<Rigidbody>().velocity.magnitude > 0)
+                    if (f.associated3DObject?.GetComponent<Rigidbody>().velocity.magnitude > 0 && f.associated3DObject.activeSelf) //activeSelf Evite de deplacer l'objet 2D quand la 3d est masquer 
                     {
                         f.Position = f.associated3DObject.transform.position;
                         f.associated2DObject.transform.position =
@@ -101,6 +102,7 @@ namespace ErgoShop.Managers
 
                     f.text2D.transform.position = f.associated2DObject.transform.position;
                 }
+            }
 
             // In creation -> check view then position it
             if (m_currentFurniture != null)
