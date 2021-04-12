@@ -228,6 +228,7 @@ namespace ErgoShop.Managers
             m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
 
             m_furnituresData.Add(m_currentFurniture);
+
             FurnitureListScroll.Instance.UpdateList();
             SelectedObjectManager.Instance.Select(m_currentFurniture);
             SelectedObjectManager.Instance.PlaceFurniture(true);
@@ -364,6 +365,10 @@ namespace ErgoShop.Managers
                     m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
 
                     m_furnituresData.Add(m_currentFurniture);
+
+
+                   
+
                     FurnitureListScroll.Instance.UpdateList();
                     SelectedObjectManager.Instance.Select(m_currentFurniture);
                     SelectedObjectManager.Instance.PlaceFurniture(true);

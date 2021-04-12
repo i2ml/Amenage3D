@@ -571,7 +571,7 @@ namespace ErgoShop.Managers
                         if (m_currentTimerMove > moveFurnitureTimer)
                             foreach (var elem in m_elementsToMove)
                             {
-                                Debug.Log("Moving");
+                                //Debug.Log("Moving");
                                 if (elem.associated3DObject)
                                 {
                                     var rb = elem.associated3DObject.GetComponent<Rigidbody>();
@@ -589,7 +589,7 @@ namespace ErgoShop.Managers
                     // End pressing = stop update furniture position
                     if (Input.GetMouseButtonUp(0) && m_elementsToMove.Count > 0)
                     {
-                        Debug.Log("End moving");
+                       // Debug.Log("End moving");
                         if (m_elementsToMove.Any(elem => elem is Wall))
                         {
                             Debug.Log("Y AVAIT UN MUR AU MOINS");
