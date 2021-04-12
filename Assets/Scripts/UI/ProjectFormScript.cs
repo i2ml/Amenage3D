@@ -28,12 +28,14 @@ namespace ErgoShop.UI
         // Start is called before the first frame update
         private void Start()
         {
+            dateField.text = DateTime.Now.ToShortDateString();
+            SetDate(dateField.text);
         }
 
         // Update is called once per frame
         private void Update()
         {
-            if (dateField.text == "") dateField.text = DateTime.Now.ToShortDateString();
+
         }
 
         /// <summary>
@@ -79,6 +81,22 @@ namespace ErgoShop.UI
             try
             {
                 dt = DateTime.Parse(date);
+            }
+            catch (Exception e)
+            {
+                dt = DateTime.Now;
+            }
+
+            ProjectManager.Instance.Project.Date = dt;
+            dateField.text = ProjectManager.Instance.Project.Date.ToShortDateString();
+        }
+
+        public void SetDate()
+        {
+            var dt = DateTime.Now;
+            try
+            {
+                dt = DateTime.Parse(dt.ToString());
             }
             catch (Exception e)
             {
