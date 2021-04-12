@@ -106,11 +106,18 @@ namespace ErgoShop.POCO
         /// <param name="startingPos">where the users starts clicking</param>
         public virtual void Move(Vector3 startingPos)
         {
-            var cam = GlobalManager.Instance.GetActiveCamera();
+            Camera cam = GlobalManager.Instance.GetActiveCamera();
 
-            var tags = new List<string> {""};
-            if (IsOnWall) tags.Add("Wall");
-            else tags.Add("Ground");
+            List<string> tags = new List<string> { "" };
+
+            if (IsOnWall)
+            {
+                tags.Add("Wall");
+            }
+            else
+            {
+                tags.Add("Ground");
+            }
 
             if (CanBePutOnFurniture) tags.Add("Furniture");
 
@@ -118,7 +125,7 @@ namespace ErgoShop.POCO
 
             switch (cam.gameObject.layer)
             {
-                case (int) ErgoLayers.Top:
+                case (int)ErgoLayers.Top:
                     var pos2D = InputFunctions.GetWorldPoint(cam);
                     var closestProj = pos2D;
 
@@ -146,10 +153,10 @@ namespace ErgoShop.POCO
                             }
 
                         AssociatedElement = closestWall;
-                        var pos33D =
-                            VectorFunctions.Switch2D3D(closestProj -
-                                                       closestWall.Thickness * (closestProj - pos2D).normalized);
+                        Vector3 pos33D = VectorFunctions.Switch2D3D(closestProj - closestWall.Thickness * (closestProj - pos2D).normalized);
+
                         pos33D = pos33D + Position.y * Vector3.up;
+
                         // Repeat the 3D algo and readapt 2D                        
                         AdjustCurrentFurnitureWallPos3D(pos33D, closestWall.associated3DObject, startingPos);
                     }
@@ -182,10 +189,46 @@ namespace ErgoShop.POCO
                     if (text2D) text2D.transform.position = associated2DObject.transform.position;
 
                     break;
-                case (int) ErgoLayers.ThreeD:
+                case (int)ErgoLayers.ThreeD:
+                    Vector3 pos3D = InputFunctions.GetWorldPoint(cam);
+                    Vector3 closestProj3D = pos3D;
                     GameObject go;
-                    var pos3D = InputFunctions.GetWorldPoint(out go, cam, associated3DObject, tags.ToArray());
-                    AdjustCurrentFurnitureWallPos3D(pos3D, go, startingPos);
+
+                    if (IsOnWall)
+                    {
+                        Vector3 pos33D = InputFunctions.GetWorldPoint(out go, cam, associated3DObject, tags.ToArray());
+                        AdjustCurrentFurnitureWallPos3D(pos33D, go, startingPos);
+                    }
+                    else
+                    {
+                        //Fix a l'etage l'objet
+                        float tmpY = associated3DObject.transform.position.y;
+
+                        associated3DObject.transform.position += pos3D - startingPos;
+
+                        if (associated3DObject)
+                        {
+                            float y = 0;
+                            if (CanBePutOnFurniture)
+                            {
+                                var potentialFurniture = InputFunctions.GetHoveredObject2D(
+                                    GlobalManager.Instance.cam2DTop.GetComponent<Camera>(), associated2DObject.name,
+                                    true);
+                                if (potentialFurniture)
+                                {
+                                    var f = FurnitureCreator.Instance.GetFurnitureFromGameObject(potentialFurniture);
+                                    y = f.Position.y + f.Size.y;
+                                }
+                            }
+
+                           
+                            associated3DObject.transform.position = associated3DObject.transform.position;
+                            associated3DObject.transform.position = new Vector3(associated3DObject.transform.position.x, tmpY, associated3DObject.transform.position.z);
+
+                            associated2DObject.transform.position = new Vector3(associated3DObject.transform.position.x, associated3DObject.transform.position.z, associated2DObject.transform.position.z);
+                        }
+                    }
+
                     break;
             }
 
