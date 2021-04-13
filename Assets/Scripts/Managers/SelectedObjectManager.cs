@@ -1415,8 +1415,22 @@ namespace ErgoShop.Managers
                 Vector3 dirBack = currentCotation.is3D ? Vector3.back : Vector3.forward;
                 Vector3 dirUp = currentCotation.is3D ? Vector3.up : Vector3.forward;
                 Vector3 dirDown = currentCotation.is3D ? Vector3.down : Vector3.back;
+
                 Vector3 dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right * -1f : Vector3.left;
                 Vector3 dirRight = currentCotation.is3D ? me.associated3DObject.transform.right : Vector3.right;
+
+                //Quaternion RotObj = currentFurnitureData[0].associated3DObject.transform.rotation;
+                //if (Quaternion.Angle(RotObj, Quaternion.identity) < 90)
+                //{
+                //    dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right  : Vector3.left;
+                //    dirRight = currentCotation.is3D ? me.associated3DObject.transform.right * -1f  : Vector3.right;
+                //}
+                //else
+                //{
+                //    dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right : Vector3.left;
+                //    dirRight = currentCotation.is3D ? me.associated3DObject.transform.right * -1f : Vector3.right;
+                //}
+
 
                 if (currentCotation.isUp)
                 {
@@ -1435,16 +1449,14 @@ namespace ErgoShop.Managers
                 else if (currentCotation.isLeft)
                 {
                     if (currentFurnitureData[0].IsOnWall)
-                        me.Position = me.Position
-                                      + dirLeft * diff / 100f;
+                        me.Position = me.Position + dirLeft * diff / 100f;
                     else
                         me.Position = me.Position + Vector3.left * diff / 100f;
                 }
                 else if (currentCotation.isRight)
                 {
                     if (currentFurnitureData[0].IsOnWall)
-                        me.Position = me.Position
-                                      + dirRight * diff / 100f;
+                        me.Position = me.Position + dirRight * diff / 100f;
                     else
                         me.Position = me.Position + Vector3.right * diff / 100f;
                 }

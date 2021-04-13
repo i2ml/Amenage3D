@@ -281,16 +281,16 @@ namespace ErgoShop.Managers
         private void AdjustWallOpening(bool isWindow)
         {
             // Tricks to get mesh size
-            var winwin = Instantiate(window3DPrefab);
-            var doordoor = Instantiate(door3DPrefab);
-            var openingSize = isWindow ? winwin.MeshSize() : doordoor.MeshSize();
+            GameObject winwin = Instantiate(window3DPrefab);
+            GameObject doordoor = Instantiate(door3DPrefab);
+            Vector3 openingSize = isWindow ? winwin.MeshSize() : doordoor.MeshSize();
 
             Destroy(winwin);
             Destroy(doordoor);
 
             openingSize = VectorFunctions.InvertXZ(openingSize);
             // 
-            var heightWindow = isWindow ? 1.1f : 0f;
+            float heightWindow = isWindow ? 1.1f : 0f;
 
             // New one, create it !
             if (m_currentWallOpeningData == null)
@@ -1683,7 +1683,7 @@ namespace ErgoShop.Managers
         /// <param name="newPosition"></param>
         public void UpdateWallOpeningPosition(WallOpening wo)
         {
-            Debug.Log("MOVE WALLOPENING");
+            //Debug.Log("MOVE WALLOPENING");
             Vector3 pos;
             //test if we are in 2d or 3D
             if (GlobalManager.Instance.GetActiveCamera().gameObject.layer != (int)ErgoLayers.ThreeD)

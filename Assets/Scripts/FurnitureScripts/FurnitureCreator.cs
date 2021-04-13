@@ -366,14 +366,9 @@ namespace ErgoShop.Managers
 
                     m_furnituresData.Add(m_currentFurniture);
 
-
-                   
-
                     FurnitureListScroll.Instance.UpdateList();
                     SelectedObjectManager.Instance.Select(m_currentFurniture);
                     SelectedObjectManager.Instance.PlaceFurniture(true);
-
-
 
                     //OperationsBufferScript.Instance.AddAutoSave("Ajout de " + m_currentFurniture.Name);
                 }

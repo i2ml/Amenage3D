@@ -190,16 +190,8 @@ namespace ErgoShop.UI
             SelectedObjectManager.Instance.UpdateFurnitureName();
             UpdateFurnitureProperties();
 
-
-
             //to do..
             //REfresh Hyrachies Scene
-
-
-
-
-
-
 
         }
 
