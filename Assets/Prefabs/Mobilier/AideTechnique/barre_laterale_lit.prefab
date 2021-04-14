@@ -51,5 +51,5 @@ MonoBehaviour:
   canBePutOnFurniture: 1
   furnitureName: barre_appui_angulaire
   furnitureType: AideTechnique
-  resourceName: barre_appui_angulaire
+  resourceName: barre_laterale_lit
   scaleRatio: 0.2

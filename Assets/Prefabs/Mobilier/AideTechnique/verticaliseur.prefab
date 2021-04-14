@@ -51,5 +51,5 @@ MonoBehaviour:
   canBePutOnFurniture: 1
   furnitureName: verticaliseur
   furnitureType: AideTechnique
-  resourceName: verticaliseur
+  resourceName: verticalisateur
   scaleRatio: 0.2

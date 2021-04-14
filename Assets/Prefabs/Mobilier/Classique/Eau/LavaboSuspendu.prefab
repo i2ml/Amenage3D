@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1465894742697047800}
   - component: {fileID: 8842113374615341638}
   m_Layer: 0
-  m_Name: deambulateur
+  m_Name: LavaboSuspendu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,13 +43,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668f64b5382593d48a5a928cfeae45c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  furniture2DTop: {fileID: 8936236279412021272, guid: 96ec959208641734b938e96a7158154b,
+  furniture2DTop: {fileID: 3989440521518837041, guid: 139fe44085e3fd24db086009482b1b9c,
     type: 3}
-  furniture3D: {fileID: 707411876812554553, guid: d08517cfad8c6cb4f8779785554a3707,
-    type: 3}
-  isOnWall: 0
-  canBePutOnFurniture: 1
-  furnitureName: deambulateur
-  furnitureType: AideTechnique
-  resourceName: deambulateur
-  scaleRatio: 0.2
+  furniture3D: {fileID: 156952, guid: e875c7188995d6b4a8b5cf70a67792c6, type: 3}
+  isOnWall: 1
+  canBePutOnFurniture: 0
+  furnitureName: Lavabo-Suspendu
+  furnitureType: Eau
+  resourceName: Lavabo-Suspendu
+  scaleRatio: 1

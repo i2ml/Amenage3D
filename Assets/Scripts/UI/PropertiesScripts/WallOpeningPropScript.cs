@@ -121,6 +121,25 @@ namespace ErgoShop.UI
             UpdateWallOpeningProperties();
         }
 
+        public void SetIsSlideDoor(bool v)
+        {
+            foreach (var wo in SelectedObjectManager.Instance.currentWallOpenings)
+            {
+                SladingDoor slading = wo.associated3DObject.GetComponentInChildren<SladingDoor>();
+                slading.isSladingDoor = v;
+                wo.associated3DObject.GetComponentInChildren<MeshRenderer>().enabled = !v;
+            }
+        }
+
+        public void SetIsDoorOpeen(bool v)
+        {
+            foreach (var wo in SelectedObjectManager.Instance.currentWallOpenings)
+            {
+                SladingDoor slading = wo.associated3DObject.GetComponentInChildren<SladingDoor>();
+                slading.isOpen = v;
+            }
+        }
+
         public void SetIsLeft(bool v)
         {
             foreach (var wo in SelectedObjectManager.Instance.currentWallOpenings) wo.IsLeft = v;

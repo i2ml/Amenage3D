@@ -65,7 +65,9 @@ namespace ErgoShop.Managers
             {
                 if (f != m_currentFurniture)
                 {
+                    //if (f.associated3DObject == null) { return; }
                     var rb = f.associated3DObject.GetComponent<Rigidbody>();
+                    
                     // Freeze all except if its current selected furniture
                     if (SelectedObjectManager.Instance.currentFurnitureData.Count == 1
                         && SelectedObjectManager.Instance.currentFurnitureData[0] == f)
@@ -228,6 +230,7 @@ namespace ErgoShop.Managers
             m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
 
             m_furnituresData.Add(m_currentFurniture);
+
             FurnitureListScroll.Instance.UpdateList();
             SelectedObjectManager.Instance.Select(m_currentFurniture);
             SelectedObjectManager.Instance.PlaceFurniture(true);
@@ -364,11 +367,10 @@ namespace ErgoShop.Managers
                     m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
 
                     m_furnituresData.Add(m_currentFurniture);
+
                     FurnitureListScroll.Instance.UpdateList();
                     SelectedObjectManager.Instance.Select(m_currentFurniture);
                     SelectedObjectManager.Instance.PlaceFurniture(true);
-
-
 
                     //OperationsBufferScript.Instance.AddAutoSave("Ajout de " + m_currentFurniture.Name);
                 }

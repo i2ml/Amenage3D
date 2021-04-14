@@ -116,5 +116,16 @@ namespace ErgoShop.UI
             }
             return result > 0 ? false : true;
         }
+
+        public List<GameObject> getContent()
+        {
+            List<GameObject> gm_result = new List<GameObject>();
+            for (var i = 0; i < m_elemScroll.Content.childCount; i++)
+            {
+                    gm_result.Add(m_elemScroll.Content.GetChild(i).gameObject);
+            }
+
+            return gm_result;
+        }
     }
 }

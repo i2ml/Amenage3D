@@ -19,6 +19,7 @@ TagManager:
   - Helper
   - ElementArrow
   - Character
+  - Titre
   layers:
   - Default
   - TransparentFX

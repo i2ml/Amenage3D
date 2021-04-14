@@ -571,17 +571,23 @@ namespace ErgoShop.Managers
                         if (m_currentTimerMove > moveFurnitureTimer)
                             foreach (var elem in m_elementsToMove)
                             {
-                                Debug.Log("Moving");
+                                //Debug.Log("Moving");
                                 if (elem.associated3DObject)
                                 {
-                                    var rb = elem.associated3DObject.GetComponent<Rigidbody>();
-                                    if (rb) rb.constraints = RigidbodyConstraints.FreezeAll;
+                                    Rigidbody rb = elem.associated3DObject.GetComponent<Rigidbody>();
+
+                                    if (rb != null)
+                                    {
+                                        rb.constraints = RigidbodyConstraints.FreezeAll;
+                                    }
                                 }
 
                                 elem.Move(m_startingMovePos);
                             }
                         else
+                        {
                             m_currentTimerMove += Time.deltaTime;
+                        }
 
                         m_startingMovePos = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
                     }
@@ -589,10 +595,10 @@ namespace ErgoShop.Managers
                     // End pressing = stop update furniture position
                     if (Input.GetMouseButtonUp(0) && m_elementsToMove.Count > 0)
                     {
-                        Debug.Log("End moving");
+                        // Debug.Log("End moving");
                         if (m_elementsToMove.Any(elem => elem is Wall))
                         {
-                            Debug.Log("Y AVAIT UN MUR AU MOINS");
+                            //Debug.Log("Y AVAIT UN MUR AU MOINS");
                             WallsCreator.Instance.CheckRoomsFusion();
                         }
 
@@ -667,14 +673,14 @@ namespace ErgoShop.Managers
         {
             foreach (var f in currentFurnitureData)
             {
-                    var s = f.Size;
-                    var ms = f.MeshSize;
-                    var sOnMs = new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z);
+                var s = f.Size;
+                var ms = f.MeshSize;
+                var sOnMs = new Vector3(s.x / ms.x, s.y / ms.y, s.z / ms.z);
 
-                    f.associated3DObject.transform.localScale = sOnMs;
-                    f.associated2DObject.transform.localScale = VectorFunctions.Switch3D2D(sOnMs) / f.ScaleModifier;
+                f.associated3DObject.transform.localScale = sOnMs;
+                f.associated2DObject.transform.localScale = VectorFunctions.Switch3D2D(sOnMs) / f.ScaleModifier;
 
-                    f.AdjustSpriteSize();
+                f.AdjustSpriteSize();
             }
 
             OperationsBufferScript.Instance.AddAutoSave("Changement taille de " + currentFurnitureData.Count +
@@ -1356,10 +1362,11 @@ namespace ErgoShop.Managers
         public void UpdateCurrentCotation(string value)
         {
             float res = 0;
-            var ok = ParsingFunctions.ParseFloatCommaDot(value, out res);
-            if (!ok) return;
+            bool ok = ParsingFunctions.ParseFloatCommaDot(value, out res);
 
-            var diff = currentCotation.Length * 100f - res;
+            if (!ok) { return; }
+
+            float diff = currentCotation.Length * 100f - res;
 
             if (currentCotation.cotationField == null)
                 foreach (var inf in FindObjectsOfType<InputField>())
@@ -1378,8 +1385,7 @@ namespace ErgoShop.Managers
 
                     float sens = dot < 0 ? 1 : -1;
 
-                    Vector2 newPos = currentWallOpenings[0].Position -
-                                     diff * currentWallOpenings[0].Wall.Direction * sens / 100f;
+                    Vector2 newPos = currentWallOpenings[0].Position - diff * currentWallOpenings[0].Wall.Direction * sens / 100f;
                     WallsCreator.Instance.UpdateWallOpeningPosition(currentWallOpenings[0], newPos);
                 }
                 // WALL
@@ -1396,52 +1402,73 @@ namespace ErgoShop.Managers
             else if (currentFurnitureData.Count == 1 || currentStairs.Count == 1)
             {
                 MovableElement me;
-                if (currentFurnitureData.Count == 1) me = currentFurnitureData[0];
-                else me = currentStairs[0];
-                var dirForward = currentCotation.is3D ? Vector3.forward : Vector3.back;
-                var dirBack = currentCotation.is3D ? Vector3.back : Vector3.forward;
-                var dirUp = currentCotation.is3D ? Vector3.up : Vector3.forward;
-                var dirDown = currentCotation.is3D ? Vector3.down : Vector3.back;
-                var dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right * -1f : Vector3.left;
-                var dirRight = currentCotation.is3D ? me.associated3DObject.transform.right : Vector3.right;
+                if (currentFurnitureData.Count == 1)
+                {
+                    me = currentFurnitureData[0];
+                }
+                else
+                {
+                    me = currentStairs[0];
+                }
+
+                Vector3 dirForward = currentCotation.is3D ? Vector3.forward : Vector3.back;
+                Vector3 dirBack = currentCotation.is3D ? Vector3.back : Vector3.forward;
+                Vector3 dirUp = currentCotation.is3D ? Vector3.up : Vector3.forward;
+                Vector3 dirDown = currentCotation.is3D ? Vector3.down : Vector3.back;
+
+                Vector3 dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right * -1f : Vector3.left;
+                Vector3 dirRight = currentCotation.is3D ? me.associated3DObject.transform.right : Vector3.right;
+
+                //Quaternion RotObj = currentFurnitureData[0].associated3DObject.transform.rotation;
+                //if (Quaternion.Angle(RotObj, Quaternion.identity) < 90)
+                //{
+                //    dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right  : Vector3.left;
+                //    dirRight = currentCotation.is3D ? me.associated3DObject.transform.right * -1f  : Vector3.right;
+                //}
+                //else
+                //{
+                //    dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right : Vector3.left;
+                //    dirRight = currentCotation.is3D ? me.associated3DObject.transform.right * -1f : Vector3.right;
+                //}
+
 
                 if (currentCotation.isUp)
                 {
                     if (currentFurnitureData[0].IsOnWall)
-                        me.Position = me.Position
-                                      + dirUp * diff / 100f;
+                        me.Position = me.Position + dirUp * diff / 100f;
                     else
                         me.Position = me.Position + dirBack * diff / 100f;
                 }
                 else if (currentCotation.isDown)
                 {
                     if (currentFurnitureData[0].IsOnWall)
-                        me.Position = me.Position
-                                      + dirDown * diff / 100f;
+                        me.Position = me.Position + dirDown * diff / 100f;
                     else
                         me.Position = me.Position + dirForward * diff / 100f;
                 }
                 else if (currentCotation.isLeft)
                 {
                     if (currentFurnitureData[0].IsOnWall)
-                        me.Position = me.Position
-                                      + dirLeft * diff / 100f;
+                        me.Position = me.Position + dirLeft * diff / 100f;
                     else
                         me.Position = me.Position + Vector3.left * diff / 100f;
                 }
                 else if (currentCotation.isRight)
                 {
                     if (currentFurnitureData[0].IsOnWall)
-                        me.Position = me.Position
-                                      + dirRight * diff / 100f;
+                        me.Position = me.Position + dirRight * diff / 100f;
                     else
                         me.Position = me.Position + Vector3.right * diff / 100f;
                 }
 
                 me.associated3DObject.transform.position = me.Position;
-                me.associated2DObject.transform.position =
-                    VectorFunctions.GetExactPositionFrom3DObject(me.associated2DObject, me.associated3DObject,
-                        me.Position);
+                me.associated2DObject.transform.position = VectorFunctions.GetExactPositionFrom3DObject
+                    (
+                        me.associated2DObject,
+                        me.associated3DObject,
+                        me.Position
+                    );
+
                 StartCoroutine(Adjust2DElementFrom3DCoroutine(me));
                 //VectorFunctions.Switch3D2D(me.Position);
             }

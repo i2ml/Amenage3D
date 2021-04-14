@@ -265,7 +265,7 @@ namespace ErgoShop.POCO
             switch (cam.gameObject.layer)
             {
                 case (int) ErgoLayers.Top:
-                    Debug.Log("Moving Wall !!");
+                    //Debug.Log("Moving Wall !!");
                     var pos2D = InputFunctions.GetWorldPoint2D(cam);
                     var r = SelectedObjectManager.Instance.currentRoomData;
                     var roomMod = r == null ? 1f : r.LockAngles ? 1f / 4f : 1f / 2f;
