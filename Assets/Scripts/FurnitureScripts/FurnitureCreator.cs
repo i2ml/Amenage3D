@@ -65,7 +65,9 @@ namespace ErgoShop.Managers
             {
                 if (f != m_currentFurniture)
                 {
+                    //if (f.associated3DObject == null) { return; }
                     var rb = f.associated3DObject.GetComponent<Rigidbody>();
+                    
                     // Freeze all except if its current selected furniture
                     if (SelectedObjectManager.Instance.currentFurnitureData.Count == 1
                         && SelectedObjectManager.Instance.currentFurnitureData[0] == f)

@@ -346,15 +346,20 @@ namespace ErgoShop.Managers
             }
             else
             {
-                if (m_creating) AdjustRoom();
+                if (m_creating)
+                {
+                    AdjustRoom();
+                }
             }
 
             //Annule la creation de la room 
-            if (Input.GetMouseButtonDown(1))
+            if (/*Input.GetMouseButtonDown(1)*/ Input.GetButtonDown("Cancel"))
             {
                 CancelRoom();
             }
-            if (Input.GetMouseButtonDown(0) && !InputFunctions.IsMouseOutsideUI())
+
+            if ((Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1)) &&
+                !InputFunctions.IsMouseOutsideUI())
             {
                 CancelRoom();
             }

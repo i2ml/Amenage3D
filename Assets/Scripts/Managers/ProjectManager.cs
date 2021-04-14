@@ -713,7 +713,12 @@ namespace ErgoShop.Managers
         public bool LoadProjectForReal()
         {
             filePath = FileBrowser.OpenSingleFile("json");
-            if (filePath == "") return false;
+
+            if (filePath == "")
+            {
+                return false;
+            }
+
             var jsonString = File.ReadAllText(filePath);
 
             SelectedObjectManager.Instance.ResetSelection();
@@ -721,6 +726,7 @@ namespace ErgoShop.Managers
             var settings = new JsonSerializerSettings();
             settings.Converters.Add(new ColorConverter());
             settings.Converters.Add(new QuaternionConverter());
+
             Project = JsonConvert.DeserializeObject<Project>(jsonString, settings);
 
             LoadFromCurrentFloor();

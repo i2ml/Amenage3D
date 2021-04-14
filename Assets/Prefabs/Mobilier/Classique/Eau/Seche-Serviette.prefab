@@ -48,7 +48,7 @@ MonoBehaviour:
   furniture3D: {fileID: 156952, guid: 816e9f7feb0748048ba1de8cbfc6aa04, type: 3}
   isOnWall: 1
   canBePutOnFurniture: 0
-  furnitureName: "S\xE9che-Serviette"
+  furnitureName: Seche-Serviette
   furnitureType: Eau
-  resourceName: "S\xE9che-Serviette"
+  resourceName: BathStand
   scaleRatio: 1
