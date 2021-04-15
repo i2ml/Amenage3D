@@ -17,6 +17,7 @@ namespace ErgoShop.UI
         public InputField woXField, woYField;
         public InputField woWindowHeightField;
         public Toggle woIsDoubleToggle, woIsFlippedToggle, woIsLeftToggle;
+        public Toggle woIsOpeenToggle, woIsSlideDoorToggle;
 
         private bool m_needsUpdate;
         public static WallOpeningPropScript Instance { get; private set; }
@@ -30,6 +31,7 @@ namespace ErgoShop.UI
         // Update is called once per frame
         private void Update()
         {
+
             foreach (var wo in SelectedObjectManager.Instance.currentWallOpenings)
                 if (CheckPropertiesBindings(wo))
                     UIManager.Instance.instructionsText.text =
@@ -55,6 +57,14 @@ namespace ErgoShop.UI
                     woIsFlippedToggle.isOn = wo.IsPull;
                     woIsLeftToggle.isOn = wo.IsLeft;
                     woIsLeftToggle.transform.parent.gameObject.SetActive(!wo.IsDouble);
+
+
+                    //woIsOpeenToggle.isOn = wo.IsOpeenDoor;
+                    //woIsOpeenToggle.transform.parent.gameObject.SetActive(!wo.IsWindow);
+
+                    woIsSlideDoorToggle.isOn = wo.IsSlideDoor;
+                    woIsSlideDoorToggle.transform.parent.gameObject.SetActive(!wo.IsWindow);
+
 
                     if (wo.IsWindow)
                     {
@@ -126,18 +136,21 @@ namespace ErgoShop.UI
             foreach (var wo in SelectedObjectManager.Instance.currentWallOpenings)
             {
                 SladingDoor slading = wo.associated3DObject.GetComponentInChildren<SladingDoor>();
+                wo.IsSlideDoor = v;
                 slading.isSladingDoor = v;
                 wo.associated3DObject.GetComponentInChildren<MeshRenderer>().enabled = !v;
             }
+
+            UpdateWallOpeningProperties();
         }
 
         public void SetIsDoorOpeen(bool v)
         {
-            foreach (var wo in SelectedObjectManager.Instance.currentWallOpenings)
-            {
-                SladingDoor slading = wo.associated3DObject.GetComponentInChildren<SladingDoor>();
-                slading.isOpen = v;
-            }
+            //foreach (var wo in SelectedObjectManager.Instance.currentWallOpenings)
+            //{
+            //    SladingDoor slading = wo.associated3DObject.GetComponentInChildren<SladingDoor>();
+            //    slading.isOpen = v;
+            //}
         }
 
         public void SetIsLeft(bool v)

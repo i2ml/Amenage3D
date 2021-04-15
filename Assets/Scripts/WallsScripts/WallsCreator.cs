@@ -57,6 +57,7 @@ namespace ErgoShop.Managers
         // Editor affectation
         public GameObject wall3DPrefab,
             door3DPrefab,
+            slidedoor3DPrefab,
             door2DPrefab,
             simpleWindow3DPrefab,
             window3DPrefab,
@@ -156,6 +157,10 @@ namespace ErgoShop.Managers
                         wb.ActiveDoor();
                         ProcessWallOpening(false);
                         break;
+                    case WallType.SlideDoor:
+                        wb.ActiveDoor();
+                        ProcessWallOpening(false,true);
+                        break;
                     case WallType.Window:
                         wb.ActiveWindow();
                         ProcessWallOpening(true);
@@ -207,10 +212,10 @@ namespace ErgoShop.Managers
         ///     Creation wall opening
         /// </summary>
         /// <param name="isWindow"></param>
-        private void ProcessWallOpening(bool isWindow)
+        private void ProcessWallOpening(bool isWindow, bool _isSlidingDoor = false)
         {
             // Door always along a wall
-            AdjustWallOpening(isWindow);
+            AdjustWallOpening(isWindow, _isSlidingDoor);
 
             // Validate door position
             if (Input.GetMouseButtonUp(0) && InputFunctions.IsMouseOutsideUI()) SetWallOpeningEnd(isWindow);
@@ -266,19 +271,43 @@ namespace ErgoShop.Managers
             wOpening2D.tag = "WallOpening";
             wo.associated2DObject = wOpening2D;
 
-            var wOpening3D = wo.IsWindow
-                ? wo.IsDouble ? Instantiate(window3DPrefab) : Instantiate(simpleWindow3DPrefab)
-                : Instantiate(door3DPrefab);
+            GameObject wOpening3D = null;
+            if (wo.IsWindow)
+            {
+                if (wo.IsDouble)
+                {
+                    wOpening3D = Instantiate(window3DPrefab);
+                }
+                else
+                {
+                    wOpening3D = Instantiate(simpleWindow3DPrefab);
+                }
+            }
+            else
+            {
+                if (wo.IsSlideDoor)
+                {
+                    wOpening3D = Instantiate(slidedoor3DPrefab);
+                }
+                else
+                {
+                    wOpening3D = Instantiate(door3DPrefab);
+                }
+            }
+
+
             wOpening3D.SetLayerRecursively((int)ErgoLayers.ThreeD);
             wOpening3D.tag = "WallOpening";
             wo.associated3DObject = wOpening3D;
+
+            //wo.IsOpeenDoor
         }
 
         /// <summary>
         ///     Adjust during creation (first move)
         /// </summary>
         /// <param name="isWindow"></param>
-        private void AdjustWallOpening(bool isWindow)
+        private void AdjustWallOpening(bool isWindow,bool _isSlidingDoor)
         {
             // Tricks to get mesh size
             GameObject winwin = Instantiate(window3DPrefab);
@@ -300,7 +329,8 @@ namespace ErgoShop.Managers
                     IsWindow = isWindow,
                     WindowHeight = heightWindow,
                     Size = openingSize,
-                    IsDouble = isWindow
+                    IsDouble = isWindow,
+                    IsSlideDoor = _isSlidingDoor,
                 };
                 m_currentWallOpeningData.RebuildSceneData();
             }
@@ -796,7 +826,7 @@ namespace ErgoShop.Managers
                 foreach (var w2 in m_wallsData)
                     StickWalls(w, w2);
 
-            //foreach(var w in m_wallsData)
+
 
             foreach (var w in m_wallsData) AdjustWallVertices(w);
 
@@ -1503,6 +1533,12 @@ namespace ErgoShop.Managers
         {
             GlobalManager.Instance.Set2DTopMode();
             m_creationMode = WallType.Door;
+        }
+
+        public void CreateSlideDoor()
+        {
+            GlobalManager.Instance.Set2DTopMode();
+            m_creationMode = WallType.SlideDoor;
         }
 
         public void CreateWindow()
