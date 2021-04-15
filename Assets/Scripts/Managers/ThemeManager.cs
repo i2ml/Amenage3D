@@ -17,23 +17,28 @@ public class ThemeManager : MonoBehaviour
     public THEMEAMENAGE3D Theme = THEMEAMENAGE3D.Default;
 
     [SerializeField] private GameObject backGround = null;
+    [SerializeField] private GameObject backGround3D = null;
 
     public void ChangeTheme(THEMEAMENAGE3D _NewTheme)
     {
         Theme = (THEMEAMENAGE3D)_NewTheme;
-        Debug.Log(Theme.ToString());
+        //Debug.Log(Theme.ToString());
         switch (Theme)
         {
             case THEMEAMENAGE3D.Default:
                 if (backGround)
                 {
                     backGround.GetComponent<SpriteRenderer>().color = DefaultColor;
+
+                    backGround3D.GetComponent<Renderer>().material.color = DefaultColor;
                 }
                 break;
             case THEMEAMENAGE3D.Sombre:
                 if (backGround)
                 {
                     backGround.GetComponent<SpriteRenderer>().color = ThemeSombre;
+
+                    backGround3D.GetComponent<Renderer>().material.color = ThemeSombre;
                 }
                 break;
             default:
