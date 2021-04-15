@@ -22,9 +22,12 @@ namespace ErgoShop.Managers
         ///     Element hovered by the mouse, outlined in blue
         /// </summary>
         public GameObject currentHoveredElementGo;
+        public GameObject currentObjectSelect;
 
         public CotationsScript currentCotation;
 
+        [SerializeField] private GameObject go_Fleche3D = null;
+        [SerializeField] private GameObject go_Fleche2D = null;
 
         public float doubleClickSpeed = 0.25f;
 
@@ -79,6 +82,8 @@ namespace ErgoShop.Managers
 
         public static SelectedObjectManager Instance { get; private set; }
 
+        private GlobalManager Sc_GlobalManager = null;
+
         private void Awake()
         {
             Instance = this;
@@ -100,6 +105,43 @@ namespace ErgoShop.Managers
             m_elementsToMove = new List<MovableElement>();
             m_timerDoucleClick = 0;
             cotations3D = FindObjectOfType<CurrentCotation3DScript>();
+
+            Sc_GlobalManager = GlobalManager.Instance;
+        }
+
+        private void UpdateFleches()
+        {
+            if (currentObjectSelect != null)
+            {
+                if (Sc_GlobalManager)
+                {
+                    switch (Sc_GlobalManager.GetCurrentMode())
+                    {
+                        case ViewMode.Top:
+                            go_Fleche2D.SetActive(true);
+
+                            go_Fleche2D.transform.position = currentObjectSelect.transform.position ;
+                            go_Fleche2D.transform.rotation = currentObjectSelect.transform.rotation;
+                            //go_Fleche2D.transform.localScale = new Vector3(3, 3, 3);
+                            break;
+                        case ViewMode.ThreeD:
+                            go_Fleche3D.SetActive(true);
+
+                            go_Fleche3D.transform.position = currentObjectSelect.transform.position + Vector3.up;
+                            go_Fleche3D.transform.rotation = currentObjectSelect.transform.rotation;
+                            //go_Fleche3D.transform.localScale = new Vector3(3, 3, 3);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                go_Fleche3D.SetActive(false);
+                go_Fleche2D.SetActive(false);
+            }
+
         }
 
         /// <summary>
@@ -207,6 +249,9 @@ namespace ErgoShop.Managers
                     currentCotation.cotationField.transform.position = uiPos;
                 }
             }
+
+            //update Gizmo 
+            UpdateFleches();
         }
 
         /// <summary>
@@ -376,6 +421,9 @@ namespace ErgoShop.Managers
         {
             if (Input.GetMouseButtonUp(0))
             {
+                currentObjectSelect = GetHoveredGameObject();
+
+
                 var go = GetHoveredGameObject();
                 // Check view mode and do raycast
 
