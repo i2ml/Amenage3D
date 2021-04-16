@@ -12,6 +12,13 @@ using UnityEngine.UI;
 
 namespace ErgoShop.Managers
 {
+    public enum DIRECTION
+    {
+        FOWARD,
+        RIGHT,
+        UP
+    }
+
     /// <summary>
     ///     Select objects and update properties
     ///     Works with EVERY type of Element
@@ -22,9 +29,12 @@ namespace ErgoShop.Managers
         ///     Element hovered by the mouse, outlined in blue
         /// </summary>
         public GameObject currentHoveredElementGo;
+        public GameObject currentObjectSelect;
 
         public CotationsScript currentCotation;
 
+        [SerializeField] private GameObject go_Fleche3D = null;
+        [SerializeField] private GameObject go_Fleche2D = null;
 
         public float doubleClickSpeed = 0.25f;
 
@@ -79,6 +89,8 @@ namespace ErgoShop.Managers
 
         public static SelectedObjectManager Instance { get; private set; }
 
+        private GlobalManager Sc_GlobalManager = null;
+
         private void Awake()
         {
             Instance = this;
@@ -100,6 +112,43 @@ namespace ErgoShop.Managers
             m_elementsToMove = new List<MovableElement>();
             m_timerDoucleClick = 0;
             cotations3D = FindObjectOfType<CurrentCotation3DScript>();
+
+            Sc_GlobalManager = GlobalManager.Instance;
+        }
+
+        private void UpdateFleches()
+        {
+            if (currentObjectSelect != null)
+            {
+                if (Sc_GlobalManager)
+                {
+                    switch (Sc_GlobalManager.GetCurrentMode())
+                    {
+                        case ViewMode.Top:
+                            go_Fleche2D.SetActive(true);
+
+                            go_Fleche2D.transform.position = currentObjectSelect.transform.position;
+                            go_Fleche2D.transform.rotation = currentObjectSelect.transform.rotation;
+                            //go_Fleche2D.transform.localScale = new Vector3(3, 3, 3);
+                            break;
+                        case ViewMode.ThreeD:
+                            go_Fleche3D.SetActive(true);
+
+                            go_Fleche3D.transform.position = currentObjectSelect.transform.position + Vector3.up;
+                            go_Fleche3D.transform.rotation = currentObjectSelect.transform.rotation;
+                            //go_Fleche3D.transform.localScale = new Vector3(3, 3, 3);
+                            break;
+                        default:
+                            break;
+                    }
+                }
+            }
+            else
+            {
+                go_Fleche3D.SetActive(false);
+                go_Fleche2D.SetActive(false);
+            }
+
         }
 
         /// <summary>
@@ -207,6 +256,9 @@ namespace ErgoShop.Managers
                     currentCotation.cotationField.transform.position = uiPos;
                 }
             }
+
+            //update Gizmo 
+            UpdateFleches();
         }
 
         /// <summary>
@@ -376,6 +428,9 @@ namespace ErgoShop.Managers
         {
             if (Input.GetMouseButtonUp(0))
             {
+                currentObjectSelect = GetHoveredGameObject();
+
+
                 var go = GetHoveredGameObject();
                 // Check view mode and do raycast
 
@@ -583,6 +638,89 @@ namespace ErgoShop.Managers
                                 }
 
                                 elem.Move(m_startingMovePos);
+                            }
+                        else
+                        {
+                            m_currentTimerMove += Time.deltaTime;
+                        }
+
+                        m_startingMovePos = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
+                    }
+
+                    // End pressing = stop update furniture position
+                    if (Input.GetMouseButtonUp(0) && m_elementsToMove.Count > 0)
+                    {
+                        // Debug.Log("End moving");
+                        if (m_elementsToMove.Any(elem => elem is Wall))
+                        {
+                            //Debug.Log("Y AVAIT UN MUR AU MOINS");
+                            WallsCreator.Instance.CheckRoomsFusion();
+                        }
+
+                        m_elementsToMove.Clear();
+                        m_currentTimerMove = 0f;
+                        OperationsBufferScript.Instance.AddAutoSave("Déplacement d'un élément");
+                    }
+                }
+        }
+
+        public void MoveElementsbyDirection(int _dir)
+        {
+            DIRECTION Direction = (DIRECTION)_dir;
+
+            if (m_currentPlacingFurniture != null)
+                PlaceFurniture();
+            else if (InputFunctions.IsMouseOutsideUI())
+                // (movableelements)
+                if (currentSelectedElements.Where(e => e is MovableElement).Count() == currentSelectedElements.Count)
+                {
+                    // Click on current movable element = start to move it
+                    var go = InputFunctions.GetHoveredObject(GlobalManager.Instance.GetActiveCamera());
+                    if (Input.GetMouseButtonDown(0) && IsGoInSelectedElements(go))
+                    {
+                        foreach (var elem in currentSelectedElements)
+                            if (!m_elementsToMove.Contains(elem))
+                                m_elementsToMove.Add(elem as MovableElement);
+                        m_startingMovePos = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
+                    }
+
+                    // Cant move if several elements and one of them at least is on wall
+                    var onlyOneWall = m_elementsToMove.Count == 1 ||
+                                      m_elementsToMove.Where(m => m is Furniture && (m as Furniture).IsOnWall)
+                                          .Count() == 0;
+                    // while pressed, update furniture position
+                    if (Input.GetMouseButton(0) && m_elementsToMove.Count > 0 &&
+                        m_elementsToMove.Where(m => m.IsLocked).Count() == 0 && onlyOneWall)
+                    {
+                        if (m_currentTimerMove > moveFurnitureTimer)
+                            foreach (var elem in m_elementsToMove)
+                            {
+                                //Debug.Log("Moving");
+                                if (elem.associated3DObject)
+                                {
+                                    Rigidbody rb = elem.associated3DObject.GetComponent<Rigidbody>();
+
+                                    if (rb != null)
+                                    {
+                                        rb.constraints = RigidbodyConstraints.FreezeAll;
+                                    }
+                                }
+
+                                switch (Direction)
+                                {
+                                    case DIRECTION.FOWARD:
+                                        elem.Move(new Vector3(m_startingMovePos.x, 0, 0));
+                                        break;
+                                    case DIRECTION.RIGHT:
+                                        elem.Move(new Vector3(0, m_startingMovePos.y, 0));
+                                        break;
+                                    case DIRECTION.UP:
+                                        elem.Move(new Vector3(0, 0, m_startingMovePos.z));
+                                        break;
+                                    default:
+                                        elem.Move(m_startingMovePos);
+                                        break;
+                                }
                             }
                         else
                         {
