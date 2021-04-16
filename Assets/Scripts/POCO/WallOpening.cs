@@ -32,7 +32,6 @@ namespace ErgoShop.POCO
         public bool IsWindow { get; set; }
         public float WindowHeight { get; set; }
         public bool IsDouble { get; set; }
-        public bool IsSlideDoor { get; set; }
 
         // Unity data
         [JsonIgnore] public Wall Wall { get; set; }
@@ -117,8 +116,7 @@ namespace ErgoShop.POCO
                 IsWindow = IsWindow,
                 IsDouble = IsDouble,
                 WindowHeight = WindowHeight,
-                Wall = Wall,
-                IsSlideDoor = IsSlideDoor,
+                Wall = Wall
             };
         }
 

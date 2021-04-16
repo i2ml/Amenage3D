@@ -14,7 +14,6 @@ namespace ErgoShop.Utils
         Door,
         Window,
         Room,
-        SlideDoor,
         None
     }
 
