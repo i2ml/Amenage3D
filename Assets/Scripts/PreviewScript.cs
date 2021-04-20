@@ -31,16 +31,16 @@ public class PreviewScript : MonoBehaviour
             MeshFilter[] meshAll = gm_tmp.GetComponentsInChildren<MeshFilter>();
             if (meshAll.Length <= 1)
             {
-                gm_Preview.GetComponent<MeshFilter>().mesh = gm_tmp.GetComponent<MeshFilter>().mesh;
+                gm_Preview.GetComponent<MeshFilter>().mesh = meshAll[0].mesh;
                 if (gm_Preview.GetComponent<MeshFilter>().mesh == null)
                 {
-                    gm_Preview.GetComponent<MeshFilter>().mesh = gm_tmp.GetComponentInChildren<MeshFilter>().mesh;
+                    gm_Preview.GetComponent<MeshFilter>().mesh = meshAll[0].mesh;
                 }
 
-                gm_Preview.GetComponent<MeshRenderer>().material = gm_tmp.GetComponent<MeshRenderer>().material;
+                gm_Preview.GetComponent<MeshRenderer>().material = meshAll[0].gameObject.GetComponent<MeshRenderer>().material;
                 if (gm_Preview.GetComponent<MeshRenderer>().material == null)
                 {
-                    gm_Preview.GetComponent<MeshRenderer>().material = gm_tmp.GetComponentInChildren<MeshRenderer>().material;
+                    gm_Preview.GetComponent<MeshRenderer>().material = meshAll[0].gameObject.GetComponentInChildren<MeshRenderer>().material;
                 }
 
 
@@ -50,14 +50,38 @@ public class PreviewScript : MonoBehaviour
             }
             else
             {
-                Debug.Log("Many MeshFilter " + meshAll.Length + " " + gm_tmp.name);
+                //Debug.Log("Many MeshFilter " + meshAll.Length + " " + gm_tmp.name);
 
-                for (int i = 0; i < meshAll.Length; i++)
+                float VertexSort = 0;
+                int itemCount = 0, NumMesh = 0;
+                foreach (var item in meshAll)
+                {
+                    //SORT
+                    if (item.mesh.vertexCount > VertexSort)
+                    {
+                        VertexSort = item.mesh.vertexCount;
+
+                        //sort in Mesh filter List
+                        MeshFilter tmp_filter = meshAll[0];
+                        meshAll[0] = meshAll[itemCount];
+                        meshAll[itemCount] = tmp_filter;
+                        NumMesh = itemCount; // num mesh hight Vertex
+                    }
+                    itemCount++;
+                }
+
+                Debug.Log(itemCount + " " + NumMesh);
+
+                gm_Preview.GetComponent<MeshFilter>().mesh = meshAll[NumMesh].mesh;
+                gm_Preview.GetComponent<MeshRenderer>().material = meshAll[NumMesh].gameObject.GetComponentInChildren<MeshRenderer>().material;
+
+
+
+                //destroy MultiMesh
+                for (int i = 0; i < meshAll.Length - 1; i++)
                 {
                     Destroy(gm_tmp.transform.GetChild(i).gameObject);
                 }
-                
-
                 Destroy(gm_tmp);
             }
         }
