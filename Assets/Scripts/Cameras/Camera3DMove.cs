@@ -39,6 +39,13 @@ namespace ErgoShop.Cameras
         private float xDeg;
         private float yDeg;
 
+        private Vector3 Forcedpos;
+
+        public void SetForcedpos3D(Vector3 _Forcedpos)
+        {
+            Forcedpos = _Forcedpos;
+        }
+
         private void Start()
         {
             Init();
@@ -83,12 +90,14 @@ namespace ErgoShop.Cameras
 
             if (canMove)
             {
-                position += transform.forward * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate *
-                            moveSpeed;
+                position += transform.forward * Input.GetAxis("Mouse ScrollWheel") * Time.deltaTime * zoomRate * moveSpeed;
                 if (mousePos - prevMousePos != Vector3.zero)
+                {
                     position += transform.rotation * (mousePos - prevMousePos) * -1 * Time.deltaTime * moveSpeed;
+                }
             }
 
+            position += Forcedpos;
 
             var x = Mathf.Clamp(position.x, minBound.x, maxBound.x);
             var y = Mathf.Clamp(position.y, minBound.y, maxBound.y);
