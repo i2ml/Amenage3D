@@ -18,6 +18,7 @@ public class ThemeManager : MonoBehaviour
 
     [SerializeField] private GameObject backGround = null;
     [SerializeField] private GameObject backGround3D = null;
+    [SerializeField] private GameObject backGroundPreviewFurniture = null;
 
     public void ChangeTheme(THEMEAMENAGE3D _NewTheme)
     {
@@ -31,6 +32,8 @@ public class ThemeManager : MonoBehaviour
                     backGround.GetComponent<SpriteRenderer>().color = DefaultColor;
 
                     backGround3D.GetComponent<Renderer>().material.color = DefaultColor;
+
+                    backGroundPreviewFurniture.GetComponent<Camera>().backgroundColor = DefaultColor;
                 }
                 break;
             case THEMEAMENAGE3D.Sombre:
@@ -39,6 +42,8 @@ public class ThemeManager : MonoBehaviour
                     backGround.GetComponent<SpriteRenderer>().color = ThemeSombre;
 
                     backGround3D.GetComponent<Renderer>().material.color = ThemeSombre;
+
+                    backGroundPreviewFurniture.GetComponent<Camera>().backgroundColor = ThemeSombre;
                 }
                 break;
             default:
