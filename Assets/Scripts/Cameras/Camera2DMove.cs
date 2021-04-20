@@ -39,9 +39,6 @@ namespace ErgoShop.Cameras
         private Vector3 mouseMovement;
 
         private Vector3 position;
-        private Vector3 positionFrame;
-
-        public bool isScrollByUI = false;
 
         //Quaternion currentRotation;
         //Quaternion desiredRotation;
@@ -52,8 +49,6 @@ namespace ErgoShop.Cameras
         private void Start()
         {
             Init();
-
-            targetNUll = target;
         }
 
 
@@ -89,21 +84,12 @@ namespace ErgoShop.Cameras
 
             currentDistance = Mathf.Lerp(currentDistance, desiredDistance, Time.deltaTime * zoomDampening);
 
-
-            //target.position - ((Vector3.forward * currentDistance) + targetOffset
-
-
-                position = new Vector3
-                    (
-                        target.position.x + targetOffset.x + Forcedpos.x,
-                        target.position.y + targetOffset.y + Forcedpos.y,
-                        target.position.z - currentDistance + targetOffset.z
-                    );
-
-            if (isScrollByUI == true)
-            {
-                //position += new Vector3(-Forcedpos.x, -Forcedpos.z, 0);
-            }
+            position = new Vector3
+                (
+                    target.position.x + (-targetOffset.x) + Forcedpos.x,
+                    target.position.y + (-targetOffset.y) + Forcedpos.y,
+                    target.position.z - currentDistance + (-targetOffset.z)
+                );
 
             var x = Mathf.Clamp(position.x, minBound.x, maxBound.x);
             var y = Mathf.Clamp(position.y, minBound.y, maxBound.y);

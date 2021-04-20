@@ -24,35 +24,57 @@ public class ScrollCamBySide : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(currantePos);
-        switch (currantePos)
-        {
-            case SIDE.NONE:
-                cam.isScrollByUI = false;
-                offesteFinal = Vector3.zero;
-                break;
-            case SIDE.UP:
-                cam.isScrollByUI = true;
-                offesteFinal += Vector3.up * speed * Time.deltaTime;
-                break;
-            case SIDE.DOWN:
-                cam.isScrollByUI = true;
-                offesteFinal += Vector3.down * speed * Time.deltaTime;
-                break;
-            case SIDE.RIGHT:
-                cam.isScrollByUI = true;
-                offesteFinal += Vector3.right * speed * Time.deltaTime;
-                break;
-            case SIDE.LEFT:
-                cam.isScrollByUI = true;
-                offesteFinal += Vector3.left * speed * Time.deltaTime;
-                break;
-            default:
-                cam.isScrollByUI = false;
-                offesteFinal = Vector3.zero;
-                break;
-        }
 
+
+        if (Input.GetKey(KeyCode.UpArrow))
+        {
+            offesteFinal += Vector3.up * speed * Time.deltaTime;
+        }
+        else
+        {
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                offesteFinal += Vector3.down * speed * Time.deltaTime;
+            }
+            else
+            {
+                if (Input.GetKey(KeyCode.LeftArrow))
+                {
+                    offesteFinal += Vector3.left * speed * Time.deltaTime;
+                }
+                else
+                {
+                    if (Input.GetKey(KeyCode.RightArrow))
+                    {
+                        offesteFinal += Vector3.right * speed * Time.deltaTime;
+                    }
+                    else
+                    {
+                        switch (currantePos)
+                        {
+                            case SIDE.NONE:
+                                offesteFinal = Vector3.zero;
+                                break;
+                            case SIDE.UP:
+                                offesteFinal += Vector3.up * speed * Time.deltaTime;
+                                break;
+                            case SIDE.DOWN:
+                                offesteFinal += Vector3.down * speed * Time.deltaTime;
+                                break;
+                            case SIDE.RIGHT:
+                                offesteFinal += Vector3.right * speed * Time.deltaTime;
+                                break;
+                            case SIDE.LEFT:
+                                offesteFinal += Vector3.left * speed * Time.deltaTime;
+                                break;
+                            default:
+                                offesteFinal = Vector3.zero;
+                                break;
+                        }
+                    }
+                }
+            }
+        }
         cam.SetForcedpos(offesteFinal);
     }
 }
