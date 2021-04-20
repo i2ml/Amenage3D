@@ -130,8 +130,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 1.7528032, y: 1, z: 0.38069773}
-  m_Center: {x: 0.004732549, y: 0, z: 0.033827066}
+  m_Size: {x: 1.7528032, y: 1.7600353, z: 0.3806437}
+  m_Center: {x: 0.004732549, y: 0.88285506, z: 0.03380005}
 --- !u!114 &7765357789269144238
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1119,6 +1119,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1130,6 +1131,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
