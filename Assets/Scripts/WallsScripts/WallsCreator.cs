@@ -1494,26 +1494,26 @@ namespace ErgoShop.Managers
 
         public void CreateWall(bool polygonalRoom)
         {
-            GlobalManager.Instance.Set2DTopMode();
+            GlobalManager.Instance.Set2DTopMode(false);
             m_creationMode = WallType.Wall;
             m_polygonalRoom = polygonalRoom;
         }
 
         public void CreateDoor()
         {
-            GlobalManager.Instance.Set2DTopMode();
+            GlobalManager.Instance.Set2DTopMode(false);
             m_creationMode = WallType.Door;
         }
 
         public void CreateWindow()
         {
-            GlobalManager.Instance.Set2DTopMode();
+            GlobalManager.Instance.Set2DTopMode(false);
             m_creationMode = WallType.Window;
         }
 
         public void CreateRectRoom()
         {
-            GlobalManager.Instance.Set2DTopMode();
+            GlobalManager.Instance.Set2DTopMode(false);
             m_creationMode = WallType.Room;
         }
 

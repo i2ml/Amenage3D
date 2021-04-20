@@ -291,7 +291,7 @@ namespace ErgoShop.Managers
         /// <summary>
         ///     Switch to 2D view
         /// </summary>
-        public void Set2DTopMode()
+        public void Set2DTopMode(bool center = true)
         {
             m_mode = ViewMode.Top;
             cam2DTop.GetComponent<Camera>().enabled = true;
@@ -300,7 +300,11 @@ namespace ErgoShop.Managers
 
             cam2DTop.GetComponent<Camera>().forceIntoRenderTexture = false;
             cam2DTop.GetComponent<Camera>().targetTexture = null;
-            cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position - Vector3.right * 2.5f);
+
+            if (center == true)
+            {
+                cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position - Vector3.right * 2.5f);
+            }
         }
 
         #endregion
