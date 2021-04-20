@@ -11,8 +11,6 @@ public class PreviewScript : MonoBehaviour
     [SerializeField] private RawImage rawImage = null;
     [SerializeField] private GameObject gm_Preview = null;
 
-    //private bool manyMeshFilter = false;
-
     private Vector3 posModel = Vector3.zero;
 
     private MeshFilter mesh_Gm_Preview = null;
@@ -30,32 +28,38 @@ public class PreviewScript : MonoBehaviour
             _gm, posModel, Quaternion.identity, this.transform
             );
 
-            //MeshFilter[] meshAll = gm_tmp.GetComponents<MeshFilter>();
-            //if (meshAll.Length < 1)
-            //{
-            //    manyMeshFilter = false;
-            //}
-            //else
-            //{
-            //    manyMeshFilter = true;
-            //}
-
-            gm_Preview.GetComponent<MeshFilter>().mesh = gm_tmp.GetComponent<MeshFilter>().mesh;
-            if (gm_Preview.GetComponent<MeshFilter>().mesh == null)
+            MeshFilter[] meshAll = gm_tmp.GetComponentsInChildren<MeshFilter>();
+            if (meshAll.Length <= 1)
             {
-                gm_Preview.GetComponent<MeshFilter>().mesh = gm_tmp.GetComponentInChildren<MeshFilter>().mesh;
-            }
+                gm_Preview.GetComponent<MeshFilter>().mesh = gm_tmp.GetComponent<MeshFilter>().mesh;
+                if (gm_Preview.GetComponent<MeshFilter>().mesh == null)
+                {
+                    gm_Preview.GetComponent<MeshFilter>().mesh = gm_tmp.GetComponentInChildren<MeshFilter>().mesh;
+                }
 
-            gm_Preview.GetComponent<MeshRenderer>().material = gm_tmp.GetComponent<MeshRenderer>().material;
-            if (gm_Preview.GetComponent<MeshRenderer>().material == null)
+                gm_Preview.GetComponent<MeshRenderer>().material = gm_tmp.GetComponent<MeshRenderer>().material;
+                if (gm_Preview.GetComponent<MeshRenderer>().material == null)
+                {
+                    gm_Preview.GetComponent<MeshRenderer>().material = gm_tmp.GetComponentInChildren<MeshRenderer>().material;
+                }
+
+
+                Destroy(gm_tmp);
+
+                mesh_Gm_Preview = gm_Preview.GetComponent<MeshFilter>();
+            }
+            else
             {
-                gm_Preview.GetComponent<MeshRenderer>().material = gm_tmp.GetComponentInChildren<MeshRenderer>().material;
+                Debug.Log("Many MeshFilter " + meshAll.Length + " " + gm_tmp.name);
+
+                for (int i = 0; i < meshAll.Length; i++)
+                {
+                    Destroy(gm_tmp.transform.GetChild(i).gameObject);
+                }
+                
+
+                Destroy(gm_tmp);
             }
-
-
-            Destroy(gm_tmp);
-
-            mesh_Gm_Preview = gm_Preview.GetComponent<MeshFilter>();
         }
         else
         {
