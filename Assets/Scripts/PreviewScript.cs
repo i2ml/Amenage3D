@@ -11,9 +11,13 @@ public class PreviewScript : MonoBehaviour
     [SerializeField] private RawImage rawImage = null;
     [SerializeField] private GameObject gm_Preview = null;
 
+    private bool isActif = false;
+
     private Vector3 posModel = Vector3.zero;
 
     private MeshFilter mesh_Gm_Preview = null;
+
+    public bool IsActif { get => isActif; set => isActif = value; }
 
     /// <summary>
     /// pas de furniture le model 3D
@@ -70,7 +74,7 @@ public class PreviewScript : MonoBehaviour
                     itemCount++;
                 }
 
-                Debug.Log(itemCount + " " + NumMesh);
+                //Debug.Log(itemCount + " " + NumMesh);
 
                 gm_Preview.GetComponent<MeshFilter>().mesh = meshAll[NumMesh].mesh;
                 gm_Preview.GetComponent<MeshRenderer>().material = meshAll[NumMesh].gameObject.GetComponentInChildren<MeshRenderer>().material;
@@ -102,11 +106,13 @@ public class PreviewScript : MonoBehaviour
 
     private void Update()
     {
-        if (mesh_Gm_Preview != null && !InputFunctions.IsMouseOutsideUI())
+        if (mesh_Gm_Preview != null && gm_Preview != null && IsActif &&!InputFunctions.IsMouseOutsideUI())
         {
             rawImage.gameObject.SetActive(true);
 
             gm_Preview.transform.RotateAround(transform.up, 1 * Time.deltaTime);
+
+            //rawImage.gameObject.transform.position = Input.mousePosition + (Vector3.right * 100) + (Vector3.up * 100);
         }
         else
         {
