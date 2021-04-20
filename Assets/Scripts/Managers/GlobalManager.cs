@@ -206,7 +206,7 @@ namespace ErgoShop.Managers
         {
             return !SelectedObjectManager.Instance.IsOccupied()
                    && !WallsCreator.Instance.IsCreating()
-                   && InputFunctions.IsMouseOutsideUI()
+                   //&& InputFunctions.IsMouseOutsideUI()
                    && cam.GetComponent<Camera>().targetTexture == null
                    && !WallArrowsScript.Instance.isMoving
                    && !ElementArrowsScript.Instance.isMoving
