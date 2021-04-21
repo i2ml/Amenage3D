@@ -33,6 +33,7 @@ namespace ErgoShop.Managers
             m_woAnglesData = new List<WallOpeningAngleScript>();
             m_woAngles3DData = new List<WallOpeningAngleScript>();
             m_currentWallIdx = 0;
+            m_currentRoomdx = 0;
 
             m_potentialPolyRoom = new List<Wall>();
 
@@ -88,6 +89,7 @@ namespace ErgoShop.Managers
         private WallOpening m_currentWallOpeningData;
 
         private int m_currentWallIdx;
+        private int m_currentRoomdx;
 
         private bool m_polygonalRoom;
         private Vector3 m_beginPolyRoom;
@@ -131,8 +133,9 @@ namespace ErgoShop.Managers
         private void UpdateCeils()
         {
             foreach (var r in m_roomsData)
-                r.Ceil.planeGenerated.SetActive(GlobalManager.Instance.cam3D.transform.position.y <
-                                                r.Ceil.planeGenerated.transform.position.y);
+            {
+                r.Ceil.planeGenerated.SetActive(GlobalManager.Instance.cam3D.transform.position.y < r.Ceil.planeGenerated.transform.position.y);
+            }
         }
 
         /// <summary>
@@ -450,14 +453,14 @@ namespace ErgoShop.Managers
 
                 m_currentRoomData.Walls[i].Index = 0;
 
-                if (LastIndexRoom == 0 && m_currentWallIdx == 0)
+                if (LastIndexRoom == 0 && m_currentRoomdx == 0)
                 {
-                    m_currentRoomData.Walls[i].Index = m_currentWallIdx;
-                    m_currentWallIdx++;
+                    m_currentRoomData.Walls[i].Index = m_currentRoomdx;
+                    m_currentRoomdx++;
                 }
                 else if (LastIndexRoom == 0)
                 {
-                    LastIndexRoom = m_currentWallIdx;
+                    LastIndexRoom = m_currentRoomdx;
                     m_currentRoomData.Walls[i].Index = LastIndexRoom;
                 }
                 else if (m_currentRoomData.Walls[i].Index == 0)
@@ -466,8 +469,8 @@ namespace ErgoShop.Managers
                     m_currentRoomData.Walls[i].Index = LastIndexRoom;
                 }
 
-                //m_currentRoomData.Walls[i].Index = m_currentWallIdx;
-                //m_currentWallIdx++;
+                //m_currentRoomData.Walls[i].Index = m_currentRoomdx;
+                //m_currentRoomdx++;
 
 
                 m_wallsData.Add(m_currentRoomData.Walls[i]);
@@ -508,7 +511,6 @@ namespace ErgoShop.Managers
             //m_currentWallIdx
 
             m_currentWallData.Index = 0;
-
             if (LastIndexWall == 0 && m_currentWallIdx == 0)
             {
                 m_currentWallData.Index = m_currentWallIdx;
@@ -528,7 +530,25 @@ namespace ErgoShop.Managers
                 m_currentWallData.Index++;
             }
 
-            Debug.Log(LastIndexWall + "  /  " + m_currentWallIdx + "  /  " + m_currentWallData.Index);
+            //m_currentWallIdx++;
+
+            //if (LastIndexWall == 0 && m_currentWallIdx == 0)
+            //{
+            //    m_currentWallData.Index = m_currentWallIdx;
+            //    m_currentWallIdx++;
+            //}
+            //else if (LastIndexRoom == 0)
+            //{
+            //    LastIndexWall = m_currentWallIdx;
+            //    m_currentWallData.Index = LastIndexWall;
+            //}
+            //else if (m_currentWallData.Index == 0)
+            //{
+            //    LastIndexWall++;
+            //    m_currentWallData.Index = LastIndexWall;
+            //}
+
+            //Debug.Log(LastIndexWall + "  /  " + m_currentWallIdx + "  /  " + m_currentWallData.Index);
 
             if (m_polygonalRoom && m_potentialPolyRoom.Count == 0) m_beginPolyRoom = m_startPosition;
             if (m_polygonalRoom) m_potentialPolyRoom.Add(m_currentWallData);
@@ -1858,8 +1878,11 @@ namespace ErgoShop.Managers
                 }
             }
 
-            Debug.Log("el ROOOMM :" + m_wallsData[m_wallsData.Count - 1].Index);
-            LastIndexRoom = m_wallsData[m_wallsData.Count - 1].Index;
+            if (m_wallsData.Count != 0)
+            {
+                Debug.Log("el ROOOMM :" + m_wallsData[m_wallsData.Count - 1].Index);
+                LastIndexRoom = m_wallsData[m_wallsData.Count - 1].Index;
+            }
 
             foreach (var w in floor.Walls)
                 if (!m_wallsData.Select(wa => wa.Index).Contains(w.Index))
