@@ -43,6 +43,8 @@ namespace ErgoShop.Managers
         /// </summary>
         public Project Project { get; set; }
 
+        public WallsCreator Sc_wallsCreator;
+
         private void Awake()
         {
             Instance = this;
@@ -849,36 +851,41 @@ namespace ErgoShop.Managers
         {
             AllElementsManager.Instance.UpdateAllElements(true);
             Project.GetCurrentFloor().ClearAll();
-            var wcRooms = WallsCreator.Instance.GetRooms();
+            List<Room> wcRooms = WallsCreator.Instance.GetRooms();
 
             // Copy of rooms, walls, wallopenings
             foreach (var r in wcRooms)
             {
-                var newRoom = r.GetCopy() as Room;
+                Room newRoom = r.GetCopy() as Room;
                 Project.GetCurrentFloor().Rooms.Add(newRoom);
             }
 
             // WALLS
-            var lonelyWalls = new List<Wall>();
-            var allWalls = new Wall[WallsCreator.Instance.GetWalls().Count];
+            List<Wall> lonelyWalls = new List<Wall>();
+            Wall[] allWalls = new Wall[WallsCreator.Instance.GetWalls().Count];
             WallsCreator.Instance.GetWalls().CopyTo(allWalls);
             // WALLS
             foreach (var w in allWalls)
             {
-                var isLonely = true;
+                bool isLonely = true;
                 foreach (var r in Project.GetCurrentFloor().Rooms)
+                {
                     if (r.Walls.Where(rw => rw.P1 == w.P1 && rw.P2 == w.P2).Count() == 1)
+                    {
                         isLonely = false;
+                    }
+                }
+
                 if (isLonely)
                 {
-                    var newRefWall = w.GetCopy() as Wall;
+                    Wall newRefWall = w.GetCopy() as Wall;
                     lonelyWalls.Add(newRefWall);
                 }
             }
 
             Project.GetCurrentFloor().Walls = lonelyWalls;
             // FURNITURES
-            var newFref = new List<Furniture>();
+            List<Furniture> newFref = new List<Furniture>();
             foreach (var f in FurnitureCreator.Instance.GetFurnitures())
             {
                 var fu = f.GetCopy() as Furniture;
@@ -912,10 +919,10 @@ namespace ErgoShop.Managers
 
             // IMPORTANT : LET GROUPS AT THE END
             // GROUPS : SAVE ONLY IDS
-            var newGroupsRefs = new List<ElementGroup>();
+            List<ElementGroup> newGroupsRefs = new List<ElementGroup>();
             foreach (var eg in GroupsManager.Instance.GetGroups())
             {
-                var newIds = new List<int>();
+                List<int> newIds = new List<int>();
                 newIds.AddRange(eg.ElementsIds);
                 newGroupsRefs.Add(new ElementGroup
                 {
@@ -964,6 +971,7 @@ namespace ErgoShop.Managers
             {
                 var floorCopy = Project.Floors.First(f => f.FloorName == copyName);
                 foreach (var r in floorCopy.Rooms)
+                {
                     foreach (var w in r.Walls)
                     {
                         var copy = new Wall
@@ -978,6 +986,7 @@ namespace ErgoShop.Managers
                         if (newFloor.Walls.Where(wa => wa.P1 == copy.P1 && wa.P2 == copy.P2).Count() == 0)
                             newFloor.Walls.Add(copy);
                     }
+                }
 
                 foreach (var w in floorCopy.Walls)
                 {
@@ -988,7 +997,7 @@ namespace ErgoShop.Managers
                         P1 = w.P1,
                         P2 = w.P2,
                         Thickness = w.Thickness,
-                        Index = w.Index
+                        Index =  w.Index 
                     };
                     if (newFloor.Walls.Where(wa => wa.P1 == copy.P1 && wa.P2 == copy.P2).Count() == 0)
                         newFloor.Walls.Add(copy);
