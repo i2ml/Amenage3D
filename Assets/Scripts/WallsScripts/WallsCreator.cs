@@ -18,6 +18,7 @@ namespace ErgoShop.Managers
     {
         public int LastIndexWall = 0;
         public int LastIndexRoom = 0;
+        public int MaxIndex = 0;
 
         private void Awake()
         {
@@ -438,6 +439,8 @@ namespace ErgoShop.Managers
                 LockAngles = true
             };
             m_currentRoomData.Walls = new List<Wall>();
+
+            LastIndexRoom = MaxIndex;
             for (var i = 0; i < 4; i++)
             {
                 // Data
@@ -451,6 +454,7 @@ namespace ErgoShop.Managers
                 m_currentRoomData.Walls[i].associated3DObject.transform.parent = room3D;
 
 
+               
                 m_currentRoomData.Walls[i].Index = 0;
 
                 if (LastIndexRoom == 0 && m_currentRoomdx == 0)
@@ -475,6 +479,8 @@ namespace ErgoShop.Managers
 
                 m_wallsData.Add(m_currentRoomData.Walls[i]);
             }
+
+            MaxIndex = m_currentRoomData.Walls[3].Index;
 
             // stick walls
             m_currentRoomData.Walls[0].linkedP1.Add(m_currentRoomData.Walls[3]);
@@ -510,6 +516,7 @@ namespace ErgoShop.Managers
             m_currentWallData.Height = wallHeight;
             //m_currentWallIdx
 
+            LastIndexWall = MaxIndex;
             m_currentWallData.Index = 0;
             if (LastIndexWall == 0 && m_currentWallIdx == 0)
             {
@@ -530,23 +537,7 @@ namespace ErgoShop.Managers
                 m_currentWallData.Index++;
             }
 
-            //m_currentWallIdx++;
-
-            //if (LastIndexWall == 0 && m_currentWallIdx == 0)
-            //{
-            //    m_currentWallData.Index = m_currentWallIdx;
-            //    m_currentWallIdx++;
-            //}
-            //else if (LastIndexRoom == 0)
-            //{
-            //    LastIndexWall = m_currentWallIdx;
-            //    m_currentWallData.Index = LastIndexWall;
-            //}
-            //else if (m_currentWallData.Index == 0)
-            //{
-            //    LastIndexWall++;
-            //    m_currentWallData.Index = LastIndexWall;
-            //}
+            MaxIndex = m_currentWallData.Index;
 
             //Debug.Log(LastIndexWall + "  /  " + m_currentWallIdx + "  /  " + m_currentWallData.Index);
 
@@ -1853,11 +1844,16 @@ namespace ErgoShop.Managers
             m_roomsData = new List<Room>();
             m_wallsData = new List<Wall>();
             // PB DE REFERENCE SUR LES MURS COMMUNS : REBUILD (COMME DANS LE SAVE ?)
+
+            var listIndex = new List<int>();
+
             foreach (var r in floor.Rooms)
             {
                 m_roomsData.Add(r);
                 var indexesToUpdate = new List<int>();
                 var wallsToUpdateInRooms = new List<Wall>();
+
+
 
                 foreach (var w in r.Walls)
                 {
@@ -1870,6 +1866,8 @@ namespace ErgoShop.Managers
                         wallsToUpdateInRooms.Add(m_wallsData.Where(wa => wa.Index == w.Index).First());
                         indexesToUpdate.Add(r.Walls.IndexOf(w));
                     }
+
+                    listIndex.Add(w.Index);
                 }
 
                 for (var i = 0; i < wallsToUpdateInRooms.Count; i++)
@@ -1885,11 +1883,23 @@ namespace ErgoShop.Managers
             }
 
             foreach (var w in floor.Walls)
+            {
                 if (!m_wallsData.Select(wa => wa.Index).Contains(w.Index))
+                {
                     m_wallsData.Add(w);
+                    listIndex.Add(w.Index);
+                }
+            }
 
-            //Debug.Log("el singral :" + m_wallsData[m_wallsData.Count - 1].Index);
+
+            Debug.Log("WALLLL:" + m_wallsData[m_wallsData.Count - 1].Index);
             LastIndexWall = m_wallsData[m_wallsData.Count - 1].Index;
+
+
+            listIndex.Sort();
+            MaxIndex = listIndex[listIndex.Count - 1];
+            Debug.Log("MaxIndex : " + MaxIndex);
+
 
             foreach (var w in m_wallsData)
             {
