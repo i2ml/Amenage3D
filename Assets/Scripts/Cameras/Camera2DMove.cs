@@ -91,6 +91,10 @@ namespace ErgoShop.Cameras
                     target.position.z - currentDistance + (-targetOffset.z)
                 );
 
+            Debug.Log("target" + target.position);
+            Debug.Log("targetOfsset" + targetOffset);
+            Debug.Log("ForcePos" + Forcedpos);
+
             var x = Mathf.Clamp(position.x, minBound.x, maxBound.x);
             var y = Mathf.Clamp(position.y, minBound.y, maxBound.y);
             var z = Mathf.Clamp(position.z, minBound.z, maxBound.z);
@@ -100,13 +104,12 @@ namespace ErgoShop.Cameras
             if (float.IsNaN(z)) z = 0;
 
             position = new Vector3(x, y, z);
-
             transform.position = position;
         }
 
         public void SetForcedpos(Vector3 _Forcedpos)
         {
-            Forcedpos = _Forcedpos;
+            Forcedpos += _Forcedpos * Time.deltaTime;
         }
 
 
