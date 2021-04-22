@@ -43,8 +43,6 @@ namespace ErgoShop.Managers
         /// </summary>
         public Project Project { get; set; }
 
-        public WallsCreator Sc_wallsCreator;
-
         private void Awake()
         {
             Instance = this;
