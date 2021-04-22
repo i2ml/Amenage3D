@@ -75,6 +75,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7838622282347200517}
   - component: {fileID: 965205278994178863}
+  - component: {fileID: 8857382200872069995}
   m_Layer: 0
   m_Name: ErgoDummy
   m_TagString: Untagged
@@ -117,6 +118,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &8857382200872069995
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1754668613626538460}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.7815961, y: 1.7565496, z: 0.39489308}
+  m_Center: {x: 0.012606204, y: 0.87423503, z: 0.025212869}
 --- !u!1 &1842247597832880350
 GameObject:
   m_ObjectHideFlags: 0
@@ -1092,6 +1106,7 @@ SkinnedMeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1103,6 +1118,7 @@ SkinnedMeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
