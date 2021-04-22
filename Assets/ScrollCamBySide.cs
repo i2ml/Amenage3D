@@ -157,6 +157,29 @@ public class ScrollCamBySide : MonoBehaviour
 
                     break;
             }
+
+
+            int Limite_Horizontale = 40;
+            int Limite_Verticale = 70;
+
+            if (offesteFinal.x > Limite_Horizontale)
+            {
+                offesteFinal = new Vector3(Limite_Horizontale, offesteFinal.y, offesteFinal.z);
+            }
+            else if (offesteFinal.x < -Limite_Horizontale)
+            {
+                offesteFinal = new Vector3(-Limite_Horizontale, offesteFinal.y, offesteFinal.z);
+            }
+
+            if (offesteFinal.y > Limite_Verticale)
+            {
+                offesteFinal = new Vector3(offesteFinal.x, Limite_Verticale, offesteFinal.z);
+            }
+            else if (offesteFinal.y < -Limite_Verticale)
+            {
+                offesteFinal = new Vector3(offesteFinal.x, -Limite_Verticale, offesteFinal.z);
+            }
+
         }
         else
         {
