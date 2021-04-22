@@ -91,9 +91,9 @@ namespace ErgoShop.Cameras
                     target.position.z - currentDistance + (-targetOffset.z)
                 );
 
-            Debug.Log("target" + target.position);
-            Debug.Log("targetOfsset" + targetOffset);
-            Debug.Log("ForcePos" + Forcedpos);
+            //Debug.Log("target" + target.position);
+            //Debug.Log("targetOfsset" + targetOffset);
+            //Debug.Log("ForcePos" + Forcedpos);
 
             var x = Mathf.Clamp(position.x, minBound.x, maxBound.x);
             var y = Mathf.Clamp(position.y, minBound.y, maxBound.y);
