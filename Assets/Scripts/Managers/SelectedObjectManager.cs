@@ -1267,6 +1267,7 @@ namespace ErgoShop.Managers
         {
             currentRoomData.Name = t;
             currentRoomData.associated2DObject.GetComponent<TextMesh>().text = t;
+            currentRoomData.associated2DObject.GetComponent<TextMesh>().color = Color.black ;
             RoomPropPanelScript.Instance.UpdateRoomProperties();
             OperationsBufferScript.Instance.AddAutoSave("Renommage de la pièce en " + currentRoomData.Name);
         }

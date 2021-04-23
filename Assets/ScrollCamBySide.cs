@@ -8,7 +8,7 @@ public class ScrollCamBySide : MonoBehaviour
 {
     enum SIDE
     {
-        NONE, UP, DOWN, RIGHT, LEFT,
+        NONE, UP, DOWN, RIGHT, LEFT, DOWNRIGHT, UPRIGHT, UPLEFT, DOWNLEFT
     }
 
     SIDE currantePos = SIDE.NONE;
@@ -26,6 +26,11 @@ public class ScrollCamBySide : MonoBehaviour
     private void Start()
     {
         globalManager = GlobalManager.Instance;
+
+        foreach (var item in listeButton)
+        {
+            item.SetActive(false);
+        }
     }
 
     public void SetSide(int _side)
@@ -43,93 +48,147 @@ public class ScrollCamBySide : MonoBehaviour
 
     private void Update()
     {
-        switch (globalManager.GetCurrentMode())
+        if (Input.GetAxis("DeplacementSouris") != 0)
         {
-            case ViewMode.Top:
-                ActiveBareDefil(true);
+            foreach (var item in listeButton)
+            {
+                item.SetActive(true);
+            }
+            switch (globalManager.GetCurrentMode())
+            {
+                case ViewMode.Top:
+                    ActiveBareDefil(true);
 
-                if (Input.GetKey(KeyCode.UpArrow))
-                {
-                    offesteFinal += Vector3.up * speed * Time.deltaTime;
-                }
-                else
-                {
-                    if (Input.GetKey(KeyCode.DownArrow))
+                    if (Input.GetKey(KeyCode.UpArrow))
                     {
-                        offesteFinal += Vector3.down * speed * Time.deltaTime;
+                        offesteFinal += Vector3.up * speed * Time.deltaTime;
                     }
                     else
                     {
-                        if (Input.GetKey(KeyCode.LeftArrow))
+                        if (Input.GetKey(KeyCode.DownArrow))
                         {
-                            offesteFinal += Vector3.left * speed * Time.deltaTime;
+                            offesteFinal += Vector3.down * speed * Time.deltaTime;
                         }
                         else
                         {
-                            if (Input.GetKey(KeyCode.RightArrow))
+                            if (Input.GetKey(KeyCode.LeftArrow))
                             {
-                                offesteFinal += Vector3.right * speed * Time.deltaTime;
+                                offesteFinal += Vector3.left * speed * Time.deltaTime;
                             }
                             else
                             {
-                                switch (currantePos)
+                                if (Input.GetKey(KeyCode.RightArrow))
                                 {
-                                    case SIDE.NONE:
-                                        offesteFinal = Vector3.zero;
-                                        break;
-                                    case SIDE.UP:
-                                        offesteFinal += Vector3.up * speed * Time.deltaTime;
-                                        break;
-                                    case SIDE.DOWN:
-                                        offesteFinal += Vector3.down * speed * Time.deltaTime;
-                                        break;
-                                    case SIDE.RIGHT:
-                                        offesteFinal += Vector3.right * speed * Time.deltaTime;
-                                        break;
-                                    case SIDE.LEFT:
-                                        offesteFinal += Vector3.left * speed * Time.deltaTime;
-                                        break;
-                                    default:
-                                        offesteFinal = Vector3.zero;
-                                        break;
+                                    offesteFinal += Vector3.right * speed * Time.deltaTime;
+                                }
+                                else
+                                {
+                                    switch (currantePos)
+                                    {
+                                        case SIDE.NONE:
+                                            offesteFinal = Vector3.zero;
+                                            break;
+                                        case SIDE.UP:
+                                            offesteFinal += Vector3.up * speed * Time.deltaTime;
+                                            break;
+                                        case SIDE.DOWN:
+                                            offesteFinal += Vector3.down * speed * Time.deltaTime;
+                                            break;
+                                        case SIDE.RIGHT:
+                                            offesteFinal += Vector3.right * speed * Time.deltaTime;
+                                            break;
+                                        case SIDE.LEFT:
+                                            offesteFinal += Vector3.left * speed * Time.deltaTime;
+                                            break;
+                                        case SIDE.DOWNRIGHT:
+                                            offesteFinal += Vector3.down * speed * Time.deltaTime;
+                                            offesteFinal += Vector3.right * speed * Time.deltaTime;
+                                            break;
+                                        case SIDE.DOWNLEFT:
+                                            offesteFinal += Vector3.down * speed * Time.deltaTime;
+                                            offesteFinal += Vector3.left * speed * Time.deltaTime;
+                                            break;
+                                        case SIDE.UPRIGHT:
+                                            offesteFinal += Vector3.up * speed * Time.deltaTime;
+                                            offesteFinal += Vector3.right * speed * Time.deltaTime;
+                                            break;
+                                        case SIDE.UPLEFT:
+                                            offesteFinal += Vector3.up * speed * Time.deltaTime;
+                                            offesteFinal += Vector3.left * speed * Time.deltaTime;
+                                            break;
+                                        default:
+                                            offesteFinal = Vector3.zero;
+                                            break;
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                cam.SetForcedpos(offesteFinal);
-                break;
-            case ViewMode.ThreeD:
-                ActiveBareDefil(false);
+                    cam.SetForcedpos(offesteFinal);
+                    break;
+                case ViewMode.ThreeD:
+                    ActiveBareDefil(false);
 
-                //switch (currantePos)
-                //{
-                //    case SIDE.NONE:
-                //        offesteFinal = Vector3.zero;
-                //        break;
-                //    case SIDE.UP:
-                //        offesteFinal += Vector3.up * speed * Time.deltaTime;
-                //        break;
-                //    case SIDE.DOWN:
-                //        offesteFinal += Vector3.down * speed * Time.deltaTime;
-                //        break;
-                //    case SIDE.RIGHT:
-                //        offesteFinal += Vector3.right * speed * Time.deltaTime;
-                //        break;
-                //    case SIDE.LEFT:
-                //        offesteFinal += Vector3.left * speed * Time.deltaTime;
-                //        break;
-                //    default:
-                //        offesteFinal = Vector3.zero;
-                //        break;
-                //}
+                    //switch (currantePos)
+                    //{
+                    //    case SIDE.NONE:
+                    //        offesteFinal = Vector3.zero;
+                    //        break;
+                    //    case SIDE.UP:
+                    //        offesteFinal += Vector3.up * speed * Time.deltaTime;
+                    //        break;
+                    //    case SIDE.DOWN:
+                    //        offesteFinal += Vector3.down * speed * Time.deltaTime;
+                    //        break;
+                    //    case SIDE.RIGHT:
+                    //        offesteFinal += Vector3.right * speed * Time.deltaTime;
+                    //        break;
+                    //    case SIDE.LEFT:
+                    //        offesteFinal += Vector3.left * speed * Time.deltaTime;
+                    //        break;
+                    //    default:
+                    //        offesteFinal = Vector3.zero;
+                    //        break;
+                    //}
 
-                //cam3D.SetForcedpos3D(offesteFinal);
-                break;
-            default:
+                    //cam3D.SetForcedpos3D(offesteFinal);
+                    break;
+                default:
 
-                break;
+                    break;
+            }
+
+
+            int Limite_Horizontale = 40;
+            int Limite_Verticale = 70;
+
+            if (offesteFinal.x > Limite_Horizontale)
+            {
+                offesteFinal = new Vector3(Limite_Horizontale, offesteFinal.y, offesteFinal.z);
+            }
+            else if (offesteFinal.x < -Limite_Horizontale)
+            {
+                offesteFinal = new Vector3(-Limite_Horizontale, offesteFinal.y, offesteFinal.z);
+            }
+
+            if (offesteFinal.y > Limite_Verticale)
+            {
+                offesteFinal = new Vector3(offesteFinal.x, Limite_Verticale, offesteFinal.z);
+            }
+            else if (offesteFinal.y < -Limite_Verticale)
+            {
+                offesteFinal = new Vector3(offesteFinal.x, -Limite_Verticale, offesteFinal.z);
+            }
+
         }
+        else
+        {
+            foreach (var item in listeButton)
+            {
+                item.SetActive(false);
+            }
+        }
+
 
     }
 }

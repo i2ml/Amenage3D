@@ -1878,7 +1878,7 @@ namespace ErgoShop.Managers
 
             if (m_wallsData.Count != 0)
             {
-                Debug.Log("el ROOOMM :" + m_wallsData[m_wallsData.Count - 1].Index);
+               // Debug.Log("el ROOOMM :" + m_wallsData[m_wallsData.Count - 1].Index);
                 LastIndexRoom = m_wallsData[m_wallsData.Count - 1].Index;
             }
 
@@ -1892,13 +1892,13 @@ namespace ErgoShop.Managers
             }
 
 
-            Debug.Log("WALLLL:" + m_wallsData[m_wallsData.Count - 1].Index);
+            //Debug.Log("WALLLL:" + m_wallsData[m_wallsData.Count - 1].Index);
             LastIndexWall = m_wallsData[m_wallsData.Count - 1].Index;
 
 
             listIndex.Sort();
             MaxIndex = listIndex[listIndex.Count - 1];
-            Debug.Log("MaxIndex : " + MaxIndex);
+            //Debug.Log("MaxIndex : " + MaxIndex);
 
 
             foreach (var w in m_wallsData)
@@ -1915,7 +1915,7 @@ namespace ErgoShop.Managers
             SetCreationModeNone();
 
 
-            Debug.Log("room : " + m_roomsData.Count + "Walls :" + m_wallsData.Count);
+          //  Debug.Log("room : " + m_roomsData.Count + "Walls :" + m_wallsData.Count);
         }
 
         public void SetThickness(string s)
