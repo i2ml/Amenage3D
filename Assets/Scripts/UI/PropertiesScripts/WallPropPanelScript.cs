@@ -96,20 +96,47 @@ namespace ErgoShop.UI
 
         private bool VerifWallConnected(List<Wall> _wallsData)
         {
-            Debug.Log("------");
+            //Debug.Log("------");
             foreach (var wall in _wallsData)
             {
                 wall.wallHaveTwoLink = (wall.linkedP1.Count > 0 && wall.linkedP2.Count > 0);
                 wall.loock = false;
-
-
-                Debug.Log(wall.Index);
+                //Debug.Log(wall.Index);
 
             }
-            Debug.Log("------");
+            //Debug.Log("------");
 
-            if (_wallsData.Count >= 3)
+            short compteur = 0;
+
+            //verif walls form one while
+            foreach (var wall in _wallsData)
             {
+                if (wall.wallHaveTwoLink)
+                {
+                    foreach (var wallVerif in _wallsData)
+                    {
+                        if (wallVerif.wallHaveTwoLink && wall != wallVerif)
+                        {
+                            if (wallVerif.linkedP2.Contains(wall))
+                            {
+                                wall.loock = true;
+                                compteur++;
+                            }
+                            //else if (wallVerif.linkedP1.Contains(wall))
+                            //{
+                            //    wall.loock = true;
+                            //    compteur++;
+                            //}
+                        }
+                    }
+                }
+            }
+
+            Debug.Log(compteur);
+
+            if (compteur >= 3)
+            {
+                // fin et debut connecter ?
                 foreach (var item in _wallsData[_wallsData.Count - 1].linkedP1)
                 {
                     if (item == _wallsData[0])
@@ -126,89 +153,7 @@ namespace ErgoShop.UI
                     }
                 }
             }
-            //verif walls form one while
-            short compteur = 0;
-            //for (short i = 0; i < _wallsData.Count - 1; i++)
-            //{
-            //    if (i + 1 < _wallsData.Count - 1)
-            //    {
-            //        if (_wallsData[i].linkedP1.Contains(_wallsData[i + 1]))
-            //        {
-            //            compteur++;
-            //        }
-            //        if (_wallsData[i].linkedP2.Contains(_wallsData[i + 1]))
-            //        {
-            //            compteur++;
-            //        }
-            //    }
-
-            //    if (i > 0)
-            //    {
-            //        if (_wallsData[i].linkedP1.Contains(_wallsData[i - 1]))
-            //        {
-            //            compteur++;
-            //        }
-            //        if (_wallsData[i].linkedP2.Contains(_wallsData[i - 1]))
-            //        {
-            //            compteur++;
-            //        }
-            //    }
-
-            //    //relier ?
-            //    if (_wallsData[i].linkedP1.Contains(_wallsData[0]))
-            //    {
-            //        compteur++;
-            //    }
-            //    if (_wallsData[i].linkedP2.Contains(_wallsData[0]))
-            //    {
-            //        compteur++;
-            //    }
-            //}
-
-
-            //foreach (var wall in _wallsData)
-            //{
-            //    if (wall.wallHaveTwoLink && (!wall.loock || wall == _wallsData[0]))
-            //    {
-            //        foreach (var wallVerif in _wallsData)
-            //        {
-            //            if (wallVerif.wallHaveTwoLink && wall != wallVerif && wall.linkedP1.Contains(wallVerif))
-            //            {
-            //                if (wallVerif.linkedP2.Contains(wall))
-            //                {
-            //                    wall.loock = true;
-            //                    compteur++;
-            //                    //Debug.Log(wallVerif.Index + "Match / " + wall.Index + " / " + compteur);
-            //                }
-            //                else if (wallVerif.linkedP1.Contains(wall))
-            //                {
-            //                    wall.loock = true;
-            //                    compteur++;
-            //                    //Debug.Log(wallVerif.Index + "Match / " + wall.Index + " / " + compteur);
-            //                }
-            //            }
-            //        }
-            //    }
-            //}
-
-            //if (_wallsData.Count == 3 && compteur >= 3) // triangle
-            //{
-            //    return true;
-            //}
-
-
-
-            if (compteur >= 4) // Autre
-            {
-                Debug.Log("nb_selection TRUE : " + _wallsData.Count + " compteur : " + compteur);
-                return true;
-            }
-            else
-            {
-                //Debug.Log("nb_selection FALSE : " + _wallsData.Count + " compteur : " + compteur);
-            }
             return false;
-
         }
 
         // return true if properties form is shown
