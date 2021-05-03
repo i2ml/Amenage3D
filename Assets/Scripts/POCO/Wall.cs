@@ -47,6 +47,12 @@ namespace ErgoShop.POCO
         [JsonIgnore] public List<Wall> linkedP2 = new List<Wall>();
 
         /// <summary>
+        ///     Result Link P1 & P2
+        /// </summary>
+        [JsonIgnore] public bool wallHaveTwoLink = false;
+        [JsonIgnore] public bool loock = false;
+
+        /// <summary>
         ///     Mesh data
         /// </summary>
         [JsonIgnore] public List<Vector3> vertices2D = new List<Vector3>();
@@ -69,11 +75,11 @@ namespace ErgoShop.POCO
             Openings = new List<WallOpening>();
 
             associated2DObject = new GameObject("Walls2D");
-            associated2DObject.layer = (int) ErgoLayers.Top;
+            associated2DObject.layer = (int)ErgoLayers.Top;
             associated2DObject.tag = "Associated";
 
             associated3DObject = new GameObject("Walls3D");
-            associated3DObject.layer = (int) ErgoLayers.ThreeD;
+            associated3DObject.layer = (int)ErgoLayers.ThreeD;
             associated3DObject.tag = "Associated";
             Color = new Color(200f / 255f, 200f / 255f, 200f / 255f);
         }
@@ -246,11 +252,11 @@ namespace ErgoShop.POCO
         public override void RebuildSceneData()
         {
             if (!associated2DObject) associated2DObject = new GameObject("Walls2D");
-            associated2DObject.layer = (int) ErgoLayers.Top;
+            associated2DObject.layer = (int)ErgoLayers.Top;
             associated2DObject.tag = "Associated";
 
             if (!associated3DObject) associated3DObject = new GameObject("Walls3D");
-            associated3DObject.layer = (int) ErgoLayers.ThreeD;
+            associated3DObject.layer = (int)ErgoLayers.ThreeD;
             associated3DObject.tag = "Associated";
         }
 
@@ -264,7 +270,7 @@ namespace ErgoShop.POCO
 
             switch (cam.gameObject.layer)
             {
-                case (int) ErgoLayers.Top:
+                case (int)ErgoLayers.Top:
                     //Debug.Log("Moving Wall !!");
                     var pos2D = InputFunctions.GetWorldPoint2D(cam);
                     var r = SelectedObjectManager.Instance.currentRoomData;
