@@ -50,7 +50,6 @@ namespace ErgoShop.POCO
         ///     Result Link P1 & P2
         /// </summary>
         [JsonIgnore] public bool wallHaveTwoLink = false;
-        [JsonIgnore] public bool loock = false;
 
         /// <summary>
         ///     Mesh data

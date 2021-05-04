@@ -96,64 +96,27 @@ namespace ErgoShop.UI
 
         private bool VerifWallConnected(List<Wall> _wallsData)
         {
-            //Debug.Log("------");
-            foreach (var wall in _wallsData)
+            int compteur = 0;
+            if (_wallsData.Count >= 3)
             {
-                wall.wallHaveTwoLink = (wall.linkedP1.Count > 0 && wall.linkedP2.Count > 0);
-                wall.loock = false;
-                //Debug.Log(wall.Index);
-
-            }
-            //Debug.Log("------");
-
-            short compteur = 0;
-
-            //verif walls form one while
-            foreach (var wall in _wallsData)
-            {
-                if (wall.wallHaveTwoLink)
+                foreach (Wall wall in _wallsData)
                 {
-                    foreach (var wallVerif in _wallsData)
+                    wall.wallHaveTwoLink = (wall.linkedP1.Count > 0 && wall.linkedP2.Count > 0);
+
+                    foreach (Wall verifWall in _wallsData)
                     {
-                        if (wallVerif.wallHaveTwoLink && wall != wallVerif)
+                        if (verifWall != wall)
                         {
-                            if (wallVerif.linkedP2.Contains(wall))
+                            //si les lien contien des wall selectionnés
+                            if (wall.linkedP2.Contains(verifWall) || wall.linkedP1.Contains(verifWall))
                             {
-                                wall.loock = true;
                                 compteur++;
                             }
-                            //else if (wallVerif.linkedP1.Contains(wall))
-                            //{
-                            //    wall.loock = true;
-                            //    compteur++;
-                            //}
                         }
                     }
                 }
             }
-
-            Debug.Log(compteur);
-
-            if (compteur >= 3)
-            {
-                // fin et debut connecter ?
-                foreach (var item in _wallsData[_wallsData.Count - 1].linkedP1)
-                {
-                    if (item == _wallsData[0])
-                    {
-                        return true;
-                    }
-                }
-
-                foreach (var item in _wallsData[_wallsData.Count - 1].linkedP2)
-                {
-                    if (item == _wallsData[0])
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
+            return (compteur == (_wallsData.Count * 2)); // example : 3 | alors 2 points donc x2
         }
 
         // return true if properties form is shown
