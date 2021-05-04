@@ -116,7 +116,16 @@ namespace ErgoShop.UI
                     }
                 }
             }
-            return (compteur == (_wallsData.Count * 2)); // example : 3 | alors 2 points donc x2
+
+            if (compteur == (_wallsData.Count * 2)) // example : 3 | alors 2 points donc x2
+            {
+                if (_wallsData[_wallsData.Count - 1].linkedP1.Contains(_wallsData[0]) || _wallsData[_wallsData.Count - 1].linkedP2.Contains(_wallsData[0]))
+                {
+                    return true; // Path
+                }
+            }
+
+            return false; // no path
         }
 
         // return true if properties form is shown
