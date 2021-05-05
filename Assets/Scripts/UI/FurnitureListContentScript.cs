@@ -14,20 +14,36 @@ namespace ErgoShop.UI
     public class FurnitureListContentScript : MonoBehaviour
     {
         private bool hasBeenEnabled;
+        RectTransform rect;
+        short Nb_ActifChild = 0;
+
+        private void Start()
+        {
+            rect = GetComponent<RectTransform>();
+        }
 
         private void Update()
         {
-            var nObjects = 0;
-            for (var i = 0; i < transform.childCount; i++)
-                if (transform.GetChild(i).gameObject.activeInHierarchy)
+            Nb_ActifChild = getNbActiveInHierarchy();
+            rect.sizeDelta = new Vector2(0, 35 * Nb_ActifChild);
+        }
+
+        /// <summary>
+        /// Compte le nombre d'enfants actif
+        /// </summary>
+        private short getNbActiveInHierarchy()
+        {
+            short nObjects = 0;
+            for (short i = 0; i < transform.childCount; i++)
+            {
+                Transform t_Child = transform.GetChild(i);
+
+                if (t_Child.gameObject.activeInHierarchy)
+                {
                     nObjects++;
-            GetComponent<RectTransform>().sizeDelta = new Vector2(0, 35 * nObjects);
-
-            ////_______________Recherche__________________///
-
-
-
-
+                }
+            }
+            return nObjects;
         }
 
         /// <summary>
@@ -35,7 +51,6 @@ namespace ErgoShop.UI
         /// </summary>
         public void FindInBrowser(TMP_InputField _field)
         {
-
             // <get child>
             List<GameObject> listObjTmp = new List<GameObject>();
             for (int i = 0; i < transform.childCount; i++)
