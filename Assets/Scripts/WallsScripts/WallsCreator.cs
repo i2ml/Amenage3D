@@ -44,17 +44,20 @@ namespace ErgoShop.Managers
         // Update is called once per frame
         private void Update()
         {
-            UpdateIsOneWall();
+            if (InputFunctions.IsMouseOutsideUI())
+            {
+                UpdateIsOneWall();
 
-            //foreach (Wall w in m_wallsData)
-            //{
-            //    UpdateWallCotation(w);
-            //}
+                foreach (Wall w in m_wallsData)
+                {
+                    UpdateWallCotation(w);
+                }
 
-            UpdateCeils();
-            SetUIZoomWidthsAndAngles();
+                UpdateCeils();
+                SetUIZoomWidthsAndAngles();
 
-            Creation();
+                Creation();
+            }
         }
 
         #region public fields
@@ -137,7 +140,7 @@ namespace ErgoShop.Managers
         /// </summary>
         private void UpdateCeils()
         {
-            foreach (var r in m_roomsData)
+            foreach (Room r in m_roomsData)
             {
                 r.Ceil.planeGenerated.SetActive(GlobalManager.Instance.cam3D.transform.position.y < r.Ceil.planeGenerated.transform.position.y);
             }
@@ -1285,21 +1288,23 @@ namespace ErgoShop.Managers
 
         private void UpdateWallCotation(Wall w)
         {
-            if (w.ShowDetailedCotations) // && w.Openings.Count > 0)
+            //if (w.ShowDetailedCotations) // && w.Openings.Count > 0)
+            //{
+            //    UpdateDetailedWallCotation(w);
+            //}
+            //else
+            //{
+            //    UpdateSimplifiedWallCotation(w);
+            //}
+
+            UpdateSimplifiedWallCotation(w);
+
+            if (w.cotOne.Length == w.cotTwo.Length)
             {
-                UpdateDetailedWallCotation(w);
+                w.cotTwo.IsExterior = true;
             }
-            else
-            {
-                UpdateSimplifiedWallCotation(w);
-            }
-
-
-
-            if (w.cotOne.Length == w.cotTwo.Length) w.cotTwo.IsExterior = true;
             // Decalage
-            if (!w.cotOne.IsExterior
-                && !w.cotTwo.IsExterior)
+            if (!w.cotOne.IsExterior && !w.cotTwo.IsExterior)
             {
                 w.cotOne.decalTextOffset = 0.2f;
                 w.cotTwo.decalTextOffset = 0.2f;
@@ -1309,7 +1314,6 @@ namespace ErgoShop.Managers
                 w.cotOne.decalTextOffset = 0f;
                 w.cotTwo.decalTextOffset = 0f;
             }
-
         }
 
         private void UpdateDetailedWallCotation(Wall w)
