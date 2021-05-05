@@ -83,7 +83,7 @@ namespace ErgoShop.Managers
                     {
                         Instance.instructionsText.text = "Déplacez la caméra avec le clic gauche. F1 pour changer de vue vers la 3D";
                     }
-                    else if(GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam3D)
+                    else if (GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam3D)
                     {
                         Instance.instructionsText.text = "Déplacez la caméra avec les fleche et avec le clic molette tournez votre vue. F1 pour changer de vue vers la 2D";
                     }
@@ -125,7 +125,7 @@ namespace ErgoShop.Managers
         /// <summary>
         ///     Hide forms
         /// </summary>
-        public void ResetTopForms()
+        public void ResetTopForms(bool ShowFurnitureForme = false)
         {
             projectForm.SetActive(false);
 
@@ -138,7 +138,11 @@ namespace ErgoShop.Managers
             floorsForm.SetActive(false);
             rectRoomForm.SetActive(false);
             othersForm.SetActive(false);
-            furnitureForm.SetActive(false);
+
+            if (!ShowFurnitureForme)
+            {
+                furnitureForm.SetActive(false);
+            }
         }
 
         //uniquement pour le menu de creation de mur

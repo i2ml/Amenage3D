@@ -114,6 +114,7 @@ namespace ErgoShop.Managers
             cotations3D = FindObjectOfType<CurrentCotation3DScript>();
 
             Sc_GlobalManager = GlobalManager.Instance;
+
         }
 
         private void UpdateFleches()
@@ -1103,6 +1104,7 @@ namespace ErgoShop.Managers
             currentCotation = null;
             currentSelectedElements.Clear();
             UpdateUIProperties();
+
         }
 
         /// <summary>
@@ -1267,7 +1269,7 @@ namespace ErgoShop.Managers
         {
             currentRoomData.Name = t;
             currentRoomData.associated2DObject.GetComponent<TextMesh>().text = t;
-            currentRoomData.associated2DObject.GetComponent<TextMesh>().color = Color.black ;
+            currentRoomData.associated2DObject.GetComponent<TextMesh>().color = Color.black;
             RoomPropPanelScript.Instance.UpdateRoomProperties();
             OperationsBufferScript.Instance.AddAutoSave("Renommage de la pièce en " + currentRoomData.Name);
         }
