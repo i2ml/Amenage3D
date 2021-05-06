@@ -650,47 +650,60 @@ namespace ErgoShop.Managers
 
         private void StickWalls(Wall oldWall, Wall newWall)
         {
-            if (oldWall == newWall) return;
-            if (oldWall.Index == newWall.Index) return;
+            if (oldWall == newWall) { return; }
+            if (oldWall.Index == newWall.Index) { return; }
             if (oldWall == null || newWall == null) Debug.Log("STICKWALL NULL " + oldWall + " " + newWall);
             // stick walls to middle of their points (tolerance in meters)
-            var stickTol = m_creating ? wallThickness : 0;
+            float stickTol = m_creating ? wallThickness : 0;
 
-            var common = WallFunctions.GetCommonPosition(oldWall, newWall);
+            Vector3 common = WallFunctions.GetCommonPosition(oldWall, newWall);
 
             // try to stick those with same extremities
             if (!common.Equals(Vector3.positiveInfinity) && !oldWall.Equals(newWall))
             {
                 if (oldWall.P1.Equals(common) && !oldWall.linkedP1.Contains(newWall))
+                {
                     oldWall.linkedP1.Add(newWall);
+                }
                 else if (oldWall.P2.Equals(common) && !oldWall.linkedP2.Contains(newWall))
+                {
                     oldWall.linkedP2.Add(newWall);
+                }
 
                 if (newWall.P1.Equals(common) && !newWall.linkedP1.Contains(oldWall))
+                {
                     newWall.linkedP1.Add(oldWall);
+                }
                 else if (newWall.P2.Equals(common) && !newWall.linkedP2.Contains(oldWall))
+                {
                     newWall.linkedP2.Add(oldWall);
+                }
             }
             // else try to stick those that are very close
             else if (!m_creating)
             {
-                var middle = WallFunctions.GetCommonPosition(oldWall, newWall, stickTol);
-                if (middle.Equals(Vector3.positiveInfinity) || oldWall.Equals(newWall)) return;
+                Vector3 middle = WallFunctions.GetCommonPosition(oldWall, newWall, stickTol);
+                if (middle.Equals(Vector3.positiveInfinity) || oldWall.Equals(newWall)) { return; }
 
                 // Stick new wall to middle
                 if (Vector3.Distance(oldWall.P1, middle) < stickTol && !oldWall.linkedP1.Contains(newWall))
+                {
                     oldWall.P1 = middle;
-                //oldWall.linkedP1.Add(newWall);
+                }
                 else if (Vector3.Distance(oldWall.P2, middle) < stickTol && !oldWall.linkedP2.Contains(newWall))
+                {
                     oldWall.P2 = middle;
-                //oldWall.linkedP2.Add(newWall);
-                // Stick old wall to middle
+                }
+
+                //Stick old wall to middle
                 if (Vector3.Distance(newWall.P1, middle) < stickTol && !newWall.linkedP1.Contains(oldWall))
+                {
                     newWall.P1 = middle;
-                //newWall.linkedP1.Add(oldWall);
+                }
                 else if (Vector3.Distance(newWall.P2, middle) < stickTol && !newWall.linkedP2.Contains(oldWall))
+                {
                     newWall.P2 = middle;
-                //newWall.linkedP2.Add(oldWall);
+                }
             }
         }
 
@@ -865,27 +878,28 @@ namespace ErgoShop.Managers
         {
             foreach (Wall w in m_wallsData)
             {
+                w.Position = VectorFunctions.Switch2D3D(w.Center, w.Height / 2f);
+
                 w.linkedP1.Clear();
                 w.linkedP2.Clear();
-
-                w.Position = VectorFunctions.Switch2D3D(w.Center, w.Height / 2f);
-            }
-
-            foreach (Wall w in m_wallsData)
-            {
                 foreach (Wall w2 in m_wallsData)
                 {
                     StickWalls(w, w2);
                 }
-            }
-            //foreach(var w in m_wallsData)
 
-            foreach (Wall w in m_wallsData)
-            {
                 AdjustWallVertices(w);
+
+                if (w.linkedP1.Count == 0 && w.linkedP2.Count == 0)
+                {
+                    foreach (WallOpening wo in w.Openings)
+                    {
+                        UpdateWallOpeningAngles(wo);
+                    }
+                }
             }
 
-            foreach (var r in m_roomsData)
+            //gestion 2D
+            foreach (Room r in m_roomsData)
             {
                 if (!r.associated2DObject)
                 {
@@ -896,27 +910,6 @@ namespace ErgoShop.Managers
                 }
 
                 r.associated2DObject.transform.position = r.GetCenter();
-            }
-
-            foreach (Wall w in m_wallsData)
-            {
-                foreach (Wall w1 in w.linkedP1)
-                {
-                    UpdateAngles(w, w1);
-                }
-
-                foreach (Wall w2 in w.linkedP2)
-                {
-                    UpdateAngles(w, w2);
-                }
-
-                if (w.linkedP1.Count == 0 && w.linkedP2.Count == 0)
-                {
-                    foreach (WallOpening wo in w.Openings)
-                    {
-                        UpdateWallOpeningAngles(wo);
-                    }
-                }
             }
         }
 
@@ -1747,11 +1740,12 @@ namespace ErgoShop.Managers
 
         public void UpdateBothWallPoints(Wall w, Vector2 newP1, Vector2 newP2)
         {
-            var linkedR = WallFunctions.GetRoomsFromWall(w, m_roomsData);
-            var isRect = linkedR.Count > 0 ? linkedR.Where(ro => ro.LockAngles).Count() > 0 : false;
+            List<Room> linkedR = WallFunctions.GetRoomsFromWall(w, m_roomsData);
+            bool isRect = linkedR.Count > 0 ? linkedR.Where(ro => ro.LockAngles).Count() > 0 : false;
+
             WallFunctions.SetNewPointsForWall(w, newP1, newP2, isRect, true);
             // Graphical
-            AdjustAllWalls();
+            AdjustAllWalls(); // here is expensive add() 
             AdjustGroundsAndCeils();
         }
 

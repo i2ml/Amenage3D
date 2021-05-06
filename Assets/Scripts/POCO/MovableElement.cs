@@ -28,6 +28,16 @@ namespace ErgoShop.POCO
 
         public bool CanBePutOnFurniture { get; set; }
 
+        // sortie du update
+        private Camera cam2d, cam3d,cam;
+
+        private void InitVar ()
+        {
+            cam = GlobalManager.Instance.GetActiveCamera();
+            cam2d = GlobalManager.Instance.cam2DTop.GetComponent<Camera>();
+            cam3d = GlobalManager.Instance.cam3D.GetComponent<Camera>();
+        }
+
         /// <summary>
         ///     adjust 2d and 3d objects transform according to data
         /// </summary>
@@ -106,7 +116,7 @@ namespace ErgoShop.POCO
         /// <param name="startingPos">where the users starts clicking</param>
         public virtual void Move(Vector3 startingPos)
         {
-            Camera cam = GlobalManager.Instance.GetActiveCamera();
+            InitVar();
 
             List<string> tags = new List<string> { "" };
             if (IsOnWall)
@@ -145,8 +155,7 @@ namespace ErgoShop.POCO
                             else
                             {
                                 Vector3 proj = Math3d.ProjectPointOnLineSegment(wd.P1, wd.P2, pos2D);
-                                if (Vector2.Distance(pos2D, proj)
-                                    < Vector2.Distance(pos2D, closestProj))
+                                if (Vector2.Distance(pos2D, proj) < Vector2.Distance(pos2D, closestProj))
                                 {
                                     closestWall = wd;
                                     closestProj = proj;
@@ -170,7 +179,7 @@ namespace ErgoShop.POCO
                             {
                                 GameObject potentialFurniture = InputFunctions.GetHoveredObject2D
                                     (
-                                        GlobalManager.Instance.cam2DTop.GetComponent<Camera>(),
+                                        cam2d,
                                         associated2DObject.name,
                                         true
                                     );

@@ -231,8 +231,9 @@ namespace ErgoShop.POCO
         /// <param name="updateLinked">true to update linked walls. Be careful If false the wall might be separated from the others</param>
         public void SetPosition(Vector3 newPosition, bool updateLinked = true)
         {
-            var newP1 = newPosition - Length * Direction / 2f;
-            var newP2 = newPosition + Length * Direction / 2f;
+            Vector3 newP1 = newPosition - Length * Direction / 2f;
+            Vector3 newP2 = newPosition + Length * Direction / 2f;
+
             if (updateLinked)
             {
                 WallsCreator.Instance.UpdateBothWallPoints(this, newP1, newP2);
@@ -265,16 +266,18 @@ namespace ErgoShop.POCO
         /// <param name="offset">The starting position when the users clicks</param>
         public override void Move(Vector3 offset)
         {
-            var cam = GlobalManager.Instance.GetActiveCamera();
+            Camera cam = GlobalManager.Instance.GetActiveCamera();
 
             switch (cam.gameObject.layer)
             {
                 case (int)ErgoLayers.Top:
+
                     //Debug.Log("Moving Wall !!");
-                    var pos2D = InputFunctions.GetWorldPoint2D(cam);
-                    var r = SelectedObjectManager.Instance.currentRoomData;
-                    var roomMod = r == null ? 1f : r.LockAngles ? 1f / 4f : 1f / 2f;
+                    Vector3 pos2D = InputFunctions.GetWorldPoint2D(cam);
+                    Room r = SelectedObjectManager.Instance.currentRoomData;
+                    System.Single roomMod = r == null ? 1f : r.LockAngles ? 1f / 4f : 1f / 2f;
                     SetPosition(VectorFunctions.Switch3D2D(Position) + (pos2D - offset) * roomMod);
+
                     break;
             }
         }
