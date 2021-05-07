@@ -684,7 +684,7 @@ namespace ErgoShop.Managers
                     bool onlyOneWall = m_elementsToMove.Count == 1 || m_elementsToMove.Where(m => m is Furniture && (m as Furniture).IsOnWall).Count() == 0;
 
                     // while pressed, update furniture position
-                    if (Input.GetMouseButton(0) && m_elementsToMove.Count > 0 && m_elementsToMove.Where(m => m.IsLocked).Count() == 0 && onlyOneWall)
+                    if (Input.GetMouseButton(0) && m_elementsToMove.Count > 0 && onlyOneWall && m_elementsToMove.Where(m => m.IsLocked).Count() == 0)
                     {
                         if (m_currentTimerMove > moveFurnitureTimer) // temps avant l'activation du mouvement 
                         {
@@ -822,10 +822,14 @@ namespace ErgoShop.Managers
         {
             foreach (var r in WallsCreator.Instance.GetRooms())
             {
-                var ok = true;
-                foreach (var w in currentWallsData)
+                bool ok = true;
+                foreach (Wall w in currentWallsData)
+                {
                     if (!r.Walls.Contains(w))
+                    {
                         ok = false;
+                    }
+                }
                 if (ok) return r.Walls.Count == currentWallsData.Count ? r : null;
             }
 
@@ -1738,7 +1742,7 @@ namespace ErgoShop.Managers
         /// <returns>true if found in selection</returns>
         private bool IsGoInSelectedElements(GameObject go)
         {
-            foreach (var e in currentSelectedElements)
+            foreach (Element e in currentSelectedElements)
             {
                 if (e.associated2DObject == go || e.associated3DObject == go)
                 {

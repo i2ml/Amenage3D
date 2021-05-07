@@ -268,9 +268,9 @@ namespace ErgoShop.POCO
         {
             Camera cam = GlobalManager.Instance.GetActiveCamera();
 
-            switch (cam.gameObject.layer)
-            {
-                case (int)ErgoLayers.Top:
+            //switch (cam.gameObject.layer)
+            //{
+            //    case (int)ErgoLayers.Top:
 
                     //Debug.Log("Moving Wall !!");
                     Vector3 pos2D = InputFunctions.GetWorldPoint2D(cam);
@@ -278,8 +278,8 @@ namespace ErgoShop.POCO
                     System.Single roomMod = r == null ? 1f : r.LockAngles ? 1f / 4f : 1f / 2f;
                     SetPosition(VectorFunctions.Switch3D2D(Position) + (pos2D - offset) * roomMod);
 
-                    break;
-            }
+            //        break;
+            //}
         }
 
         /// <summary>
