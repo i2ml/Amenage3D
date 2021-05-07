@@ -44,13 +44,20 @@ namespace ErgoShop.Managers
         // Update is called once per frame
         private void Update()
         {
-            UpdateIsOneWall();
+            if (InputFunctions.IsMouseOutsideUI())
+            {
+                UpdateIsOneWall();
 
-            foreach (var w in m_wallsData) UpdateWallCotation(w);
+                foreach (Wall w in m_wallsData)
+                {
+                    UpdateWallCotation(w);
+                }
 
-            UpdateCeils();
-            SetUIZoomWidthsAndAngles();
-            Creation();
+                UpdateCeils();
+                SetUIZoomWidthsAndAngles();
+
+                Creation();
+            }
         }
 
         #region public fields
@@ -133,7 +140,7 @@ namespace ErgoShop.Managers
         /// </summary>
         private void UpdateCeils()
         {
-            foreach (var r in m_roomsData)
+            foreach (Room r in m_roomsData)
             {
                 r.Ceil.planeGenerated.SetActive(GlobalManager.Instance.cam3D.transform.position.y < r.Ceil.planeGenerated.transform.position.y);
             }
@@ -454,7 +461,7 @@ namespace ErgoShop.Managers
                 m_currentRoomData.Walls[i].associated3DObject.transform.parent = room3D;
 
 
-               
+
                 m_currentRoomData.Walls[i].Index = 0;
 
                 if (LastIndexRoom == 0 && m_currentRoomdx == 0)
@@ -643,47 +650,60 @@ namespace ErgoShop.Managers
 
         private void StickWalls(Wall oldWall, Wall newWall)
         {
-            if (oldWall == newWall) return;
-            if (oldWall.Index == newWall.Index) return;
+            if (oldWall == newWall) { return; }
+            if (oldWall.Index == newWall.Index) { return; }
             if (oldWall == null || newWall == null) Debug.Log("STICKWALL NULL " + oldWall + " " + newWall);
             // stick walls to middle of their points (tolerance in meters)
-            var stickTol = m_creating ? wallThickness : 0;
+            float stickTol = m_creating ? wallThickness : 0;
 
-            var common = WallFunctions.GetCommonPosition(oldWall, newWall);
+            Vector3 common = WallFunctions.GetCommonPosition(oldWall, newWall);
 
             // try to stick those with same extremities
             if (!common.Equals(Vector3.positiveInfinity) && !oldWall.Equals(newWall))
             {
                 if (oldWall.P1.Equals(common) && !oldWall.linkedP1.Contains(newWall))
+                {
                     oldWall.linkedP1.Add(newWall);
+                }
                 else if (oldWall.P2.Equals(common) && !oldWall.linkedP2.Contains(newWall))
+                {
                     oldWall.linkedP2.Add(newWall);
+                }
 
                 if (newWall.P1.Equals(common) && !newWall.linkedP1.Contains(oldWall))
+                {
                     newWall.linkedP1.Add(oldWall);
+                }
                 else if (newWall.P2.Equals(common) && !newWall.linkedP2.Contains(oldWall))
+                {
                     newWall.linkedP2.Add(oldWall);
+                }
             }
             // else try to stick those that are very close
             else if (!m_creating)
             {
-                var middle = WallFunctions.GetCommonPosition(oldWall, newWall, stickTol);
-                if (middle.Equals(Vector3.positiveInfinity) || oldWall.Equals(newWall)) return;
+                Vector3 middle = WallFunctions.GetCommonPosition(oldWall, newWall, stickTol);
+                if (middle.Equals(Vector3.positiveInfinity) || oldWall.Equals(newWall)) { return; }
 
                 // Stick new wall to middle
                 if (Vector3.Distance(oldWall.P1, middle) < stickTol && !oldWall.linkedP1.Contains(newWall))
+                {
                     oldWall.P1 = middle;
-                //oldWall.linkedP1.Add(newWall);
+                }
                 else if (Vector3.Distance(oldWall.P2, middle) < stickTol && !oldWall.linkedP2.Contains(newWall))
+                {
                     oldWall.P2 = middle;
-                //oldWall.linkedP2.Add(newWall);
-                // Stick old wall to middle
+                }
+
+                //Stick old wall to middle
                 if (Vector3.Distance(newWall.P1, middle) < stickTol && !newWall.linkedP1.Contains(oldWall))
+                {
                     newWall.P1 = middle;
-                //newWall.linkedP1.Add(oldWall);
+                }
                 else if (Vector3.Distance(newWall.P2, middle) < stickTol && !newWall.linkedP2.Contains(oldWall))
+                {
                     newWall.P2 = middle;
-                //newWall.linkedP2.Add(oldWall);
+                }
             }
         }
 
@@ -742,9 +762,9 @@ namespace ErgoShop.Managers
 
         public void AdjustGroundsAndCeils()
         {
-            foreach (var room in m_roomsData)
+            foreach (Room room in m_roomsData)
             {
-                var vertices = WallFunctions.GetDistinctPositionsSortedForOneRoom(room.Walls);
+                List<Vector3> vertices = WallFunctions.GetDistinctPositionsSortedForOneRoom(room.Walls);
 
                 if (room.associated2DObject == null)
                 {
@@ -757,24 +777,33 @@ namespace ErgoShop.Managers
                 room.associated2DObject.transform.position = room.GetCenter();
 
                 if (room.Ground != null && room.Ground.planeGenerated != null)
+                {
                     Destroy(room.Ground.planeGenerated.gameObject);
+                }
                 if (room.Ground == null)
+                {
                     room.Ground = new Ground
                     {
                         Color = new Color(200 / 255f, 200 / 255f, 200 / 255f)
                     };
-                if (room.Ceil != null && room.Ceil.planeGenerated != null) Destroy(room.Ceil.planeGenerated);
+                }
+                if (room.Ceil != null && room.Ceil.planeGenerated != null)
+                {
+                    Destroy(room.Ceil.planeGenerated);
+                }
                 if (room.Ceil == null)
+                {
                     room.Ceil = new Ceil
                     {
                         Color = Color.white
                     };
+                }
 
-                var center3D = VectorFunctions.Switch2D3D(VectorFunctions.GetCenter(vertices));
-                var vs = new List<Vector3>();
-                foreach (var v in vertices)
+                Vector3 center3D = VectorFunctions.Switch2D3D(VectorFunctions.GetCenter(vertices));
+                List<Vector3> vs = new List<Vector3>();
+                foreach (Vector3 v in vertices)
                 {
-                    var nv = VectorFunctions.Switch2D3D(v);
+                    Vector3 nv = VectorFunctions.Switch2D3D(v);
                     nv -= center3D;
                     vs.Add(nv);
                 }
@@ -782,7 +811,11 @@ namespace ErgoShop.Managers
                 //var triangles3D = VectorFunctions.TriangulateConvex(VectorFunctions.SortVerticesConvex(Vector3.up, vs));
                 //var triangles3DCeil = VectorFunctions.TriangulateConvex(VectorFunctions.SortVerticesConvex(Vector3.down, vs));
 
-                if (room.Ground.planeGenerated) Destroy(room.Ground.planeGenerated);
+                if (room.Ground.planeGenerated)
+                {
+                    Destroy(room.Ground.planeGenerated);
+                }
+
                 room.Ground.planeGenerated = Instantiate(polyShapePrefab);
                 room.Ground.planeGenerated.layer = (int)ErgoLayers.ThreeD;
                 room.Ground.planeGenerated.transform.parent = room3D;
@@ -790,7 +823,10 @@ namespace ErgoShop.Managers
                 room.Ground.planeGenerated.tag = "Ground";
                 room.Ground.planeGenerated.name = "Ground";
 
-                if (room.Ceil.planeGenerated) Destroy(room.Ceil.planeGenerated);
+                if (room.Ceil.planeGenerated)
+                {
+                    Destroy(room.Ceil.planeGenerated);
+                }
                 room.Ceil.planeGenerated = Instantiate(polyShapePrefab);
                 room.Ceil.planeGenerated.layer = (int)ErgoLayers.ThreeD;
                 room.Ceil.planeGenerated.transform.parent = room3D;
@@ -799,13 +835,13 @@ namespace ErgoShop.Managers
                 room.Ceil.planeGenerated.name = "Ceil";
                 //room.Ceil.planeGenerated.tag = "Ceil";
 
-                var pbog = room.Ground.planeGenerated.GetComponent<pb_Object>();
+                pb_Object pbog = room.Ground.planeGenerated.GetComponent<pb_Object>();
                 pbog.CreateShapeFromPolygon(vs, 0.0f, false);
 
                 pbog.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Diffuse"));
                 pbog.GetComponent<MeshRenderer>().material.color = room.Ground.Color;
 
-                var pboc = room.Ceil.planeGenerated.GetComponent<pb_Object>();
+                pb_Object pboc = room.Ceil.planeGenerated.GetComponent<pb_Object>();
                 pboc.CreateShapeFromPolygon(vs, 0.1f, false);
 
                 pboc.GetComponent<MeshRenderer>().material = new Material(Shader.Find("Diffuse"));
@@ -840,23 +876,30 @@ namespace ErgoShop.Managers
 
         public void AdjustAllWalls()
         {
-            foreach (var w in m_wallsData)
+            foreach (Wall w in m_wallsData)
             {
+                w.Position = VectorFunctions.Switch2D3D(w.Center, w.Height / 2f);
+
                 w.linkedP1.Clear();
                 w.linkedP2.Clear();
+                foreach (Wall w2 in m_wallsData)
+                {
+                    StickWalls(w, w2);
+                }
 
-                w.Position = VectorFunctions.Switch2D3D(w.Center, w.Height / 2f);
+                AdjustWallVertices(w);
+
+                if (w.linkedP1.Count == 0 && w.linkedP2.Count == 0)
+                {
+                    foreach (WallOpening wo in w.Openings)
+                    {
+                        UpdateWallOpeningAngles(wo);
+                    }
+                }
             }
 
-            foreach (var w in m_wallsData)
-                foreach (var w2 in m_wallsData)
-                    StickWalls(w, w2);
-
-            //foreach(var w in m_wallsData)
-
-            foreach (var w in m_wallsData) AdjustWallVertices(w);
-
-            foreach (var r in m_roomsData)
+            //gestion 2D
+            foreach (Room r in m_roomsData)
             {
                 if (!r.associated2DObject)
                 {
@@ -868,22 +911,13 @@ namespace ErgoShop.Managers
 
                 r.associated2DObject.transform.position = r.GetCenter();
             }
-
-            foreach (var w in m_wallsData)
-            {
-                foreach (var w1 in w.linkedP1) UpdateAngles(w, w1);
-                foreach (var w2 in w.linkedP2) UpdateAngles(w, w2);
-                if (w.linkedP1.Count == 0 && w.linkedP2.Count == 0)
-                    foreach (var wo in w.Openings)
-                        UpdateWallOpeningAngles(wo);
-            }
         }
 
         // Draw angles and update texts and "fake" ui scales
         public void SetUIZoomWidthsAndAngles()
         {
             var zoom = Mathf.Abs(GlobalManager.Instance.cam2DTop.transform.position.z / 10f);
-            foreach (var a in m_anglesData)
+            foreach (AngleScript a in m_anglesData)
             {
                 a.LineRend.startWidth = zoom / 20f;
                 a.LineRend.endWidth = zoom / 20f;
@@ -892,15 +926,18 @@ namespace ErgoShop.Managers
                 a.DrawAngle();
             }
 
-            foreach (var r in m_roomsData) r.associated2DObject.transform.localScale = Vector3.one * zoom;
+            foreach (Room r in m_roomsData)
+            {
+                r.associated2DObject.transform.localScale = Vector3.one * zoom;
+            }
         }
 
         private void AdjustWallVertices(Wall w)
         {
             ClearWallGraphics(w);
             w.vertices2D.Clear();
-            var a0 = w.P1;
-            var b1 = w.P2;
+            Vector3 a0 = w.P1;
+            Vector3 b1 = w.P2;
 
             if (w.Openings.Count == 0)
             {
@@ -908,7 +945,7 @@ namespace ErgoShop.Managers
             }
             else if (w.Openings.Count == 1)
             {
-                var wo = w.Openings[0];
+                WallOpening wo = w.Openings[0];
 
                 Vector3 a1, b0;
                 a1 = wo.Position - wo.Size.x * ((b1 - a0).normalized / 2);
@@ -1244,14 +1281,23 @@ namespace ErgoShop.Managers
 
         private void UpdateWallCotation(Wall w)
         {
-            if (w.ShowDetailedCotations) // && w.Openings.Count > 0)
-                UpdateDetailedWallCotation(w);
-            else
-                UpdateSimplifiedWallCotation(w);
-            if (w.cotOne.Length == w.cotTwo.Length) w.cotTwo.IsExterior = true;
+            //if (w.ShowDetailedCotations) // && w.Openings.Count > 0)
+            //{
+            //    UpdateDetailedWallCotation(w);
+            //}
+            //else
+            //{
+            //    UpdateSimplifiedWallCotation(w);
+            //}
+
+            UpdateSimplifiedWallCotation(w);
+
+            if (w.cotOne.Length == w.cotTwo.Length)
+            {
+                w.cotTwo.IsExterior = true;
+            }
             // Decalage
-            if (!w.cotOne.IsExterior
-                && !w.cotTwo.IsExterior)
+            if (!w.cotOne.IsExterior && !w.cotTwo.IsExterior)
             {
                 w.cotOne.decalTextOffset = 0.2f;
                 w.cotTwo.decalTextOffset = 0.2f;
@@ -1261,7 +1307,6 @@ namespace ErgoShop.Managers
                 w.cotOne.decalTextOffset = 0f;
                 w.cotTwo.decalTextOffset = 0f;
             }
-
         }
 
         private void UpdateDetailedWallCotation(Wall w)
@@ -1369,7 +1414,7 @@ namespace ErgoShop.Managers
             w.cotOne.gameObject.SetActive(true);
             w.cotTwo.gameObject.SetActive(true);
 
-            var fourVertices = WallFunctions.GetFourVerticesFromWall(w);
+            List<Vector3> fourVertices = WallFunctions.GetFourVerticesFromWall(w);
             if (fourVertices == null || fourVertices.Count < 4) return;
 
             w.cotOne.start = fourVertices[0];
@@ -1384,8 +1429,8 @@ namespace ErgoShop.Managers
             w.cotOne.SetPerp(w);
             w.cotTwo.SetPerp(w);
 
-            var p = w.cotOne.Perp * 0.1f;
-            var p2 = w.cotTwo.Perp * 0.1f;
+            Vector3 p = w.cotOne.Perp * 0.1f;
+            Vector3 p2 = w.cotTwo.Perp * 0.1f;
 
             w.cotOne.start = w.cotOne.start + p;
             w.cotOne.end = w.cotOne.end + p;
@@ -1695,11 +1740,12 @@ namespace ErgoShop.Managers
 
         public void UpdateBothWallPoints(Wall w, Vector2 newP1, Vector2 newP2)
         {
-            var linkedR = WallFunctions.GetRoomsFromWall(w, m_roomsData);
-            var isRect = linkedR.Count > 0 ? linkedR.Where(ro => ro.LockAngles).Count() > 0 : false;
+            List<Room> linkedR = WallFunctions.GetRoomsFromWall(w, m_roomsData);
+            bool isRect = linkedR.Count > 0 ? linkedR.Where(ro => ro.LockAngles).Count() > 0 : false;
+
             WallFunctions.SetNewPointsForWall(w, newP1, newP2, isRect, true);
             // Graphical
-            AdjustAllWalls();
+            AdjustAllWalls(); // here is expensive add() 
             AdjustGroundsAndCeils();
         }
 
@@ -1878,7 +1924,7 @@ namespace ErgoShop.Managers
 
             if (m_wallsData.Count != 0)
             {
-               // Debug.Log("el ROOOMM :" + m_wallsData[m_wallsData.Count - 1].Index);
+                // Debug.Log("el ROOOMM :" + m_wallsData[m_wallsData.Count - 1].Index);
                 LastIndexRoom = m_wallsData[m_wallsData.Count - 1].Index;
             }
 
@@ -1915,7 +1961,7 @@ namespace ErgoShop.Managers
             SetCreationModeNone();
 
 
-          //  Debug.Log("room : " + m_roomsData.Count + "Walls :" + m_wallsData.Count);
+            //  Debug.Log("room : " + m_roomsData.Count + "Walls :" + m_wallsData.Count);
         }
 
         public void SetThickness(string s)

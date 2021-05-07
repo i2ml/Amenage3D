@@ -80,13 +80,20 @@ namespace ErgoShop.UI
                 {
                     // Room name
                     roomNameInput.text = roomData.Name;
+
                     roomIsRectToggle.isOn = roomData.LockAngles;
-                    var model = roomData.Walls[0].Color;
-                    if (roomData.Walls.TrueForAll(w => w.Color == model))
+
+                    //color
+                    UnityEngine.Color model = roomData.Walls[0].Color;
+                    if (roomData.Walls.TrueForAll(w => w.Color == model)) // if same color 
                     {
                         wallsImageToggle.gameObject.SetActive(true);
-                        wallsColorPicker.Color = new Color(roomData.Walls[0].Color.r, roomData.Walls[0].Color.g,
-                            roomData.Walls[0].Color.b);
+                        wallsColorPicker.Color = new Color
+                            (
+                                roomData.Walls[0].Color.r,
+                                roomData.Walls[0].Color.g,
+                                roomData.Walls[0].Color.b
+                            );
                         wallsImageToggle.color = wallsColorPicker.Color;
                     }
                     else
@@ -95,8 +102,12 @@ namespace ErgoShop.UI
                         wallsImageToggle.gameObject.SetActive(false);
                     }
 
-                    groundImageToggle.color = new Color(roomData.Ground.Color.r, roomData.Ground.Color.g,
-                        roomData.Ground.Color.b);
+                    groundImageToggle.color = new Color
+                        (
+                            roomData.Ground.Color.r,
+                            roomData.Ground.Color.g,
+                            roomData.Ground.Color.b
+                        );
                     groundColorPicker.Color = groundImageToggle.color;
                 }
 

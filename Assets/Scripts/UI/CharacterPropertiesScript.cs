@@ -55,6 +55,7 @@ namespace ErgoShop.UI
         private bool CheckPropertiesBindings(List<CharacterElement> chs)
         {
             characterPropertiesPanel.SetActive(chs.Count > 0);
+            Debug.Log(chs.Count > 0);
             if (characterPropertiesPanel.activeInHierarchy)
             {
                 var model = chs[0];

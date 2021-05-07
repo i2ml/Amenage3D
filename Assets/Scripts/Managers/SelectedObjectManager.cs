@@ -91,6 +91,17 @@ namespace ErgoShop.Managers
 
         private GlobalManager Sc_GlobalManager = null;
 
+        private InputField[] listInputFields;
+
+        IEnumerable<Wall> walls;
+        IEnumerable<Furniture> furnitures;
+        IEnumerable<WallOpening> wallsOpenings;
+        IEnumerable<Stairs> stairs;
+        IEnumerable<HelperElement> helepersElements;
+        IEnumerable<CharacterElement> charactersElements;
+
+        Camera cam2d, cam3d;
+
         private void Awake()
         {
             Instance = this;
@@ -114,6 +125,53 @@ namespace ErgoShop.Managers
             cotations3D = FindObjectOfType<CurrentCotation3DScript>();
 
             Sc_GlobalManager = GlobalManager.Instance;
+
+            if (!Instance)
+            {
+                Instance = this;
+            }
+
+            walls = currentSelectedElements.OfType<Wall>();
+            furnitures = currentSelectedElements.OfType<Furniture>();
+            wallsOpenings = currentSelectedElements.OfType<WallOpening>();
+            stairs = currentSelectedElements.OfType<Stairs>();
+            helepersElements = currentSelectedElements.OfType<HelperElement>();
+            charactersElements = currentSelectedElements.OfType<CharacterElement>();
+
+            if (walls != null)
+            {
+                currentWallsData.AddRange(walls);
+            }
+
+            if (furnitures != null)
+            {
+                currentFurnitureData.AddRange(furnitures);
+            }
+
+            if (wallsOpenings != null)
+            {
+                currentWallOpenings.AddRange(wallsOpenings);
+            }
+
+            if (stairs != null)
+            {
+                currentStairs.AddRange(stairs);
+            }
+
+            if (helepersElements != null)
+            {
+                currentHelperElements.AddRange(helepersElements);
+            }
+
+            if (charactersElements != null)
+            {
+                currentCharacters.AddRange(charactersElements);
+            }
+
+            cam3d = GlobalManager.Instance.cam3D.GetComponent<Camera>();
+            cam2d = GlobalManager.Instance.cam2DTop.GetComponent<Camera>();
+
+            listInputFields = FindObjectsOfType<InputField>();
         }
 
         private void UpdateFleches()
@@ -129,14 +187,12 @@ namespace ErgoShop.Managers
 
                             go_Fleche2D.transform.position = currentObjectSelect.transform.position;
                             go_Fleche2D.transform.rotation = currentObjectSelect.transform.rotation;
-                            //go_Fleche2D.transform.localScale = new Vector3(3, 3, 3);
                             break;
                         case ViewMode.ThreeD:
                             go_Fleche3D.SetActive(true);
 
                             go_Fleche3D.transform.position = currentObjectSelect.transform.position + Vector3.up;
                             go_Fleche3D.transform.rotation = currentObjectSelect.transform.rotation;
-                            //go_Fleche3D.transform.localScale = new Vector3(3, 3, 3);
                             break;
                         default:
                             break;
@@ -150,6 +206,7 @@ namespace ErgoShop.Managers
             }
 
         }
+
 
         /// <summary>
         ///     Update method handles everything to do with a selected object :
@@ -167,7 +224,6 @@ namespace ErgoShop.Managers
         /// </summary>
         private void Update()
         {
-            if (!Instance) Instance = this;
             if (!WallsCreator.Instance.IsCreating() &&
                 !HelpersCreator.Instance.IsOccupied() &&
                 !WallArrowsScript.Instance.isMoving &&
@@ -180,33 +236,34 @@ namespace ErgoShop.Managers
                 if (SelectionManager.Instance.IsSelecting)
                 {
                     ResetSelection();
-                    foreach (var elem in AllElementsManager.Instance.AllElements)
+
+                    foreach (Element elem in AllElementsManager.Instance.AllElements)
                     {
                         if (elem is ElementGroup) continue;
+
                         if (SelectionManager.Instance.IsWithinSelectionBounds((elem as MovableElement).Position))
                         {
-                            var eg = GroupsManager.Instance.GetGroupFromGameObject(currentHoveredElementGo);
+                            ElementGroup eg = GroupsManager.Instance.GetGroupFromGameObject(currentHoveredElementGo);
                             if (eg != null)
+                            {
                                 currentElementGroups.Add(eg);
-                            else if (elem is Furniture) currentSelectedElements.Add(elem);
+                            }
+                            else if (elem is Furniture)
+                            {
+                                currentSelectedElements.Add(elem);
+                            }
                         }
                     }
 
-                    var ws = currentSelectedElements.OfType<Wall>();
-                    if (ws != null) currentWallsData.AddRange(ws);
-                    if (currentRoomData == null) currentRoomData = CheckRoomFromWalls(currentWallsData);
-                    var fs = currentSelectedElements.OfType<Furniture>();
-                    if (fs != null) currentFurnitureData.AddRange(fs);
-                    var wos = currentSelectedElements.OfType<WallOpening>();
-                    if (wos != null) currentWallOpenings.AddRange(wos);
-                    var ss = currentSelectedElements.OfType<Stairs>();
-                    if (ss != null) currentStairs.AddRange(ss);
-                    var hs = currentSelectedElements.OfType<HelperElement>();
-                    if (hs != null) currentHelperElements.AddRange(hs);
-                    var ch = currentSelectedElements.OfType<CharacterElement>();
-                    if (ch != null) currentCharacters.AddRange(ch);
+                    if (currentRoomData == null)
+                    {
+                        currentRoomData = CheckRoomFromWalls(currentWallsData);
+                    }
 
-                    if (Input.GetMouseButtonUp(0)) SelectionManager.Instance.IsSelecting = false;
+                    if (Input.GetMouseButtonUp(0))
+                    {
+                        SelectionManager.Instance.IsSelecting = false;
+                    }
                 }
                 else
                 {
@@ -225,40 +282,40 @@ namespace ErgoShop.Managers
                 CopyElementsToClipboard();
                 PasteElement();
                 //7
-                if (Input.GetKey(KeyCode.Delete) && (currentCotation == null ||
-                                                     currentCotation.cotationField.transform.position ==
-                                                     Vector3.one * 10000f)) DeleteSelectedElements();
+                if (Input.GetKey(KeyCode.Delete) &&
+                    (currentCotation == null || currentCotation.cotationField.transform.position == Vector3.one * 10000f))
+                {
+                    DeleteSelectedElements();
+                }
                 //8
                 if (Input.GetKeyDown(KeyCode.F) && InputFunctions.IsMouseOutsideUI())
                 {
                     FocusOnSelection();
                     StartCoroutine(ReFocusCoroutine());
                 }
-
                 //9
-                if (Input.GetKeyDown(KeyCode.Escape)) ResetSelection();
-            }
-
-            //10
-            // COTATION EDITION
-            if (currentCotation && currentCotation.cotationField)
-            {
-                if (currentCotation.is3D)
+                if (Input.GetKeyDown(KeyCode.Escape))
                 {
-                    var uiPos = GlobalManager.Instance.cam3D.GetComponent<Camera>()
-                        .WorldToScreenPoint(currentCotation.cotationTM.transform.position);
-                    currentCotation.cotationField.transform.position = uiPos;
+                    ResetSelection();
                 }
-                else
-                {
-                    var uiPos = GlobalManager.Instance.cam2DTop.GetComponent<Camera>()
-                        .WorldToScreenPoint(currentCotation.cotationTM.transform.position);
-                    currentCotation.cotationField.transform.position = uiPos;
-                }
-            }
 
-            //update Gizmo 
-            UpdateFleches();
+                //10
+                // COTATION EDITION
+                if (currentCotation && currentCotation.cotationField)
+                {
+                    if (currentCotation.is3D)
+                    {
+                        currentCotation.cotationField.transform.position = cam3d.WorldToScreenPoint(currentCotation.cotationTM.transform.position);
+                    }
+                    else
+                    {
+                        currentCotation.cotationField.transform.position = cam2d.WorldToScreenPoint(currentCotation.cotationTM.transform.position);
+                    }
+                }
+
+                //update Gizmo 
+                UpdateFleches();
+            }
         }
 
         /// <summary>
@@ -600,31 +657,38 @@ namespace ErgoShop.Managers
         private void MoveElements()
         {
             if (m_currentPlacingFurniture != null)
+            {
                 PlaceFurniture();
+            }
             else if (InputFunctions.IsMouseOutsideUI())
+            {
                 // (movableelements)
                 if (currentSelectedElements.Where(e => e is MovableElement).Count() == currentSelectedElements.Count)
                 {
                     // Click on current movable element = start to move it
-                    var go = InputFunctions.GetHoveredObject(GlobalManager.Instance.GetActiveCamera());
+                    GameObject go = InputFunctions.GetHoveredObject(GlobalManager.Instance.GetActiveCamera());
+
                     if (Input.GetMouseButtonDown(0) && IsGoInSelectedElements(go))
                     {
-                        foreach (var elem in currentSelectedElements)
+                        foreach (Element elem in currentSelectedElements)
+                        {
                             if (!m_elementsToMove.Contains(elem))
+                            {
                                 m_elementsToMove.Add(elem as MovableElement);
-                        m_startingMovePos = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
+                            }
+                            m_startingMovePos = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
+                        }
                     }
 
                     // Cant move if several elements and one of them at least is on wall
-                    var onlyOneWall = m_elementsToMove.Count == 1 ||
-                                      m_elementsToMove.Where(m => m is Furniture && (m as Furniture).IsOnWall)
-                                          .Count() == 0;
+                    bool onlyOneWall = m_elementsToMove.Count == 1 || m_elementsToMove.Where(m => m is Furniture && (m as Furniture).IsOnWall).Count() == 0;
+
                     // while pressed, update furniture position
-                    if (Input.GetMouseButton(0) && m_elementsToMove.Count > 0 &&
-                        m_elementsToMove.Where(m => m.IsLocked).Count() == 0 && onlyOneWall)
+                    if (Input.GetMouseButton(0) && m_elementsToMove.Count > 0 && onlyOneWall && m_elementsToMove.Where(m => m.IsLocked).Count() == 0)
                     {
-                        if (m_currentTimerMove > moveFurnitureTimer)
-                            foreach (var elem in m_elementsToMove)
+                        if (m_currentTimerMove > moveFurnitureTimer) // temps avant l'activation du mouvement 
+                        {
+                            foreach (MovableElement elem in m_elementsToMove)
                             {
                                 //Debug.Log("Moving");
                                 if (elem.associated3DObject)
@@ -639,6 +703,7 @@ namespace ErgoShop.Managers
 
                                 elem.Move(m_startingMovePos);
                             }
+                        }
                         else
                         {
                             m_currentTimerMove += Time.deltaTime;
@@ -662,6 +727,7 @@ namespace ErgoShop.Managers
                         OperationsBufferScript.Instance.AddAutoSave("Déplacement d'un élément");
                     }
                 }
+            }
         }
 
         public void MoveElementsbyDirection(int _dir)
@@ -756,10 +822,14 @@ namespace ErgoShop.Managers
         {
             foreach (var r in WallsCreator.Instance.GetRooms())
             {
-                var ok = true;
-                foreach (var w in currentWallsData)
+                bool ok = true;
+                foreach (Wall w in currentWallsData)
+                {
                     if (!r.Walls.Contains(w))
+                    {
                         ok = false;
+                    }
+                }
                 if (ok) return r.Walls.Count == currentWallsData.Count ? r : null;
             }
 
@@ -1103,6 +1173,7 @@ namespace ErgoShop.Managers
             currentCotation = null;
             currentSelectedElements.Clear();
             UpdateUIProperties();
+
         }
 
         /// <summary>
@@ -1224,7 +1295,10 @@ namespace ErgoShop.Managers
         /// <param name="b"></param>
         public void SetWallsColor(Button b)
         {
-            foreach (var w in currentWallsData) w.Color = b.colors.normalColor;
+            foreach (var w in currentWallsData)
+            {
+                w.Color = b.colors.normalColor;
+            }
             WallsCreator.Instance.AdjustAllWalls();
             OperationsBufferScript.Instance.AddAutoSave("Changement de couleur des murs");
         }
@@ -1245,7 +1319,10 @@ namespace ErgoShop.Managers
         /// </summary>
         public void DeleteWalls()
         {
-            foreach (var w in currentWallsData) WallsCreator.Instance.DestroyWall(w);
+            foreach (var w in currentWallsData)
+            {
+                WallsCreator.Instance.DestroyWall(w);
+            }
             currentWallsData.Clear();
         }
 
@@ -1267,7 +1344,7 @@ namespace ErgoShop.Managers
         {
             currentRoomData.Name = t;
             currentRoomData.associated2DObject.GetComponent<TextMesh>().text = t;
-            currentRoomData.associated2DObject.GetComponent<TextMesh>().color = Color.black ;
+            currentRoomData.associated2DObject.GetComponent<TextMesh>().color = Color.black;
             RoomPropPanelScript.Instance.UpdateRoomProperties();
             OperationsBufferScript.Instance.AddAutoSave("Renommage de la pièce en " + currentRoomData.Name);
         }
@@ -1280,8 +1357,7 @@ namespace ErgoShop.Managers
         {
             currentRoomData.LockAngles = v;
             RoomPropPanelScript.Instance.UpdateRoomProperties();
-            OperationsBufferScript.Instance.AddAutoSave((v ? "Verrouillage" : "Dévérouillage") +
-                                                        "des angles de la pièce");
+            OperationsBufferScript.Instance.AddAutoSave((v ? "Verrouillage" : "Dévérouillage") + "des angles de la pièce");
         }
 
         #endregion
@@ -1401,12 +1477,13 @@ namespace ErgoShop.Managers
         public void ResetGroups()
         {
             foreach (var eg in currentElementGroups)
+            {
                 foreach (var elem in eg.Elements)
                 {
                     OutlineFunctions.SetOutlineEnabled(elem.associated2DObject, false);
                     OutlineFunctions.SetOutlineEnabled(elem.associated3DObject, false);
                 }
-
+            }
             currentElementGroups.Clear();
         }
 
@@ -1416,7 +1493,7 @@ namespace ErgoShop.Managers
         /// </summary>
         public void ResetStairs()
         {
-            foreach (var s in currentStairs)
+            foreach (Stairs s in currentStairs)
             {
                 OutlineFunctions.SetOutlineEnabled(s.associated2DObject, false);
                 OutlineFunctions.SetOutlineEnabled(s.associated3DObject, false);
@@ -1431,7 +1508,10 @@ namespace ErgoShop.Managers
         /// </summary>
         public void DeleteWallOpening()
         {
-            foreach (var wo in currentWallOpenings) WallsCreator.Instance.DestroyWallOpening(wo);
+            foreach (WallOpening wo in currentWallOpenings)
+            {
+                WallsCreator.Instance.DestroyWallOpening(wo);
+            }
             currentWallOpenings.Clear();
         }
 
@@ -1440,7 +1520,10 @@ namespace ErgoShop.Managers
         /// </summary>
         public void DeleteStairs()
         {
-            foreach (var s in currentStairs) StairsCreator.Instance.DestroyStairs(s);
+            foreach (Stairs s in currentStairs)
+            {
+                StairsCreator.Instance.DestroyStairs(s);
+            }
             currentStairs.Clear();
         }
 
@@ -1449,7 +1532,10 @@ namespace ErgoShop.Managers
         /// </summary>
         public void DeleteHelpers()
         {
-            foreach (var h in currentHelperElements) HelpersCreator.Instance.DestroyHelpers(h);
+            foreach (HelperElement h in currentHelperElements)
+            {
+                HelpersCreator.Instance.DestroyHelpers(h);
+            }
             currentHelperElements.Clear();
         }
 
@@ -1458,7 +1544,10 @@ namespace ErgoShop.Managers
         /// </summary>
         public void DeleteCharacters()
         {
-            foreach (var h in currentCharacters) CharactersCreator.Instance.DestroyCharacter(h);
+            foreach (CharacterElement h in currentCharacters)
+            {
+                CharactersCreator.Instance.DestroyCharacter(h);
+            }
             currentCharacters.Clear();
         }
 
@@ -1467,7 +1556,10 @@ namespace ErgoShop.Managers
         /// </summary>
         public void DeleteFurnitures()
         {
-            foreach (var f in currentFurnitureData) FurnitureCreator.Instance.DestroyFurniture(f);
+            foreach (Furniture f in currentFurnitureData)
+            {
+                FurnitureCreator.Instance.DestroyFurniture(f);
+            }
             currentFurnitureData.Clear();
         }
 
@@ -1487,8 +1579,7 @@ namespace ErgoShop.Managers
         {
             currentCotation = cs;
 
-            var uiPos = GlobalManager.Instance.cam2DTop.GetComponent<Camera>()
-                .WorldToScreenPoint(cs.cotationTM.transform.position);
+            Vector3 uiPos = GlobalManager.Instance.cam2DTop.GetComponent<Camera>().WorldToScreenPoint(cs.cotationTM.transform.position);
             cs.cotationField.transform.position = uiPos;
             cs.cotationField.text = cs.cotationTM.text;
             cs.cotationField.gameObject.SetActive(true);
@@ -1508,10 +1599,16 @@ namespace ErgoShop.Managers
             float diff = currentCotation.Length * 100f - res;
 
             if (currentCotation.cotationField == null)
-                foreach (var inf in FindObjectsOfType<InputField>())
+            {
+                foreach (InputField inf in listInputFields)
+                {
                     // ceinture bretelles
                     if (inf.name == "CotationField" || inf.tag == "Cotation")
+                    {
                         currentCotation.cotationField = inf;
+                    }
+                }
+            }
 
             if (currentCotation.myElement is Wall)
             {
@@ -1519,9 +1616,8 @@ namespace ErgoShop.Managers
                 if (currentWallOpenings != null && currentWallOpenings.Count > 0 &&
                     currentWallOpenings[0].Wall == currentCotation.myElement)
                 {
-                    var heading = currentCotation.cotationTM.transform.position - currentWallOpenings[0].Position;
-                    var dot = Vector3.Dot(heading, currentWallOpenings[0].Wall.Direction);
-
+                    Vector3 heading = currentCotation.cotationTM.transform.position - currentWallOpenings[0].Position;
+                    System.Single dot = Vector3.Dot(heading, currentWallOpenings[0].Wall.Direction);
                     float sens = dot < 0 ? 1 : -1;
 
                     Vector2 newPos = currentWallOpenings[0].Position - diff * currentWallOpenings[0].Wall.Direction * sens / 100f;
@@ -1530,9 +1626,9 @@ namespace ErgoShop.Managers
                 // WALL
                 else
                 {
-                    var w = currentCotation.myElement as Wall;
+                    Wall w = currentCotation.myElement as Wall;
 
-                    var updateMin = currentCotation.Length == Mathf.Min(w.cotOne.Length, w.cotTwo.Length);
+                    bool updateMin = currentCotation.Length == Mathf.Min(w.cotOne.Length, w.cotTwo.Length);
                     WallsCreator.Instance.UpdateWallLength(w, res / 100f, updateMin);
                     StartCoroutine(SWLRoutine(w, res / 100f, updateMin));
                 }
@@ -1557,19 +1653,6 @@ namespace ErgoShop.Managers
 
                 Vector3 dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right * -1f : Vector3.left;
                 Vector3 dirRight = currentCotation.is3D ? me.associated3DObject.transform.right : Vector3.right;
-
-                //Quaternion RotObj = currentFurnitureData[0].associated3DObject.transform.rotation;
-                //if (Quaternion.Angle(RotObj, Quaternion.identity) < 90)
-                //{
-                //    dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right  : Vector3.left;
-                //    dirRight = currentCotation.is3D ? me.associated3DObject.transform.right * -1f  : Vector3.right;
-                //}
-                //else
-                //{
-                //    dirLeft = currentCotation.is3D ? me.associated3DObject.transform.right : Vector3.left;
-                //    dirRight = currentCotation.is3D ? me.associated3DObject.transform.right * -1f : Vector3.right;
-                //}
-
 
                 if (currentCotation.isUp)
                 {
@@ -1609,7 +1692,6 @@ namespace ErgoShop.Managers
                     );
 
                 StartCoroutine(Adjust2DElementFrom3DCoroutine(me));
-                //VectorFunctions.Switch3D2D(me.Position);
             }
 
             currentCotation.cotationField.transform.position = Vector3.one * 10000;
@@ -1624,8 +1706,12 @@ namespace ErgoShop.Managers
         private IEnumerator Adjust2DElementFrom3DCoroutine(MovableElement me)
         {
             yield return new WaitForSeconds(0.1f);
-            me.associated2DObject.transform.position =
-                VectorFunctions.GetExactPositionFrom3DObject(me.associated2DObject, me.associated3DObject, me.Position);
+            me.associated2DObject.transform.position = VectorFunctions.GetExactPositionFrom3DObject
+                (
+                    me.associated2DObject,
+                    me.associated3DObject,
+                    me.Position
+                );
         }
 
         /// <summary>
@@ -1635,7 +1721,7 @@ namespace ErgoShop.Managers
         {
             if (currentWallsData.Count == 1)
             {
-                var walls = WallFunctions.CutWall(currentWallsData[0], currentWallsData[0].Center);
+                Wall[] walls = WallFunctions.CutWall(currentWallsData[0], currentWallsData[0].Center);
                 walls[0].RebuildSceneData();
                 walls[1].RebuildSceneData();
 
@@ -1656,22 +1742,36 @@ namespace ErgoShop.Managers
         /// <returns>true if found in selection</returns>
         private bool IsGoInSelectedElements(GameObject go)
         {
-            foreach (var e in currentSelectedElements)
+            foreach (Element e in currentSelectedElements)
+            {
                 if (e.associated2DObject == go || e.associated3DObject == go)
                 {
                     return true;
                 }
                 else
                 {
-                    for (var i = 0; i < e.associated2DObject.transform.childCount; i++)
+                    for (int i = 0; i < e.associated2DObject.transform.childCount; i++)
+                    {
                         if (e.associated2DObject.transform.GetChild(i).gameObject == go)
+                        {
                             return true;
-                    if (e.associated3DObject)
-                        for (var i = 0; i < e.associated3DObject.transform.childCount; i++)
-                            if (e.associated3DObject.transform.GetChild(i).gameObject == go)
-                                return true;
-                }
+                        }
+                    }
 
+
+                    if (e.associated3DObject)
+                    {
+
+                        for (var i = 0; i < e.associated3DObject.transform.childCount; i++)
+                        {
+                            if (e.associated3DObject.transform.GetChild(i).gameObject == go)
+                            {
+                                return true;
+                            }
+                        }
+                    }
+                }
+            }
             return false;
         }
 
