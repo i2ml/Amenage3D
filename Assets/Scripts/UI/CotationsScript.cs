@@ -64,6 +64,11 @@ namespace ErgoShop.UI
         // Update is called once per frame
         private void Update()
         {
+            /////////////////
+
+
+            cotationTM.color = Color.black;
+
             if (myElement == null && !isUp && !isDown && !isLeft && !isRight && !isMeasure) Destroy(gameObject);
 
             if (!cotationField)
@@ -96,7 +101,6 @@ namespace ErgoShop.UI
             transform.position = (start + end) / 2f;
 
             transform.rotation = Quaternion.FromToRotation(Vector3.up, dir);
-
 
             arrow1.position = start;
             arrow2.position = end;
@@ -160,13 +164,13 @@ namespace ErgoShop.UI
             // Rotation measure
             if (isMeasure)
             {
-                var camTrans = GlobalManager.Instance.GetActiveCamera().transform;
+                Transform camTrans = GlobalManager.Instance.GetActiveCamera().transform;
 
-                var tr = new List<Transform> {middle1.transform, middle2.transform};
-                foreach (var t in tr)
+                List<Transform> transformList = new List<Transform> { middle1.transform, middle2.transform };
+                foreach (var _transform in transformList)
                 {
-                    t.LookAt(camTrans);
-                    t.localEulerAngles = new Vector3(0, t.localEulerAngles.y, 180);
+                    _transform.LookAt(camTrans);
+                    _transform.localEulerAngles = new Vector3(0, _transform.localEulerAngles.y, 180);
                 }
             }
         }

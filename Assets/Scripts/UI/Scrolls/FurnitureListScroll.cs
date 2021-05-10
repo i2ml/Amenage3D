@@ -2,6 +2,8 @@
 using ErgoShop.Managers;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using ErgoShop.POCO;
 
 namespace ErgoShop.UI
 {
@@ -12,6 +14,8 @@ namespace ErgoShop.UI
     public class FurnitureListScroll : MonoBehaviour, IListScrollScript
     {
         public GameObject OperationButtonPrefab;
+
+        public bool sortList = false;
 
         private ElementsScrollScript m_elemScroll;
 
@@ -40,15 +44,56 @@ namespace ErgoShop.UI
         /// </summary>
         public void UpdateList()
         {
+            /////////////////////////////////// SORT
             var children = new List<GameObject>();
-            foreach (Transform child in m_elemScroll.Content) children.Add(child.gameObject);
+            foreach (Transform child in m_elemScroll.Content)
+            {
+                children.Add(child.gameObject);
+            }
+
             children.ForEach(child => Destroy(child));
 
-            foreach (var furniture in FurnitureCreator.Instance.GetFurnitures())
+            //foreach (var item in children)
+            //{
+            //    Destroy();
+            //}
+
+            List<Furniture> allFurnitures = FurnitureCreator.Instance.GetFurnitures();
+
+
+
+            if (sortList)
             {
-                var btn = Instantiate(OperationButtonPrefab, m_elemScroll.Content);
-                btn.transform.GetChild(0).GetComponent<Text>().text = furniture.Name;
+                bool finish = false;
+                while (!finish)
+                {
+                    //Aucun Ellement a trier
+                    finish = true;
+
+                    for (int i = 0; i < allFurnitures.Count - 1; i++)
+                    {
+                        if (allFurnitures[i].Name.CompareTo(allFurnitures[i + 1].Name) > 0)
+                        {
+                            finish = false; // quelque chose a trier 
+
+                            Furniture furniture_tmp = allFurnitures[i + 1];
+                            allFurnitures[i + 1] = allFurnitures[i];
+                            allFurnitures[i] = furniture_tmp;
+                        }
+                    }
+                }
+            }
+
+            ///////////////////////////////////
+
+            foreach (var furniture in allFurnitures)
+            {
+                GameObject btn = Instantiate(OperationButtonPrefab, m_elemScroll.Content);
+
+                btn.name = furniture.Name;
+                btn.transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = furniture.Name;
                 btn.GetComponent<RectTransform>().sizeDelta = new Vector2(300f, 30f);
+
                 // anonymous method to select the furniture
                 btn.GetComponent<Button>().onClick.AddListener(() =>
                 {
@@ -56,6 +101,31 @@ namespace ErgoShop.UI
                     SelectedObjectManager.Instance.FocusOnSelection();
                 });
             }
+        }
+
+        /// <summary>
+        /// Return True if List is EMPTY
+        /// </summary>
+        /// <returns></returns>
+        public bool isEmpty()
+        {
+            int result = 0;
+            foreach (RectTransform child in m_elemScroll.Content)
+            {
+                result++;
+            }
+            return result > 0 ? false : true;
+        }
+
+        public List<GameObject> getContent()
+        {
+            List<GameObject> gm_result = new List<GameObject>();
+            for (var i = 0; i < m_elemScroll.Content.childCount; i++)
+            {
+                    gm_result.Add(m_elemScroll.Content.GetChild(i).gameObject);
+            }
+
+            return gm_result;
         }
     }
 }

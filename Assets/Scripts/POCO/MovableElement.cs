@@ -28,6 +28,16 @@ namespace ErgoShop.POCO
 
         public bool CanBePutOnFurniture { get; set; }
 
+        // sortie du update
+        private Camera cam2d, cam3d,cam;
+
+        private void InitVar ()
+        {
+            cam = GlobalManager.Instance.GetActiveCamera();
+            cam2d = GlobalManager.Instance.cam2DTop.GetComponent<Camera>();
+            cam3d = GlobalManager.Instance.cam3D.GetComponent<Camera>();
+        }
+
         /// <summary>
         ///     adjust 2d and 3d objects transform according to data
         /// </summary>
@@ -106,29 +116,37 @@ namespace ErgoShop.POCO
         /// <param name="startingPos">where the users starts clicking</param>
         public virtual void Move(Vector3 startingPos)
         {
-            var cam = GlobalManager.Instance.GetActiveCamera();
+            InitVar();
 
-            var tags = new List<string> {""};
-            if (IsOnWall) tags.Add("Wall");
-            else tags.Add("Ground");
-
-            if (CanBePutOnFurniture) tags.Add("Furniture");
-
+            List<string> tags = new List<string> { "" };
+            if (IsOnWall)
+            {
+                tags.Add("Wall");
+            }
+            else
+            {
+                tags.Add("Ground");
+            }
+            if (CanBePutOnFurniture)
+            {
+                tags.Add("Furniture");
+            }
             tags.Add("WorkPlane");
 
             switch (cam.gameObject.layer)
             {
-                case (int) ErgoLayers.Top:
-                    var pos2D = InputFunctions.GetWorldPoint(cam);
-                    var closestProj = pos2D;
+                case (int)ErgoLayers.Top:
+                    Vector3 pos2D = InputFunctions.GetWorldPoint(cam);
+                    Vector3 closestProj = pos2D;
 
                     // If on wall then stick to wall
                     if (IsOnWall)
                     {
-                        Debug.Log("Sticking...");
+                        //Debug.Log("Sticking...");
                         Wall closestWall = null;
                         // Seek closest projection for a wall
-                        foreach (var wd in WallsCreator.Instance.GetWalls())
+                        foreach (Wall wd in WallsCreator.Instance.GetWalls())
+                        {
                             if (closestWall == null)
                             {
                                 closestWall = wd;
@@ -136,26 +154,74 @@ namespace ErgoShop.POCO
                             }
                             else
                             {
-                                var proj = Math3d.ProjectPointOnLineSegment(wd.P1, wd.P2, pos2D);
-                                if (Vector2.Distance(pos2D, proj)
-                                    < Vector2.Distance(pos2D, closestProj))
+                                Vector3 proj = Math3d.ProjectPointOnLineSegment(wd.P1, wd.P2, pos2D);
+                                if (Vector2.Distance(pos2D, proj) < Vector2.Distance(pos2D, closestProj))
                                 {
                                     closestWall = wd;
                                     closestProj = proj;
                                 }
                             }
+                        }
 
                         AssociatedElement = closestWall;
-                        var pos33D =
-                            VectorFunctions.Switch2D3D(closestProj -
-                                                       closestWall.Thickness * (closestProj - pos2D).normalized);
-                        pos33D = pos33D + Position.y * Vector3.up;
+                        Vector3 pos33D = VectorFunctions.Switch2D3D(closestProj - closestWall.Thickness * (closestProj - pos2D).normalized) + Position.y * Vector3.up;
                         // Repeat the 3D algo and readapt 2D                        
                         AdjustCurrentFurnitureWallPos3D(pos33D, closestWall.associated3DObject, startingPos);
                     }
                     else
                     {
                         associated2DObject.transform.position += pos2D - startingPos;
+
+                        if (associated3DObject)
+                        {
+                            float y = 0;
+                            if (CanBePutOnFurniture)
+                            {
+                                GameObject potentialFurniture = InputFunctions.GetHoveredObject2D
+                                    (
+                                        cam2d,
+                                        associated2DObject.name,
+                                        true
+                                    );
+
+                                if (potentialFurniture)
+                                {
+                                    Furniture f = FurnitureCreator.Instance.GetFurnitureFromGameObject(potentialFurniture);
+                                    y = f.Position.y + f.Size.y;
+                                }
+                            }
+
+                            associated2DObject.transform.position = new Vector3
+                                (
+                                    associated2DObject.transform.position.x,
+                                    associated2DObject.transform.position.y, -y / 5f
+                                );
+
+                            associated3DObject.transform.position = VectorFunctions.Switch2D3D(associated2DObject.transform.position, y);
+                        }
+                    }
+
+                    if (text2D)
+                    {
+                        text2D.transform.position = associated2DObject.transform.position;
+                    }
+                    break;
+                case (int)ErgoLayers.ThreeD:
+                    Vector3 pos3D = InputFunctions.GetWorldPoint(cam);
+                    Vector3 closestProj3D = pos3D;
+                    GameObject go;
+
+                    if (IsOnWall)
+                    {
+                        Vector3 pos33D = InputFunctions.GetWorldPoint(out go, cam, associated3DObject, tags.ToArray());
+                        AdjustCurrentFurnitureWallPos3D(pos33D, go, startingPos);
+                    }
+                    else
+                    {
+                        //Fix a l'etage l'objet
+                        float tmpY = associated3DObject.transform.position.y;
+
+                        associated3DObject.transform.position += pos3D - startingPos;
 
                         if (associated3DObject)
                         {
@@ -172,27 +238,24 @@ namespace ErgoShop.POCO
                                 }
                             }
 
-                            associated2DObject.transform.position = new Vector3(associated2DObject.transform.position.x,
-                                associated2DObject.transform.position.y, -y / 5f);
-                            associated3DObject.transform.position =
-                                VectorFunctions.Switch2D3D(associated2DObject.transform.position, y);
+
+                            associated3DObject.transform.position = associated3DObject.transform.position;
+                            associated3DObject.transform.position = new Vector3(associated3DObject.transform.position.x, tmpY, associated3DObject.transform.position.z);
+
+                            associated2DObject.transform.position = new Vector3(associated3DObject.transform.position.x, associated3DObject.transform.position.z, associated2DObject.transform.position.z);
                         }
                     }
-
-                    if (text2D) text2D.transform.position = associated2DObject.transform.position;
-
-                    break;
-                case (int) ErgoLayers.ThreeD:
-                    GameObject go;
-                    var pos3D = InputFunctions.GetWorldPoint(out go, cam, associated3DObject, tags.ToArray());
-                    AdjustCurrentFurnitureWallPos3D(pos3D, go, startingPos);
                     break;
             }
 
             if (associated3DObject)
+            {
                 Position = associated3DObject.transform.position;
+            }
             else
+            {
                 Position = VectorFunctions.Switch2D3D(associated2DObject.transform.position);
+            }
         }
     }
 }

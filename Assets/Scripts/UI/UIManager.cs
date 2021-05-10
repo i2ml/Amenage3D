@@ -3,6 +3,7 @@ using ErgoShop.UI;
 using ErgoShop.Utils;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace ErgoShop.Managers
 {
@@ -13,6 +14,9 @@ namespace ErgoShop.Managers
     /// </summary>
     public class UIManager : MonoBehaviour
     {
+        //Manage
+        private WallsCreator Sc_WallsCreator;
+
         // Forms
         public GameObject projectForm, wallsForm, floorsForm, furnitureForm, othersForm, rectRoomForm, selectedOption;
 
@@ -29,7 +33,9 @@ namespace ErgoShop.Managers
         //public Button textureButton, planButton, , faceButton, ;
         public Button topButton, threeDButton;
 
-        public Text instructionsText, customNamePopinInstructions;
+        public TextMeshProUGUI instructionsText;
+
+        public Text customNamePopinInstructions;
 
         public Text screenShotMessage;
 
@@ -73,12 +79,19 @@ namespace ErgoShop.Managers
             {
                 if (InputFunctions.IsMouseOutsideUI())
                 {
-                    if (GlobalManager.Instance.GetActiveCamera() == GlobalManager.Instance.cam2DTop)
-                        Instance.instructionsText.text =
-                            "Déplacez la caméra avec le clic gauche. F1 pour changer de vue";
+                    if (GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam2DTop)
+                    {
+                        Instance.instructionsText.text = "Déplacez la caméra avec le clic gauche. F1 pour changer de vue vers la 3D";
+                    }
+                    else if (GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam3D)
+                    {
+                        Instance.instructionsText.text = "Déplacez la caméra avec les fleche et avec le clic molette tournez votre vue. F1 pour changer de vue vers la 2D";
+                    }
                     else
-                        Instance.instructionsText.text =
-                            "Déplacez la caméra avec le clic molette ou avec les fleches du clavier. Tournez la caméra avec le clic droit. F1 pour changer de vue.";
+                    {
+                        Instance.instructionsText.text = "Déplacez la caméra avec le clic molette ou avec les fleches du clavier. Tournez la caméra avec le clic droit. F1 pour changer de vue.";
+                    }
+                    //Debug.Log(GlobalManager.Instance.GetActiveCamera());
                 }
             }
         }
@@ -112,11 +125,48 @@ namespace ErgoShop.Managers
         /// <summary>
         ///     Hide forms
         /// </summary>
-        public void ResetTopForms()
+        public void ResetTopForms(bool ShowFurnitureForme = false)
         {
             projectForm.SetActive(false);
+
             for (var i = 0; i < selectedOption.transform.childCount; i++)
+            {
                 selectedOption.transform.GetChild(i).gameObject.SetActive(false);
+            }
+
+            wallsForm.SetActive(false);
+            floorsForm.SetActive(false);
+            rectRoomForm.SetActive(false);
+            othersForm.SetActive(false);
+
+            if (!ShowFurnitureForme)
+            {
+                furnitureForm.SetActive(false);
+            }
+        }
+
+        //uniquement pour le menu de creation de mur
+        public void ResetTopFormsForCreationWall()
+        {
+            projectForm.SetActive(false);
+
+            for (var i = 0; i < selectedOption.transform.childCount; i++)
+            {
+                selectedOption.transform.GetChild(i).gameObject.SetActive(false);
+            }
+
+            if (Sc_WallsCreator == null)
+            {
+                Sc_WallsCreator = FindObjectOfType<WallsCreator>();
+                if (Sc_WallsCreator == null)
+                {
+                    Debug.LogError("UIManager 'Sc_WallsCreator' is null");
+                }
+            }
+
+
+            Sc_WallsCreator.CancelRoom();
+
             wallsForm.SetActive(false);
             floorsForm.SetActive(false);
             rectRoomForm.SetActive(false);
@@ -195,7 +245,7 @@ namespace ErgoShop.Managers
         public void ShowFurnitureForm()
         {
             ResetTopForms();
-            //furnitureForm.SetActive(true);
+            furnitureForm.SetActive(true);
             selectedOption.transform.GetChild(2).gameObject.SetActive(true);
             SelectedObjectManager.Instance.ResetSelection();
             FloorPropertiesScript.Instance.LoadFloorsFromProject();

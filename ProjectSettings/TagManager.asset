@@ -19,6 +19,7 @@ TagManager:
   - Helper
   - ElementArrow
   - Character
+  - Titre
   layers:
   - Default
   - TransparentFX
@@ -33,8 +34,8 @@ TagManager:
   - 3D View
   - 2D Face
   - Cotations3D
-  - 
-  - 
+  - Gizmo3D
+  - Gizmo2D
   - 
   - 
   - 

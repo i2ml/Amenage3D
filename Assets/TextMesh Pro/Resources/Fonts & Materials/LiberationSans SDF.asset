@@ -138,7 +138,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
-    - _FaceColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FaceColor: {r: 1, g: 1, b: 1, a: 1}
     - _GlowColor: {r: 0, g: 1, b: 0, a: 0.5}
     - _MaskCoord: {r: 0, g: 0, b: 32767, a: 32767}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
@@ -165,6 +165,7 @@ Texture2D:
   m_TextureFormat: 1
   m_MipCount: 1
   m_IsReadable: 0
+  m_IgnoreMasterTextureLimit: 0
   m_StreamingMipmaps: 0
   m_StreamingMipmapsPriority: 0
   m_AlphaIsTransparency: 0
@@ -202,8 +203,9 @@ MonoBehaviour:
   material: {fileID: 2180264}
   materialHashCode: -1183942120
   m_Version: 1.1.0
-  m_SourceFontFileGUID: e3265ab4bf004d28a9537516768c1c75
-  m_SourceFontFile_EditorRef: {fileID: 0}
+  m_SourceFontFileGUID: a09482e91ad482a45be18a8dd14f9662
+  m_SourceFontFile_EditorRef: {fileID: 12800000, guid: a09482e91ad482a45be18a8dd14f9662,
+    type: 3}
   m_SourceFontFile: {fileID: 0}
   m_AtlasPopulationMode: 0
   m_FaceInfo:

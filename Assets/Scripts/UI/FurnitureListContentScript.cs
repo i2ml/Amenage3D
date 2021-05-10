@@ -1,5 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
+using System.Collections.Generic;
 
 namespace ErgoShop.UI
 {
@@ -12,20 +14,70 @@ namespace ErgoShop.UI
     public class FurnitureListContentScript : MonoBehaviour
     {
         private bool hasBeenEnabled;
+        RectTransform rect;
+        short Nb_ActifChild = 0;
 
-        // Start is called before the first frame update
         private void Start()
         {
+            rect = GetComponent<RectTransform>();
         }
 
-        // Update is called once per frame
         private void Update()
         {
-            var nObjects = 0;
-            for (var i = 0; i < transform.childCount; i++)
-                if (transform.GetChild(i).gameObject.activeInHierarchy)
+            Nb_ActifChild = getNbActiveInHierarchy();
+            rect.sizeDelta = new Vector2(0, 35 * Nb_ActifChild);
+        }
+
+        /// <summary>
+        /// Compte le nombre d'enfants actif
+        /// </summary>
+        private short getNbActiveInHierarchy()
+        {
+            short nObjects = 0;
+            for (short i = 0; i < transform.childCount; i++)
+            {
+                Transform t_Child = transform.GetChild(i);
+
+                if (t_Child.gameObject.activeInHierarchy)
+                {
                     nObjects++;
-            GetComponent<RectTransform>().sizeDelta = new Vector2(0, 35 * nObjects);
+                }
+            }
+            return nObjects;
+        }
+
+        /// <summary>
+        /// for find Furniture in the list 
+        /// </summary>
+        public void FindInBrowser(TMP_InputField _field)
+        {
+            // <get child>
+            List<GameObject> listObjTmp = new List<GameObject>();
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                listObjTmp.Add(transform.GetChild(i).gameObject);
+            }
+            // <\get child>
+
+            // <Sort>
+            foreach (GameObject item in listObjTmp)
+            {
+                string tmpStr = item.GetComponentInChildren<Text>().text.ToLower().Trim();
+                string fieldToLower = _field.text.ToLower().Trim();
+
+                if (tmpStr != null)
+                {
+                    if (tmpStr.StartsWith(fieldToLower))
+                    {
+                        item.gameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        item.gameObject.SetActive(false);
+                    }
+                }
+            }
+            // <\Sort>
         }
 
         private void OnEnable()

@@ -94,6 +94,40 @@ namespace ErgoShop.UI
             }
         }
 
+        private bool VerifWallConnected(List<Wall> _wallsData)
+        {
+            int compteur = 0;
+            if (_wallsData.Count >= 3)
+            {
+                foreach (Wall wall in _wallsData)
+                {
+                    wall.wallHaveTwoLink = (wall.linkedP1.Count > 0 && wall.linkedP2.Count > 0);
+
+                    foreach (Wall verifWall in _wallsData)
+                    {
+                        if (verifWall != wall)
+                        {
+                            //si les lien contien des wall selectionnés
+                            if (wall.linkedP2.Contains(verifWall) || wall.linkedP1.Contains(verifWall))
+                            {
+                                compteur++;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (compteur == (_wallsData.Count * 2)) // example : 3 | alors 2 points donc x2
+            {
+                if (_wallsData[_wallsData.Count - 1].linkedP1.Contains(_wallsData[0]) || _wallsData[_wallsData.Count - 1].linkedP2.Contains(_wallsData[0]))
+                {
+                    return true; // Path
+                }
+            }
+
+            return false; // no path
+        }
+
         // return true if properties form is shown
         private bool CheckPropertiesBindings(List<Wall> wallsData)
         {
@@ -120,7 +154,7 @@ namespace ErgoShop.UI
                         {
                             OperationsBufferScript.Instance.AddAutoSave("Modification propriété mur");
                         }
-                        
+
                     }
 
                     imageToggle.color = new Color(colorPicker.Color.r, colorPicker.Color.g, colorPicker.Color.b);
@@ -139,7 +173,25 @@ namespace ErgoShop.UI
                     //    }
                     //}
 
-                    roomOptionGameObject.SetActive(wallsData.Count > 2);
+
+                    #region region calculatelink
+                    ///<summary>
+                    ///calculate link
+                    ///</summary>
+                    bool canOptionGameObject = wallsData.Count > 2;
+
+                    canOptionGameObject = VerifWallConnected(wallsData);
+
+                    if (canOptionGameObject)
+                    {
+                        roomOptionGameObject.SetActive(true);
+                    }
+                    else
+                    {
+                        roomOptionGameObject.SetActive(false);
+                    }
+                    #endregion
+
                     splitWallButton.SetActive(wallsData.Count == 1);
                 }
             }

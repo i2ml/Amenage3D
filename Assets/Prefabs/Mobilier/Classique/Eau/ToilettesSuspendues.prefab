@@ -48,6 +48,7 @@ MonoBehaviour:
   furniture3D: {fileID: 165260, guid: 1887a579bc944c6418a1df4b06266c70, type: 3}
   isOnWall: 1
   canBePutOnFurniture: 0
-  furnitureName: WC Suspendues
+  furnitureName: ToilettesSuspendues
   furnitureType: Eau
   resourceName: Toilet_B01
+  scaleRatio: 1

@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 namespace ErgoShop.UI
 {
@@ -11,22 +12,27 @@ namespace ErgoShop.UI
         public RectTransform ElementsScroll;
         public RectTransform Content;
 
-        // Start is called before the first frame update
-        private void Start()
-        {
-        }
-
         /// <summary>
         ///     Update the content size so the vertical layout can display its children correctly
         /// </summary>
         private void Update()
         {
-            var children = 0;
-            for (var i = 0; i < Content.childCount; i++)
-                if (Content.GetChild(i).gameObject.activeInHierarchy)
+                ProcessChild();
+        }
+
+        private short ProcessChild()
+        {
+            short children = 0;
+            for (short i = 0; i < Content.childCount; i++)
+            {
+                Transform Tchild = Content.GetChild(i);
+                if (Tchild.gameObject.activeInHierarchy)
+                {
                     children++;
-            var height = Mathf.Max(children * 30f, ElementsScroll.sizeDelta.y);
-            Content.sizeDelta = new Vector2(0, height);
+                }
+            }
+            Content.sizeDelta = new Vector2(0, Mathf.Max(children * 30f, ElementsScroll.sizeDelta.y));
+            return children;
         }
     }
 }

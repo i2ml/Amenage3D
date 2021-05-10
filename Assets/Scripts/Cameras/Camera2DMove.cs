@@ -12,8 +12,10 @@ namespace ErgoShop.Cameras
         ///     Target used to make the camera move
         /// </summary>
         public Transform target;
+        private Transform targetNUll;
 
         public Vector3 targetOffset;
+        private Vector3 Forcedpos;
 
         public float moveSpeed;
 
@@ -81,7 +83,17 @@ namespace ErgoShop.Cameras
             desiredDistance = Mathf.Clamp(desiredDistance, minDistance, maxDistance);
 
             currentDistance = Mathf.Lerp(currentDistance, desiredDistance, Time.deltaTime * zoomDampening);
-            position = target.position - (Vector3.forward * currentDistance + targetOffset);
+
+            position = new Vector3
+                (
+                    target.position.x + (-targetOffset.x) + Forcedpos.x,
+                    target.position.y + (-targetOffset.y) + Forcedpos.y,
+                    target.position.z - currentDistance + (-targetOffset.z)
+                );
+
+            //Debug.Log("target" + target.position);
+            //Debug.Log("targetOfsset" + targetOffset);
+            //Debug.Log("ForcePos" + Forcedpos);
 
             var x = Mathf.Clamp(position.x, minBound.x, maxBound.x);
             var y = Mathf.Clamp(position.y, minBound.y, maxBound.y);
@@ -92,9 +104,14 @@ namespace ErgoShop.Cameras
             if (float.IsNaN(z)) z = 0;
 
             position = new Vector3(x, y, z);
-
             transform.position = position;
         }
+
+        public void SetForcedpos(Vector3 _Forcedpos)
+        {
+            Forcedpos += _Forcedpos * Time.deltaTime;
+        }
+
 
         private void OnEnable()
         {

@@ -68,6 +68,11 @@ namespace ErgoShop.Managers
         /// </summary>
         public Texture2D plusTexture;
 
+        ///<summary>
+        ///Ref FurnitureScript
+        /// </summary>
+        public WallsCreator Sc_WallsCreator;
+
         /// <summary>
         ///     Current view
         /// </summary>
@@ -81,12 +86,19 @@ namespace ErgoShop.Managers
         private void Awake()
         {
             Instance = this;
+
         }
 
         // Start is called before the first frame update
         private void Start()
         {
             eventSystem = FindObjectOfType<EventSystem>();
+
+            Sc_WallsCreator = FindObjectOfType<WallsCreator>();
+            if (Sc_WallsCreator == null)
+            {
+                Debug.LogWarning("GlobalManager 'WallsCreator' Script is null");
+            }
 
             Set2DTopMode();
 
@@ -115,9 +127,14 @@ namespace ErgoShop.Managers
                 //{
                 //    cam3D.GetComponent<Camera3DMove>().SetTopView();
                 //}
-                cam3D.transform.localEulerAngles = Vector3.right * 90f;
-                cam3D.GetComponent<Camera3DMove>().SetPosition(VectorFunctions.Switch2D3D(
-                    cam2DTop.transform.position + Vector3.right * 2.5f, cam2DTop.transform.position.z * -1f));
+
+                ///<summary>
+                ///suivre la cam 2D
+                /// </summary>
+
+                //cam3D.transform.localEulerAngles = Vector3.right * 90f;
+                //cam3D.GetComponent<Camera3DMove>().SetPosition(VectorFunctions.Switch2D3D(
+                //    cam2DTop.transform.position + Vector3.right * 2.5f, cam2DTop.transform.position.z * -1f));
             }
             else if (m_mode == ViewMode.ThreeD)
             {
@@ -228,7 +245,11 @@ namespace ErgoShop.Managers
 
         public void QuitApp()
         {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
             Application.Quit();
+#endif
         }
 
         #region view modes
@@ -270,7 +291,7 @@ namespace ErgoShop.Managers
         /// <summary>
         ///     Switch to 2D view
         /// </summary>
-        public void Set2DTopMode()
+        public void Set2DTopMode(bool center = true)
         {
             m_mode = ViewMode.Top;
             cam2DTop.GetComponent<Camera>().enabled = true;
@@ -279,7 +300,11 @@ namespace ErgoShop.Managers
 
             cam2DTop.GetComponent<Camera>().forceIntoRenderTexture = false;
             cam2DTop.GetComponent<Camera>().targetTexture = null;
-            cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position - Vector3.right * 2.5f);
+
+            if (center == true)
+            {
+                cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position - Vector3.right * 2.5f);
+            }
         }
 
         #endregion

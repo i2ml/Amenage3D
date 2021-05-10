@@ -50,5 +50,6 @@ MonoBehaviour:
   isOnWall: 1
   canBePutOnFurniture: 0
   furnitureName: Radiateur
-  furnitureType: Nettoyage
-  resourceName: radiator
+  furnitureType: Chauffage
+  resourceName: Radiateur
+  scaleRatio: 1
