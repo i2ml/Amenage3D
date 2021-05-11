@@ -1040,8 +1040,10 @@ namespace ErgoShop.Managers
         // Remake wall part above door
         private void CreateWallPartsForWallOpening(WallOpening wopening)
         {
+            if (wopening == null) { return; }
+
             // UP
-            var w = Instantiate(wall3DPrefab, wopening.Wall.associated3DObject.transform);
+            GameObject w = Instantiate(wall3DPrefab, wopening.Wall.associated3DObject.transform);
             // deltY = distance from object top to wallHeight
             var deltY = wopening.Wall.Height - wopening.Size.y;
             w.transform.localPosition = VectorFunctions.Switch2D3D(wopening.Position) +
@@ -1150,19 +1152,32 @@ namespace ErgoShop.Managers
         {
             Destroy(wo.associated2DObject);
             Destroy(wo.associated3DObject);
+
             wo.Wall.Openings.Remove(wo);
+
             WallOpeningAngleScript angleToRemove = null;
             WallOpeningAngleScript angle3DToRemove = null;
-            foreach (var a in m_woAnglesData)
+
+            foreach (WallOpeningAngleScript a in m_woAnglesData)
+            {
                 if (a.wallOpening == wo)
+                {
                     angleToRemove = a;
-            foreach (var a in m_woAngles3DData)
+                    m_woAnglesData.Remove(angleToRemove);
+                    Destroy(angleToRemove.gameObject);
+                }
+            }
+
+            foreach (WallOpeningAngleScript a in m_woAngles3DData)
+            {
                 if (a.wallOpening == wo)
+                {
                     angle3DToRemove = a;
-            m_woAnglesData.Remove(angleToRemove);
-            m_woAngles3DData.Remove(angle3DToRemove);
-            Destroy(angleToRemove.gameObject);
-            Destroy(angle3DToRemove.gameObject);
+                    m_woAngles3DData.Remove(angle3DToRemove);
+                    Destroy(angle3DToRemove.gameObject);
+                }
+            }
+
             wo = null;
             AdjustAllWalls();
         }
