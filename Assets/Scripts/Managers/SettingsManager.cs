@@ -61,6 +61,7 @@ namespace ErgoShop.Managers
         // Update is called once per frame
         private void Update()
         {
+
         }
 
         /// <summary>
@@ -69,14 +70,14 @@ namespace ErgoShop.Managers
         /// <returns>true if parameters found</returns>
         public bool LoadParameters()
         {
-            var settings = new JsonSerializerSettings();
+            
+            JsonSerializerSettings settings = new JsonSerializerSettings();
             //settings.Converters.Add(new ColorConverter());
             //settings.Converters.Add(new QuaternionConverter());
             // %APPDATA%/ErgoShop
             if (File.Exists(m_jsonPath))
             {
-                SoftwareParameters =
-                    JsonConvert.DeserializeObject<ErgoShopParameters>(File.ReadAllText(m_jsonPath), settings);
+                SoftwareParameters = JsonConvert.DeserializeObject<ErgoShopParameters>(File.ReadAllText(m_jsonPath), settings);
 
                 //gm = FindObjectOfType<GlobalManager>();
                 if (string.IsNullOrEmpty(SoftwareParameters.ScreenShotFolder))
@@ -88,9 +89,9 @@ namespace ErgoShop.Managers
                     Screenshot.Instance.folderPath = Instance.SoftwareParameters.ScreenShotFolder;
                 }
 
+                ThemeManager.Instance.ChangeTheme(SoftwareParameters.Theme);
                 return true;
             }
-
             return false;
         }
 
@@ -99,10 +100,13 @@ namespace ErgoShop.Managers
         /// </summary>
         public void SaveParameters()
         {
-            var settings = new JsonSerializerSettings();
+            //ThemeSave
+            SoftwareParameters.Theme = ThemeManager.Instance.Theme;
+
+            JsonSerializerSettings settings = new JsonSerializerSettings();
             //settings.Converters.Add(new ColorConverter());
             //settings.Converters.Add(new QuaternionConverter());
-            var jsonString = JsonConvert.SerializeObject(SoftwareParameters, settings);
+            String jsonString = JsonConvert.SerializeObject(SoftwareParameters, settings);
             File.WriteAllText(m_jsonPath, jsonString);
         }
     }
