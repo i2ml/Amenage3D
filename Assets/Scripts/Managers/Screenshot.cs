@@ -108,22 +108,47 @@ namespace ErgoShop.Managers
         /// <summary>
         ///     Take a screenshot using RenderTexture and save it
         /// </summary>
-        public void TakeScreenshot(bool isForOdt = false, string odtPath = "")
+        public void TakeScreenshot()
         {
             if (!Directory.Exists(folderPath))
                 Directory.CreateDirectory(folderPath);
-            var fileName = GetScreenShotName();
+            String fileName = GetScreenShotName();
 
-            var rt = new RenderTexture(resWidth, resHeight, 24);
+            RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
             GlobalManager.Instance.GetActiveCamera().targetTexture = rt;
-            var screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+            Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
             GlobalManager.Instance.GetActiveCamera().Render();
             RenderTexture.active = rt;
             screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
             GlobalManager.Instance.GetActiveCamera().targetTexture = null;
             RenderTexture.active = null; // JC: added to avoid errors
             Destroy(rt);
-            var bytes = screenShot.EncodeToPNG();
+            Byte[] bytes = screenShot.EncodeToPNG();
+
+            String filename = GetScreenShotName();
+            File.WriteAllBytes(filename, bytes);
+            Debug.Log(string.Format("Took screenshot to: {0}", filename));
+
+            //ScreenCapture.CaptureScreenshot(filename);
+            UIManager.Instance.ShowScreenShotOK(filename);
+        }
+
+        public void TakeScreenshot(bool isForOdt = false, string odtPath = "")
+        {
+            if (!Directory.Exists(folderPath))
+                Directory.CreateDirectory(folderPath);
+            String fileName = GetScreenShotName();
+
+            RenderTexture rt = new RenderTexture(resWidth, resHeight, 24);
+            GlobalManager.Instance.GetActiveCamera().targetTexture = rt;
+            Texture2D screenShot = new Texture2D(resWidth, resHeight, TextureFormat.RGB24, false);
+            GlobalManager.Instance.GetActiveCamera().Render();
+            RenderTexture.active = rt;
+            screenShot.ReadPixels(new Rect(0, 0, resWidth, resHeight), 0, 0);
+            GlobalManager.Instance.GetActiveCamera().targetTexture = null;
+            RenderTexture.active = null; // JC: added to avoid errors
+            Destroy(rt);
+            Byte[] bytes = screenShot.EncodeToPNG();
 
             if (isForOdt)
             {
@@ -131,7 +156,7 @@ namespace ErgoShop.Managers
             }
             else
             {
-                var filename = GetScreenShotName();
+                String filename = GetScreenShotName();
                 File.WriteAllBytes(filename, bytes);
                 Debug.Log(string.Format("Took screenshot to: {0}", filename));
 
@@ -139,6 +164,7 @@ namespace ErgoShop.Managers
                 UIManager.Instance.ShowScreenShotOK(filename);
             }
         }
+
 
         public IEnumerator TakeBig2DScreenshot(string odtImagesFolder, Vector3 position, string wname)
         {
