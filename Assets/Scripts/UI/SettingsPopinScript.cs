@@ -17,6 +17,7 @@ namespace ErgoShop.UI
         public Slider cameraSlider;
         public Dropdown tagWalltagAllDD;
         public Toggle showGridToggle;
+        public Slider vitesseZoom;
 
         public static SettingsPopinScript Instance { get; private set; }
 
@@ -33,13 +34,18 @@ namespace ErgoShop.UI
         // Update is called once per frame
         private void Update()
         {
+
         }
 
         private void OnEnable()
         {
             if (Time.time > 1)
+            {
                 if (SettingsManager.Instance.LoadOK)
+                {
                     UpdateUI();
+                }
+            }
         }
 
         public void UpdateUI()
@@ -48,9 +54,11 @@ namespace ErgoShop.UI
             wallsHeightField.text = Mathf.Floor(ProjectManager.Instance.Project.WallHeight * 100f) + "";
 
             cameraSlider.value = SettingsManager.Instance.SoftwareParameters.CameraSpeed;
+            vitesseZoom.value = SettingsManager.Instance.SoftwareParameters.VitesseZoom;
             tagWalltagAllDD.value = SettingsManager.Instance.SoftwareParameters.TagOnlyWall ? 1 : 0;
 
             showGridToggle.isOn = SettingsManager.Instance.SoftwareParameters.ShowGrid;
+
         }
 
         /// <summary>
@@ -60,6 +68,7 @@ namespace ErgoShop.UI
         {
             // Software
             SettingsManager.Instance.SoftwareParameters.CameraSpeed = cameraSlider.value;
+            SettingsManager.Instance.SoftwareParameters.VitesseZoom = vitesseZoom.value;
             SettingsManager.Instance.SoftwareParameters.ShowGrid = showGridToggle.isOn;
             SettingsManager.Instance.SoftwareParameters.ScreenShotFolder = Screenshot.Instance.folderPath;
             SettingsManager.Instance.SoftwareParameters.TagOnlyWall = tagWalltagAllDD.value == 1;
@@ -69,6 +78,9 @@ namespace ErgoShop.UI
             ParsingFunctions.ParseFloatCommaDot(wallsHeightField.text, out var wf);
             ProjectManager.Instance.Project.WallHeight = WallsCreator.Instance.wallHeight = wf / 100f;
             ProjectManager.Instance.Project.WallThickness = WallsCreator.Instance.wallThickness = tf / 100f;
+
+            //Theme
+            SettingsManager.Instance.SoftwareParameters.Theme = ThemeManager.Instance.Theme;
 
             // Auto Save Software parameters
             SettingsManager.Instance.SaveParameters();
