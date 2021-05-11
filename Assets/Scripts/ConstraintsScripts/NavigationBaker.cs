@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using ErgoShop.POCO;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace ErgoShop.ConstraintsScripts
@@ -38,6 +39,14 @@ namespace ErgoShop.ConstraintsScripts
         /// </summary>
         public void BakeNavMeshSurface()
         {
+            //desactivate all opening for calculBaking
+            GameObject[] wallOpening = GameObject.FindGameObjectsWithTag("WallOpening");
+            foreach (GameObject item in wallOpening)
+            {
+                item.SetActive(false);
+            }
+
+            //Bake
             GetComponent<MeshFilter>().mesh = null;
             m_surface.BuildNavMesh();
             var triangles = NavMesh.CalculateTriangulation();
@@ -45,6 +54,12 @@ namespace ErgoShop.ConstraintsScripts
             mesh.vertices = triangles.vertices;
             mesh.triangles = triangles.indices;
             GetComponent<MeshFilter>().mesh = mesh;
+
+            //Reactivate for visual all opening
+            foreach (GameObject item in wallOpening)
+            {
+                item.SetActive(true);
+            }
         }
 
         public void EraseNavMeshSurface()
