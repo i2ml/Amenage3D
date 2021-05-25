@@ -438,7 +438,6 @@ namespace ErgoShop.Managers
         {
             m_creating = true;
             if (setStart) m_startPosition = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
-
             m_currentRoomData = new Room
             {
                 Height = wallHeight,
@@ -446,22 +445,15 @@ namespace ErgoShop.Managers
                 LockAngles = true
             };
             m_currentRoomData.Walls = new List<Wall>();
-
             LastIndexRoom = MaxIndex;
             for (var i = 0; i < 4; i++)
             {
                 // Data
                 m_currentRoomData.Walls.Add(new Wall());
-
                 m_currentRoomData.Walls[i].P1 = m_startPosition;
                 m_currentRoomData.Walls[i].Height = wallHeight;
-
-
                 m_currentRoomData.Walls[i].associated2DObject.transform.parent = room2D;
                 m_currentRoomData.Walls[i].associated3DObject.transform.parent = room3D;
-
-
-
                 m_currentRoomData.Walls[i].Index = 0;
 
                 if (LastIndexRoom == 0 && m_currentRoomdx == 0)
@@ -479,23 +471,16 @@ namespace ErgoShop.Managers
                     LastIndexRoom++;
                     m_currentRoomData.Walls[i].Index = LastIndexRoom;
                 }
-
                 //m_currentRoomData.Walls[i].Index = m_currentRoomdx;
                 //m_currentRoomdx++;
-
-
                 m_wallsData.Add(m_currentRoomData.Walls[i]);
             }
-
             MaxIndex = m_currentRoomData.Walls[3].Index;
-
             // stick walls
             m_currentRoomData.Walls[0].linkedP1.Add(m_currentRoomData.Walls[3]);
             m_currentRoomData.Walls[0].linkedP2.Add(m_currentRoomData.Walls[1]);
-
             m_currentRoomData.Walls[1].linkedP1.Add(m_currentRoomData.Walls[0]);
             m_currentRoomData.Walls[1].linkedP2.Add(m_currentRoomData.Walls[2]);
-
             m_currentRoomData.Walls[2].linkedP1.Add(m_currentRoomData.Walls[1]);
             m_currentRoomData.Walls[2].linkedP2.Add(m_currentRoomData.Walls[3]);
 
