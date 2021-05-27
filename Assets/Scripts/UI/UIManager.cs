@@ -209,7 +209,7 @@ namespace ErgoShop.Managers
         public void ShowScreenShotOK(string filename)
         {
             screenShotMessage.text = "Capture d'écran effectuée à\n" + filename;
-            StartCoroutine(ShowHideScreenShotMessage(2));
+            StartCoroutine(ShowHideScreenShotMessage(5));
         }
 
         public void ShowMergeRoomsMessage()

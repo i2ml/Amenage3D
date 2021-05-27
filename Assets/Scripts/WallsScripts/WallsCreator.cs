@@ -367,7 +367,7 @@ namespace ErgoShop.Managers
             }
 
             //Annule la creation de la room 
-            if (/*Input.GetMouseButtonDown(1)*/ Input.GetButtonDown("Cancel"))
+            if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("Cancel"))
             {
                 CancelRoom();
             }
@@ -1547,17 +1547,29 @@ namespace ErgoShop.Managers
         public void CheckRoomsFusion(float dist = 0.5f)
         {
             foreach (var r1 in m_roomsData)
+            {
                 foreach (var r2 in m_roomsData)
+                {
                     if (r1 != r2)
+                    {
                         foreach (var w1 in r1.Walls)
+                        {
                             foreach (var w2 in r2.Walls)
+                            {
                                 if (w1 != w2)
+                                {
                                     if (WallFunctions.IsWallContainingOther(w1, w2, dist))
                                     {
                                         UIManager.Instance.ShowMergeRoomsMessage();
                                         StartCoroutine(WaitForMerge(r1, r2, w1, w2, dist));
                                         break;
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private IEnumerator WaitForMerge(Room r1, Room r2, Wall w1, Wall w2, float dist)
