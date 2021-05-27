@@ -139,7 +139,7 @@ namespace ErgoShop.Managers
             else if (m_mode == ViewMode.ThreeD)
             {
                 if (cam3D.GetComponent<Camera>().orthographic) cam3D.GetComponent<Camera3DMove>().SetNormalView();
-                cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position + Vector3.right * 2.5f);
+               // cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position + Vector3.right * 2.5f);
             }
 
             // UI Bindings
