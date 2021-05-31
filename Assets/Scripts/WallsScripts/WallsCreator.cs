@@ -1576,7 +1576,7 @@ namespace ErgoShop.Managers
             while (!CustomConfPopinScript.Instance.MadeChoice){ yield return null;}
             CustomConfPopinScript.Instance.MadeChoice = false;
 
-            if (CustomConfPopinScript.Instance.IsYes){ WallFunctions.MergeRoomsCommonWall(r1, r2, w1, w2,AdjustRoom, dist);}
+            if (CustomConfPopinScript.Instance.IsYes){ WallFunctions.MergeRoomsCommonWall(r1, r2, w1, w2, dist);}
             
         }
 

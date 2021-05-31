@@ -255,7 +255,7 @@ namespace ErgoShop.Utils
         /// <param name="r2"></param>
         /// <param name="w1"></param>
         /// <param name="w2"></param>
-        public static void MergeRoomsCommonWall(Room r1, Room r2, Wall w1, Wall w2,UnityAction nom, float dist = 1f)
+        public static void MergeRoomsCommonWall(Room r1, Room r2, Wall w1, Wall w2, float dist = 1f)
         {
             if (Mathf.Abs(w1.Length - w2.Length) < dist)
             {
@@ -267,7 +267,7 @@ namespace ErgoShop.Utils
 
                 // WallsCreator.Instance.DestroyWall(w2, false);
                 ConsolidateRoom(r1, w2, dist);
-                nom.Invoke();
+              
                 w2.associated2DObject.SetActive(false);
                 w2.associated3DObject.SetActive(false);
             }
