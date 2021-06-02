@@ -6,6 +6,7 @@ using Dynagon;
 using ErgoShop.Managers;
 using ErgoShop.POCO;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace ErgoShop.Utils
 {
@@ -134,7 +135,7 @@ namespace ErgoShop.Utils
             var d4 = Vector3.Distance(w1.P2, w2.P2);
 
 
-            foreach (var d in new[] { d1, d2, d3, d4 })
+            foreach (var d in new[] {d1, d2, d3, d4})
                 if (d < bestDistance)
                     bestDistance = d;
 
@@ -238,6 +239,12 @@ namespace ErgoShop.Utils
 
             sameExtremities = sameExtremities || Vector3.Distance(w1.P1, w2.P2) < dist
                 && Vector3.Distance(w1.P2, w2.P1) < dist;
+            //
+            // sameExtremities = sameExtremities || w1.P1.x - dist > w2.P1.x || w1.P1.x + dist < w2.P1.x &&
+            //                   w1.P2.x - dist > w2.P2.x || w1.P2.x + dist < w2.P2.x ||
+            //                   w1.P1.y - dist > w2.P1.y || w1.P1.y + dist < w2.P1.y &&
+            //                   w1.P2.y - dist > w2.P2.y || w1.P2.y + dist < w2.P2.y;
+
             return sameExtremities;
         }
 
@@ -252,11 +259,17 @@ namespace ErgoShop.Utils
         {
             if (Mathf.Abs(w1.Length - w2.Length) < dist)
             {
-                r2.Walls.Remove(w2);
-                r2.Walls.Add(w1);
+                // r2.Walls.Remove(w2);
+                // r2.Walls.Add(w1);
+                
+                
+                // Debug.DrawLine(new Vector3(0,0,0),);
 
-                WallsCreator.Instance.DestroyWall(w2, false);
-                ConsolidateRoom(r2, w1, dist);
+                // WallsCreator.Instance.DestroyWall(w2, false);
+                ConsolidateRoom(r1, w2, dist);
+              
+                w2.associated2DObject.SetActive(false);
+                w2.associated3DObject.SetActive(false);
             }
         }
 
@@ -270,10 +283,27 @@ namespace ErgoShop.Utils
             foreach (var w1 in r.Walls)
                 if (w1 != w)
                 {
-                    if (Vector3.Distance(w1.P1, w.P2) < dist) w1.P2 = w.P1;
-                    if (Vector3.Distance(w1.P2, w.P1) < dist) w1.P1 = w.P2;
-                    if (Vector3.Distance(w1.P1, w.P1) < dist) w1.P1 = w.P1;
-                    if (Vector3.Distance(w1.P2, w.P2) < dist) w1.P2 = w.P2;
+                    if (Vector3.Distance(w1.P1, w.P2) < dist)
+                    {
+                        w.P1 = w1.P2;
+                        Debug.Log("p1 : " + w1.P2 + "p2 : " + w.P2);
+                    }
+
+                    if (Vector3.Distance(w1.P2, w.P1) < dist)
+                    {
+                        w.P2 = w1.P1;
+                        Debug.Log("p1 : " + w1.P1 + "p2 : " + w.P2);
+                    }
+
+                    if (Vector3.Distance(w1.P1, w.P1) < dist)
+                    {
+                        w1.P1 = w.P1;
+                    }
+
+                    if (Vector3.Distance(w1.P2, w.P2) < dist)
+                    {
+                        w1.P2 = w.P2;
+                    }
                 }
         }
 
@@ -452,13 +482,13 @@ namespace ErgoShop.Utils
                 {
                     var okf = Math3d.LineLineIntersection(out f, a, cur.Direction, c2, linked.Direction);
                     var okg = Math3d.LineLineIntersection(out g, c, cur.Direction, a2, linked.Direction);
-                    return new[] { f, g, b, d };
+                    return new[] {f, g, b, d};
                 }
                 else
                 {
                     var okf = Math3d.LineLineIntersection(out f, a, cur.Direction, b2, linked.Direction);
                     var okg = Math3d.LineLineIntersection(out g, c, cur.Direction, d2, linked.Direction);
-                    return new[] { f, g, b, d };
+                    return new[] {f, g, b, d};
                 }
             }
 
@@ -466,13 +496,13 @@ namespace ErgoShop.Utils
             {
                 var okf = Math3d.LineLineIntersection(out f, b, cur.Direction, b2, linked.Direction);
                 var okg = Math3d.LineLineIntersection(out g, d, cur.Direction, d2, linked.Direction);
-                return new[] { a, c, f, g };
+                return new[] {a, c, f, g};
             }
             else
             {
                 var okf = Math3d.LineLineIntersection(out f, b, cur.Direction, d2, linked.Direction);
                 var okg = Math3d.LineLineIntersection(out g, d, cur.Direction, b2, linked.Direction);
-                return new[] { a, c, f, g };
+                return new[] {a, c, f, g};
             }
         }
 
@@ -597,14 +627,14 @@ namespace ErgoShop.Utils
 
             // =========== 2D PART ===========
             // 4 vertices to adjust, according to thickness and position
-            var new2DVertices = new List<Vector3> { a2, b2, c2, d2 };
+            var new2DVertices = new List<Vector3> {a2, b2, c2, d2};
 
-            var custTriangles2D = new List<Vector3> { a2, b2, d2, a2, d2, c2 };
+            var custTriangles2D = new List<Vector3> {a2, b2, d2, a2, d2, c2};
 
             var poly = new Polygon2D(new GameObject("Wall2D"), custTriangles2D, w.Color).Build();
             w.walls2D.Add(poly);
             poly.gameObject.transform.parent = w.associated2DObject.transform;
-            poly.gameObject.layer = (int)ErgoLayers.Top;
+            poly.gameObject.layer = (int) ErgoLayers.Top;
             poly.gameObject.tag = "Wall";
 
             var polcol = poly.gameObject.GetComponent<PolygonCollider2D>();
@@ -674,7 +704,7 @@ namespace ErgoShop.Utils
             var poly3 = new Polygon3D(new GameObject("Wall3D"), custTriangles3D, w.Color).Build();
             w.walls3D.Add(poly3);
             poly3.gameObject.transform.parent = w.associated3DObject.transform;
-            poly3.gameObject.layer = (int)ErgoLayers.ThreeD;
+            poly3.gameObject.layer = (int) ErgoLayers.ThreeD;
             poly3.gameObject.tag = "Wall";
 
             var outline = poly3.gameObject.AddComponent<Outline>();
@@ -690,7 +720,7 @@ namespace ErgoShop.Utils
             // rot
             poly3.gameObject.transform.rotation = rotation3D;
 
-            return new List<Vector3> { a + center, b + center, c + center, d + center };
+            return new List<Vector3> {a + center, b + center, c + center, d + center};
         }
 
         /// <summary>
@@ -745,7 +775,7 @@ namespace ErgoShop.Utils
                     Thickness = wallToCut.Thickness,
                     Index = wallToCut.Index * 110
                 };
-                return new[] { newWall1, newWall2 };
+                return new[] {newWall1, newWall2};
             }
 
             Debug.Log("Got null (too close from p1 or p2)");
@@ -799,25 +829,25 @@ namespace ErgoShop.Utils
         {
             var res = new List<WallIntersection>();
             for (var i = 0; i < walls.Count - 1; i++)
-                for (var j = i + 1; j < walls.Count; j++)
-                {
-                    var w1 = walls[i];
-                    var w2 = walls[j];
-                    if (i != j)
-                        // No common pos, then check intersection
-                        if (GetCommonPosition(w1, w2) == Vector3.positiveInfinity)
-                        {
-                            Debug.Log("Begin check intersection");
-                            Vector3 inter;
-                            if (IsIntersecting(out inter, w1, w2))
-                                res.Add(new WallIntersection
-                                {
-                                    w1 = w1,
-                                    w2 = w2,
-                                    intersectionPosition = inter
-                                });
-                        }
-                }
+            for (var j = i + 1; j < walls.Count; j++)
+            {
+                var w1 = walls[i];
+                var w2 = walls[j];
+                if (i != j)
+                    // No common pos, then check intersection
+                    if (GetCommonPosition(w1, w2) == Vector3.positiveInfinity)
+                    {
+                        Debug.Log("Begin check intersection");
+                        Vector3 inter;
+                        if (IsIntersecting(out inter, w1, w2))
+                            res.Add(new WallIntersection
+                            {
+                                w1 = w1,
+                                w2 = w2,
+                                intersectionPosition = inter
+                            });
+                    }
+            }
 
             return res;
         }
@@ -832,15 +862,15 @@ namespace ErgoShop.Utils
         {
             var res = new List<Wall>();
             foreach (var w1 in walls)
-                foreach (var w2 in walls)
-                    if (w1 != w2)
-                        if (
-                            w1.P1 == w2.P1 && w1.P2 == w2.P2
-                            ||
-                            w1.P1 == w2.P2 && w1.P2 == w2.P1
-                        )
-                            if (!res.Contains(w1))
-                                res.Add(w1);
+            foreach (var w2 in walls)
+                if (w1 != w2)
+                    if (
+                        w1.P1 == w2.P1 && w1.P2 == w2.P2
+                        ||
+                        w1.P1 == w2.P2 && w1.P2 == w2.P1
+                    )
+                        if (!res.Contains(w1))
+                            res.Add(w1);
             return res;
         }
 
@@ -904,9 +934,9 @@ namespace ErgoShop.Utils
         {
             var result = new List<Room>();
             foreach (var r in rooms)
-                foreach (var wa in r.Walls)
-                    if (w == wa)
-                        result.Add(r);
+            foreach (var wa in r.Walls)
+                if (w == wa)
+                    result.Add(r);
             return result;
         }
 

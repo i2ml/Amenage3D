@@ -448,7 +448,7 @@ namespace ErgoShop.Managers
             LastIndexRoom = MaxIndex;
             for (var i = 0; i < 4; i++)
             {
-                // Data
+               
                 m_currentRoomData.Walls.Add(new Wall());
                 m_currentRoomData.Walls[i].P1 = m_startPosition;
                 m_currentRoomData.Walls[i].Height = wallHeight;
@@ -471,8 +471,7 @@ namespace ErgoShop.Managers
                     LastIndexRoom++;
                     m_currentRoomData.Walls[i].Index = LastIndexRoom;
                 }
-                //m_currentRoomData.Walls[i].Index = m_currentRoomdx;
-                //m_currentRoomdx++;
+                
                 m_wallsData.Add(m_currentRoomData.Walls[i]);
             }
             MaxIndex = m_currentRoomData.Walls[3].Index;
@@ -1562,7 +1561,7 @@ namespace ErgoShop.Managers
                                     {
                                         UIManager.Instance.ShowMergeRoomsMessage();
                                         StartCoroutine(WaitForMerge(r1, r2, w1, w2, dist));
-                                        break;
+                                         
                                     }
                                 }
                             }
@@ -1574,10 +1573,11 @@ namespace ErgoShop.Managers
 
         private IEnumerator WaitForMerge(Room r1, Room r2, Wall w1, Wall w2, float dist)
         {
-            while (!CustomConfPopinScript.Instance.MadeChoice) yield return null;
+            while (!CustomConfPopinScript.Instance.MadeChoice){ yield return null;}
             CustomConfPopinScript.Instance.MadeChoice = false;
 
-            if (CustomConfPopinScript.Instance.IsYes) WallFunctions.MergeRoomsCommonWall(r1, r2, w1, w2, dist);
+            if (CustomConfPopinScript.Instance.IsYes){ WallFunctions.MergeRoomsCommonWall(r1, r2, w1, w2, dist);}
+            
         }
 
         private bool WallHasNoRoom(Wall w)
