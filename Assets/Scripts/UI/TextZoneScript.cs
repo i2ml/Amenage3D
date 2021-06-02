@@ -13,12 +13,13 @@ namespace ErgoShop.UI
     {
         public SpriteRenderer bg;
         public TextMesh tm;
-
+        
         public float textSize;
 
         // Start is called before the first frame update
         private void Start()
         {
+           
         }
 
         // Update is called once per frame
