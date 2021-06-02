@@ -448,7 +448,7 @@ namespace ErgoShop.Managers
             LastIndexRoom = MaxIndex;
             for (var i = 0; i < 4; i++)
             {
-               
+
                 m_currentRoomData.Walls.Add(new Wall());
                 m_currentRoomData.Walls[i].P1 = m_startPosition;
                 m_currentRoomData.Walls[i].Height = wallHeight;
@@ -471,7 +471,7 @@ namespace ErgoShop.Managers
                     LastIndexRoom++;
                     m_currentRoomData.Walls[i].Index = LastIndexRoom;
                 }
-                
+
                 m_wallsData.Add(m_currentRoomData.Walls[i]);
             }
             MaxIndex = m_currentRoomData.Walls[3].Index;
@@ -1026,6 +1026,7 @@ namespace ErgoShop.Managers
         {
             if (wopening == null) { return; }
 
+
             // UP
             GameObject w = Instantiate(wall3DPrefab, wopening.Wall.associated3DObject.transform);
             // deltY = distance from object top to wallHeight
@@ -1039,7 +1040,6 @@ namespace ErgoShop.Managers
                 wopening.Size.x * Vector3.right
                 + deltY * Vector3.up - wopening.WindowHeight * Vector3.up
                 + wopening.Wall.Thickness * Vector3.forward;
-
             var renderer = w.GetComponent<MeshRenderer>();
             renderer.material = wopening.Wall.walls3D[0].gameObject.GetComponent<MeshRenderer>().material;
 
@@ -1561,7 +1561,7 @@ namespace ErgoShop.Managers
                                     {
                                         UIManager.Instance.ShowMergeRoomsMessage();
                                         StartCoroutine(WaitForMerge(r1, r2, w1, w2, dist));
-                                         
+
                                     }
                                 }
                             }
@@ -1573,11 +1573,11 @@ namespace ErgoShop.Managers
 
         private IEnumerator WaitForMerge(Room r1, Room r2, Wall w1, Wall w2, float dist)
         {
-            while (!CustomConfPopinScript.Instance.MadeChoice){ yield return null;}
+            while (!CustomConfPopinScript.Instance.MadeChoice) { yield return null; }
             CustomConfPopinScript.Instance.MadeChoice = false;
 
-            if (CustomConfPopinScript.Instance.IsYes){ WallFunctions.MergeRoomsCommonWall(r1, r2, w1, w2, dist);}
-            
+            if (CustomConfPopinScript.Instance.IsYes) { WallFunctions.MergeRoomsCommonWall(r1, r2, w1, w2, dist); }
+
         }
 
         private bool WallHasNoRoom(Wall w)

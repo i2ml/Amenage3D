@@ -47,7 +47,7 @@ namespace ErgoShop.UI
 
         private bool CheckPropertiesBindings(WallOpening wo)
         {
-            
+
 
             woPropertiesForm.SetActive(wo != null);
             if (woPropertiesForm.activeInHierarchy)
@@ -64,12 +64,16 @@ namespace ErgoShop.UI
                     if (wo.IsWindow)
                     {
                         var dble = wo.IsDouble ? " Double" : " Simple";
-                        woNameText.text = "Fenetre" + dble;
+
+                        if (woNameText != null) { woNameText.text = "Fenetre" + dble; }
                         woWindowHeightField.text = Mathf.Floor(wo.WindowHeight * 100f) + "";
                     }
                     else
                     {
-                        woNameText.text = "Porte";
+                        if (woNameText != null)
+                        {
+                            woNameText.text = "Porte";
+                        }
                     }
 
                     woXField.text = Mathf.Floor(wo.Size.x * 100f) + "";
