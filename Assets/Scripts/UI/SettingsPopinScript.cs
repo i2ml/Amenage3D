@@ -50,8 +50,11 @@ namespace ErgoShop.UI
 
         public void UpdateUI()
         {
-            thicknessField.text = Mathf.Floor(ProjectManager.Instance.Project.WallThickness * 100f) + "";
-            wallsHeightField.text = Mathf.Floor(ProjectManager.Instance.Project.WallHeight * 100f) + "";
+            if (ProjectManager.Instance.Project != null)
+            {
+                thicknessField.text = Mathf.Floor(ProjectManager.Instance.Project.WallThickness * 100f) + "";
+                wallsHeightField.text = Mathf.Floor(ProjectManager.Instance.Project.WallHeight * 100f) + "";
+            }
 
             cameraSlider.value = SettingsManager.Instance.SoftwareParameters.CameraSpeed;
             vitesseZoom.value = SettingsManager.Instance.SoftwareParameters.VitesseZoom;
@@ -76,8 +79,14 @@ namespace ErgoShop.UI
             // Project
             ParsingFunctions.ParseFloatCommaDot(thicknessField.text, out var tf);
             ParsingFunctions.ParseFloatCommaDot(wallsHeightField.text, out var wf);
-            ProjectManager.Instance.Project.WallHeight = WallsCreator.Instance.wallHeight = wf / 100f;
-            ProjectManager.Instance.Project.WallThickness = WallsCreator.Instance.wallThickness = tf / 100f;
+
+            if (WallsCreator.Instance != null)
+            {
+                ProjectManager.Instance.Project.WallHeight = WallsCreator.Instance.wallHeight = wf / 100f;
+                ProjectManager.Instance.Project.WallThickness = WallsCreator.Instance.wallThickness = tf / 100f;
+            }
+
+
 
             //Theme
             SettingsManager.Instance.SoftwareParameters.Theme = ThemeManager.Instance.Theme;
