@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using ErgoShop.Managers;
 
 public class CUIColorPicker : MonoBehaviour
 {
@@ -150,7 +151,7 @@ public class CUIColorPicker : MonoBehaviour
                 ToggleBtnImage.color = resultColor;
             }
 
-            
+
 
             if (_color != resultColor)
             {
@@ -241,6 +242,18 @@ public class CUIColorPicker : MonoBehaviour
             RGBAInputField[2].text = (Color.b * 255).ToString();
             RGBAInputField[3].text = (Color.a * 255).ToString();
         }
+    }
+
+    public void CopiColor()
+    {
+        UIManager.Instance.copieColeurPicker = Color;
+        Debug.Log(UIManager.Instance.copieColeurPicker);
+    }
+
+    public void PastColor()
+    {
+        _color = UIManager.Instance.copieColeurPicker;
+        Debug.Log(_color);
     }
 
     public void ChangValue()
