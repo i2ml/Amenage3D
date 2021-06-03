@@ -57,20 +57,26 @@ namespace ErgoShop.UI
                 if (needsUpdate)
                 {
                     textField.text = tz.Text;
-                    moveToggle.isOn = tz.IsLocked;
-                    colorPicker.Color = new Color(tz.TextColor.r, tz.TextColor.g, tz.TextColor.b);
-                    colorPickerBG.Color = new Color(tz.BackgroundColor.r, tz.BackgroundColor.g, tz.BackgroundColor.b);
-                    imageToggle.color = colorPicker.Color;
-                    imageToggleBG.color = colorPickerBG.Color;
 
+                    if (moveToggle != null) { moveToggle.isOn = tz.IsLocked; }
+
+                    colorPicker.Color = new Color(tz.TextColor.r, tz.TextColor.g, tz.TextColor.b);
+
+                    if (colorPickerBG != null)
+                    {
+                        colorPickerBG.Color = new Color(tz.BackgroundColor.r, tz.BackgroundColor.g, tz.BackgroundColor.b);
+                        imageToggleBG.color = new Color(colorPickerBG.Color.r, colorPickerBG.Color.g, colorPickerBG.Color.b, 0.5f);
+                        imageToggleBG.color = colorPickerBG.Color;
+                        tz.BackgroundColor = imageToggleBG.color;
+                    }
+
+                    imageToggle.color = colorPicker.Color;
                     needsUpdate = false;
                 }
 
                 imageToggle.color = new Color(colorPicker.Color.r, colorPicker.Color.g, colorPicker.Color.b);
-                imageToggleBG.color =
-                    new Color(colorPickerBG.Color.r, colorPickerBG.Color.g, colorPickerBG.Color.b, 0.5f);
+
                 tz.TextColor = imageToggle.color;
-                tz.BackgroundColor = imageToggleBG.color;
 
                 tz.associated2DObject.GetComponent<TextZoneScript>().tm.color = tz.TextColor;
                 tz.associated2DObject.GetComponent<TextZoneScript>().bg.color = tz.BackgroundColor;
