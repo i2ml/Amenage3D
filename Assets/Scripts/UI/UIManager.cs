@@ -81,7 +81,7 @@ namespace ErgoShop.Managers
                 {
                     if (GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam2DTop)
                     {
-                        Instance.instructionsText.text = "Déplacez la caméra avec le clic gauche. F1 pour changer de vue vers la 3D";
+                        Instance.instructionsText.text = "Déplacez la caméra avec le clic droit. F1 pour changer de vue vers la 3D";
                     }
                     else if (GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam3D)
                     {
@@ -209,7 +209,7 @@ namespace ErgoShop.Managers
         public void ShowScreenShotOK(string filename)
         {
             screenShotMessage.text = "Capture d'écran effectuée à\n" + filename;
-            StartCoroutine(ShowHideScreenShotMessage(2));
+            StartCoroutine(ShowHideScreenShotMessage(5));
         }
 
         public void ShowMergeRoomsMessage()
