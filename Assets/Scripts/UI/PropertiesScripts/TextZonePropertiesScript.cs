@@ -56,26 +56,21 @@ namespace ErgoShop.UI
                 if (needsUpdate)
                 {
                     textField.text = tz.Text;
-
                     if (moveToggle != null) { moveToggle.isOn = tz.IsLocked; }
-
                     colorPicker.Color = new Color(tz.TextColor.r, tz.TextColor.g, tz.TextColor.b);
-
-
                     colorPickerBG.Color = new Color(tz.BackgroundColor.r, tz.BackgroundColor.g, tz.BackgroundColor.b);
-
                     imageToggleBG.color = new Color(colorPickerBG.Color.r, colorPickerBG.Color.g, colorPickerBG.Color.b, 0.5f);
-                    imageToggleBG.color = colorPickerBG.Color;
-                    tz.BackgroundColor = imageToggleBG.color;
-
                     imageToggle.color = colorPicker.Color;
+                    imageToggleBG.color = colorPickerBG.Color;
+
                     needsUpdate = false;
                 }
 
                 imageToggle.color = new Color(colorPicker.Color.r, colorPicker.Color.g, colorPicker.Color.b);
+                imageToggleBG.color = new Color(colorPickerBG.Color.r, colorPickerBG.Color.g, colorPickerBG.Color.b);
 
                 tz.TextColor = imageToggle.color;
-
+                tz.BackgroundColor = imageToggleBG.color;
                 tz.associated2DObject.GetComponent<TextZoneScript>().tm.color = tz.TextColor;
 
                 Debug.Log(tz.associated2DObject.GetComponent<TextZoneScript>().bg.color + "" + tz.BackgroundColor);
