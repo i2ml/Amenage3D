@@ -29,17 +29,16 @@ namespace ErgoShop.UI
             Instance = this;
         }
 
-        // Start is called before the first frame update
-        private void Start()
-        {
-        }
-
         // Update is called once per frame
         private void Update()
         {
-            foreach (var tz in SelectedObjectManager.Instance.currentHelperElements)
+            foreach (HelperElement tz in SelectedObjectManager.Instance.currentHelperElements)
+            {
                 if (CheckPropertiesBindings(tz as TextZoneElement))
+                {
                     UIManager.Instance.instructionsText.text = "Propriétes du texte à gauche de l'écran";
+                }
+            }
             base.Update();
         }
 
@@ -62,13 +61,12 @@ namespace ErgoShop.UI
 
                     colorPicker.Color = new Color(tz.TextColor.r, tz.TextColor.g, tz.TextColor.b);
 
-                    if (colorPickerBG != null)
-                    {
-                        colorPickerBG.Color = new Color(tz.BackgroundColor.r, tz.BackgroundColor.g, tz.BackgroundColor.b);
-                        imageToggleBG.color = new Color(colorPickerBG.Color.r, colorPickerBG.Color.g, colorPickerBG.Color.b, 0.5f);
-                        imageToggleBG.color = colorPickerBG.Color;
-                        tz.BackgroundColor = imageToggleBG.color;
-                    }
+
+                    colorPickerBG.Color = new Color(tz.BackgroundColor.r, tz.BackgroundColor.g, tz.BackgroundColor.b);
+
+                    imageToggleBG.color = new Color(colorPickerBG.Color.r, colorPickerBG.Color.g, colorPickerBG.Color.b, 0.5f);
+                    imageToggleBG.color = colorPickerBG.Color;
+                    tz.BackgroundColor = imageToggleBG.color;
 
                     imageToggle.color = colorPicker.Color;
                     needsUpdate = false;
@@ -79,7 +77,10 @@ namespace ErgoShop.UI
                 tz.TextColor = imageToggle.color;
 
                 tz.associated2DObject.GetComponent<TextZoneScript>().tm.color = tz.TextColor;
+
+                Debug.Log(tz.associated2DObject.GetComponent<TextZoneScript>().bg.color + "" + tz.BackgroundColor);
                 tz.associated2DObject.GetComponent<TextZoneScript>().bg.color = tz.BackgroundColor;
+
                 tz.associated2DObject.GetComponent<TextZoneScript>().textSize = tz.TextSize;
 
                 tz.associated3DObject.GetComponent<TextZoneScript>().tm.color = tz.TextColor;
