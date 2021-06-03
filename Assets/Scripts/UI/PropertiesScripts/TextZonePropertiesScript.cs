@@ -72,12 +72,8 @@ namespace ErgoShop.UI
                 tz.TextColor = imageToggle.color;
                 tz.BackgroundColor = imageToggleBG.color;
                 tz.associated2DObject.GetComponent<TextZoneScript>().tm.color = tz.TextColor;
-
-                Debug.Log(tz.associated2DObject.GetComponent<TextZoneScript>().bg.color + "" + tz.BackgroundColor);
                 tz.associated2DObject.GetComponent<TextZoneScript>().bg.color = tz.BackgroundColor;
-
                 tz.associated2DObject.GetComponent<TextZoneScript>().textSize = tz.TextSize;
-
                 tz.associated3DObject.GetComponent<TextZoneScript>().tm.color = tz.TextColor;
                 tz.associated3DObject.GetComponent<TextZoneScript>().bg.color = tz.BackgroundColor;
                 tz.associated3DObject.GetComponent<TextZoneScript>().textSize = tz.TextSize;

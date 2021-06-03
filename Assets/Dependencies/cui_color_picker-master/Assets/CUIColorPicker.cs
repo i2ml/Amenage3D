@@ -1,10 +1,14 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class CUIColorPicker : MonoBehaviour
 {
     public Color Color { get { return _color; } set { Setup(value); } }
+
+    public bool EditField { get => editField; set => editField = value; }
+
     public void SetOnValueChangeCallback(Action<Color> onValueChange)
     {
         _onValueChange = onValueChange;
@@ -18,6 +22,9 @@ public class CUIColorPicker : MonoBehaviour
     public GameObject hueGO;// GO("Hue");
     public GameObject hueKnob; //GO("Hue/Knob");
     public GameObject result; //GO("Result");
+
+    public TMP_InputField[] RGBAInputField;
+    private bool editField = false;
 
     public Image ToggleBtnImage;
 
@@ -152,6 +159,7 @@ public class CUIColorPicker : MonoBehaviour
 
         applyHue();
         applySaturationValue();
+
         satvalKnob.transform.localPosition = new Vector2(Saturation * satvalSz.x, Value * satvalSz.y);
         hueKnob.transform.localPosition = new Vector2(hueKnob.transform.localPosition.x, Hue / 6 * satvalSz.y);
 
@@ -219,5 +227,40 @@ public class CUIColorPicker : MonoBehaviour
     void Update()
     {
         _update();
+
+        //remplissage text
+        if (EditField == false)
+        {
+            RGBAInputField[0].text = (Color.r * 255).ToString();
+            RGBAInputField[1].text = (Color.g * 255).ToString();
+            RGBAInputField[2].text = (Color.b * 255).ToString();
+            RGBAInputField[3].text = (Color.a * 255).ToString();
+        }
+    }
+
+    public void ChangValue()
+    {
+        float r, g, b, a;
+
+        if (float.TryParse(RGBAInputField[0].text, out r))
+        {
+            Color = new Color(r, Color.g, Color.b, Color.a);
+        }
+
+        if (float.TryParse(RGBAInputField[1].text, out g))
+        {
+            Color = new Color(Color.r, g, Color.b, Color.a);
+        }
+
+        if (float.TryParse(RGBAInputField[2].text, out b))
+        {
+            Color = new Color(Color.r, Color.g, b, Color.a);
+        }
+
+        if (float.TryParse(RGBAInputField[3].text, out a))
+        {
+            Color = new Color(Color.r, Color.g, Color.b, a);
+        }
+        _color = Color;
     }
 }
