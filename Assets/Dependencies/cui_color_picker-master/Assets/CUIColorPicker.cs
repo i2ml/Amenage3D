@@ -145,7 +145,12 @@ public class CUIColorPicker : MonoBehaviour
             //resImg.color = resultColor;
             //Debug.Log(resImg.color);
 
-            ToggleBtnImage.color = resultColor;
+            if (ToggleBtnImage != null)
+            {
+                ToggleBtnImage.color = resultColor;
+            }
+
+            
 
             if (_color != resultColor)
             {
