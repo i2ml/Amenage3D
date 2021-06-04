@@ -77,7 +77,7 @@ namespace ErgoShop.UI
                         furnitureRotationSlider.value = furnituresData[0].Rotation / 5f;
                     }
 
-                    moveToggle.isOn = furnituresData[0].IsLocked;
+                    //moveToggle.isOn = furnituresData[0].IsLocked;
                 }
 
                 needsUpdate = false;
