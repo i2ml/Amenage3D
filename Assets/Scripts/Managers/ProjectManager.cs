@@ -144,7 +144,7 @@ namespace ErgoShop.Managers
         ///     Check if auto save if different from last save
         /// </summary>
         /// <returns></returns>
-        private bool IsLastSaveChanged()
+        public bool IsLastSaveChanged()
         {
             if (m_currentFilePath == null) return AllElementsManager.Instance.AllElements.Count > 0;
             var currentProjectContent = File.ReadAllText(m_currentFilePath);
@@ -995,7 +995,7 @@ namespace ErgoShop.Managers
                         P1 = w.P1,
                         P2 = w.P2,
                         Thickness = w.Thickness,
-                        Index =  w.Index 
+                        Index = w.Index
                     };
                     if (newFloor.Walls.Where(wa => wa.P1 == copy.P1 && wa.P2 == copy.P2).Count() == 0)
                         newFloor.Walls.Add(copy);

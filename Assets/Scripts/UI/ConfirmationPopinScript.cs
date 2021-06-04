@@ -26,14 +26,25 @@ namespace ErgoShop.UI
         {
             wantToQuit = true;
             wantToSave = true;
-            if (ProjectManager.Instance.SaveProject())
+
+            if (!ProjectManager.Instance.IsLastSaveChanged())
             {
+                ProjectManager.Instance.SaveCurrentFile();
                 goQuit = true;
                 Application.Quit();
+                QuitWithoutSave();
             }
             else
             {
-                CancelQuitting();
+                if (ProjectManager.Instance.SaveProject())
+                {
+                    goQuit = true;
+                    Application.Quit();
+                }
+                else
+                {
+                    CancelQuitting();
+                }
             }
         }
 
