@@ -46,6 +46,8 @@ namespace ErgoShop.Managers
 
         public static UIManager Instance { get; private set; }
 
+        public Color copieColeurPicker = new Color();
+
         // Start is called before the first frame update
         private void Start()
         {
