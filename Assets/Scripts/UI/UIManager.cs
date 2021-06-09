@@ -24,7 +24,7 @@ namespace ErgoShop.Managers
 
         public GameObject stairsForm;
 
-        public GameObject mergeRoomsPopin, customNamePopin;
+        public GameObject mergeRoomsPopin, customNamePopin , ShowPassageMessageObject;
 
         public Button focusFaceButton;
 
@@ -69,6 +69,18 @@ namespace ErgoShop.Managers
             SetInstructionsText();
             stairsForm.SetActive(true);
             focusFaceButton.interactable = GlobalManager.Instance.Is3D();
+
+
+            //message
+            if (TimerShowMessage > 0)
+            {
+                TimerShowMessage -= Time.deltaTime;
+                ShowPassageMessageObject.SetActive(true);
+            }
+            else
+            {
+                ShowPassageMessageObject.SetActive(false);
+            }
         }
 
         /// <summary>
@@ -202,6 +214,12 @@ namespace ErgoShop.Managers
             SelectedObjectManager.Instance.ResetSelection();
         }
 
+        float TimerShowMessage = 0;
+        public void ShowPassageMessage(float _time)
+        {
+            TimerShowMessage = _time;
+        }
+
         public void ShowWallsForm()
         {
             ResetTopForms();
@@ -209,6 +227,7 @@ namespace ErgoShop.Managers
             selectedOption.transform.GetChild(1).gameObject.SetActive(true);
             SelectedObjectManager.Instance.ResetSelection();
         }
+
         string filenamePath;
         public void ShowScreenShotOK(string filename)
         {
