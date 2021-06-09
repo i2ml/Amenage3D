@@ -4,6 +4,8 @@ using ErgoShop.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.IO;
+using UnityEditor;
 
 namespace ErgoShop.Managers
 {
@@ -22,7 +24,7 @@ namespace ErgoShop.Managers
 
         public GameObject stairsForm;
 
-        public GameObject mergeRoomsPopin, customNamePopin;
+        public GameObject mergeRoomsPopin, customNamePopin , ShowPassageMessageObject;
 
         public Button focusFaceButton;
 
@@ -67,6 +69,18 @@ namespace ErgoShop.Managers
             SetInstructionsText();
             stairsForm.SetActive(true);
             focusFaceButton.interactable = GlobalManager.Instance.Is3D();
+
+
+            //message
+            if (TimerShowMessage > 0)
+            {
+                TimerShowMessage -= Time.deltaTime;
+                ShowPassageMessageObject.SetActive(true);
+            }
+            else
+            {
+                ShowPassageMessageObject.SetActive(false);
+            }
         }
 
         /// <summary>
@@ -200,6 +214,12 @@ namespace ErgoShop.Managers
             SelectedObjectManager.Instance.ResetSelection();
         }
 
+        float TimerShowMessage = 0;
+        public void ShowPassageMessage(float _time)
+        {
+            TimerShowMessage = _time;
+        }
+
         public void ShowWallsForm()
         {
             ResetTopForms();
@@ -208,10 +228,17 @@ namespace ErgoShop.Managers
             SelectedObjectManager.Instance.ResetSelection();
         }
 
+        string filenamePath;
         public void ShowScreenShotOK(string filename)
         {
+            filenamePath = filename;
             screenShotMessage.text = "Capture d'écran effectuée à\n" + filename;
             StartCoroutine(ShowHideScreenShotMessage(5));
+        }
+
+        public void showScreenShootInExplorer()
+        {
+            EditorUtility.RevealInFinder(filenamePath);
         }
 
         public void ShowMergeRoomsMessage()
