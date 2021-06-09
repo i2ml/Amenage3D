@@ -4,6 +4,8 @@ using ErgoShop.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.IO;
+using UnityEditor;
 
 namespace ErgoShop.Managers
 {
@@ -207,11 +209,17 @@ namespace ErgoShop.Managers
             selectedOption.transform.GetChild(1).gameObject.SetActive(true);
             SelectedObjectManager.Instance.ResetSelection();
         }
-
+        string filenamePath;
         public void ShowScreenShotOK(string filename)
         {
+            filenamePath = filename;
             screenShotMessage.text = "Capture d'écran effectuée à\n" + filename;
             StartCoroutine(ShowHideScreenShotMessage(5));
+        }
+
+        public void showScreenShootInExplorer()
+        {
+            EditorUtility.RevealInFinder(filenamePath);
         }
 
         public void ShowMergeRoomsMessage()
