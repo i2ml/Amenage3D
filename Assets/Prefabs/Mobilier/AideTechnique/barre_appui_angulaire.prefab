@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: barre_appui_angulaire
   furnitureType: AideTechnique
   resourceName: barre_appui_angulaire
-  scaleRatio: 0.2
+  scaleRatio: 1

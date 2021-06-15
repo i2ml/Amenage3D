@@ -221,13 +221,12 @@ namespace ErgoShop.Managers
                 CanBePutOnFurniture = false,
                 ScaleModifier = 1f
             };
-            m_currentFurniture.Size = m_currentFurniture.MeshSize * m_currentFurniture.ScaleModifier;
-
-            InitFurnitureText(m_currentFurniture);
-
-            SetFurni2DSize();
 
             m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
+            m_currentFurniture.Size = m_currentFurniture.MeshSize * m_currentFurniture.ScaleModifier;
+            SetFurni2DSize();
+
+            InitFurnitureText(m_currentFurniture);
 
             m_furnituresData.Add(m_currentFurniture);
 
@@ -358,13 +357,16 @@ namespace ErgoShop.Managers
                         ScaleModifier = m_currentFurniScript.scaleRatio
                     };
 
+                    
+                    m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * m_currentFurniture.MeshSize;
                     m_currentFurniture.Size = m_currentFurniture.MeshSize * m_currentFurniture.ScaleModifier;
+                    SetFurni2DSize();
 
                     InitFurnitureText(m_currentFurniture);
 
-                    SetFurni2DSize();
+                    
 
-                    m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
+                    
 
                     m_furnituresData.Add(m_currentFurniture);
 

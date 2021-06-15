@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: SiegeDouche
   furnitureType: AideTechnique
   resourceName: SiegeDouche
-  scaleRatio: 0.2
+  scaleRatio: 1

@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: siege_assis_debout
   furnitureType: AideTechnique
   resourceName: siege_assis_debout
-  scaleRatio: 0.2
+  scaleRatio: 1

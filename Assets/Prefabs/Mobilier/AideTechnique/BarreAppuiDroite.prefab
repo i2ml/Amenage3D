@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: Barre d'appui
   furnitureType: AideTechnique
   resourceName: barre_appui_droite
-  scaleRatio: 0.2
+  scaleRatio: 1
