@@ -29,9 +29,9 @@ namespace ErgoShop.POCO
         public bool CanBePutOnFurniture { get; set; }
 
         // sortie du update
-        private Camera cam2d, cam3d,cam;
+        private Camera cam2d, cam3d, cam;
 
-        private void InitVar ()
+        private void InitVar()
         {
             cam = GlobalManager.Instance.GetActiveCamera();
             cam2d = GlobalManager.Instance.cam2DTop.GetComponent<Camera>();
@@ -187,7 +187,10 @@ namespace ErgoShop.POCO
                                 if (potentialFurniture)
                                 {
                                     Furniture f = FurnitureCreator.Instance.GetFurnitureFromGameObject(potentialFurniture);
-                                    y = f.Position.y + f.Size.y;
+                                    if (f != null)
+                                    {
+                                        y = f.Position.y + f.Size.y;
+                                    }
                                 }
                             }
 
