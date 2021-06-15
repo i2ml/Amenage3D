@@ -43,7 +43,7 @@ namespace ErgoShop.POCO
                 Text = Text,
                 TextColor = TextColor,
                 TextSize = TextSize,
-                Size = Size
+                Size = Size,
             };
         }
 
