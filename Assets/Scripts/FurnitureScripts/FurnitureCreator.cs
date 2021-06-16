@@ -374,6 +374,12 @@ namespace ErgoShop.Managers
                     SelectedObjectManager.Instance.Select(m_currentFurniture);
                     SelectedObjectManager.Instance.PlaceFurniture(true);
 
+                    //Debug.Log(m_currentFurniture2DTop.name);
+                    if (m_currentFurniture2DTop.name == "officeChair")
+                    {
+                        m_currentFurniture2DTop.transform.position += Vector3.forward;
+                    }
+
                     //OperationsBufferScript.Instance.AddAutoSave("Ajout de " + m_currentFurniture.Name);
                 }
             }
