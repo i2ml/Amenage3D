@@ -771,8 +771,11 @@ namespace ErgoShop.Managers
                         Color = new Color(200 / 255f, 200 / 255f, 200 / 255f)
                     };
                 }
+
+                
                 if (room.Ceil != null && room.Ceil.planeGenerated != null)
                 {
+                    room.Ceil.planeGenerated.SetActive(false);
                     Destroy(room.Ceil.planeGenerated);
                 }
                 if (room.Ceil == null)
@@ -781,6 +784,7 @@ namespace ErgoShop.Managers
                     {
                         Color = Color.white
                     };
+                    room.Ceil.planeGenerated.SetActive(false);
                 }
 
                 Vector3 center3D = VectorFunctions.Switch2D3D(VectorFunctions.GetCenter(vertices));
@@ -812,6 +816,7 @@ namespace ErgoShop.Managers
                     Destroy(room.Ceil.planeGenerated);
                 }
                 room.Ceil.planeGenerated = Instantiate(polyShapePrefab);
+                room.Ceil.planeGenerated.SetActive(false);
                 room.Ceil.planeGenerated.layer = (int)ErgoLayers.ThreeD;
                 room.Ceil.planeGenerated.transform.parent = room3D;
                 room.Ceil.planeGenerated.transform.localPosition = Vector3.up * room.Height + center3D;
