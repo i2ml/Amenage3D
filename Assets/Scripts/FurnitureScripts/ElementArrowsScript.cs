@@ -67,10 +67,15 @@ namespace ErgoShop.Interactable
             {
                 var me = SelectedObjectManager.Instance.currentSelectedElements.First() as MovableElement;
                 if (SelectedObjectManager.Instance.currentSelectedElements.Count() == 0 || me == null) return;
-                var pos = me.associated2DObject.transform.position; //VectorFunctions.Switch3D2D(me.Position);
-                var size = VectorFunctions.Switch3D2D(me.Size / 2f);
 
-                SetOrigins(me, pos, size);
+                try
+                {
+                    var pos = me.associated2DObject.transform.position; //VectorFunctions.Switch3D2D(me.Position);
+                    var size = VectorFunctions.Switch3D2D(me.Size / 2f);
+
+                    SetOrigins(me, pos, size);
+                }
+                catch { }
 
                 if (up != currentArrow) up.transform.position = oUp;
                 if (down != currentArrow) down.transform.position = oDown;
@@ -151,7 +156,7 @@ namespace ErgoShop.Interactable
             if (InputFunctions.IsClickingOutsideUI())
             {
                 var go = InputFunctions.GetHoveredObject2D(GlobalManager.Instance.GetActiveCamera());
-               // Debug.Log("CLICK ARROW " + go);
+                // Debug.Log("CLICK ARROW " + go);
                 if (!go || go.tag != "ElementArrow")
                 {
                     isMoving = false;

@@ -772,7 +772,7 @@ namespace ErgoShop.Managers
                     };
                 }
 
-                
+
                 if (room.Ceil != null && room.Ceil.planeGenerated != null)
                 {
                     room.Ceil.planeGenerated.SetActive(false);
@@ -784,7 +784,15 @@ namespace ErgoShop.Managers
                     {
                         Color = Color.white
                     };
-                    room.Ceil.planeGenerated.SetActive(false);
+
+                    try
+                    {
+                        room.Ceil.planeGenerated.SetActive(false);
+                    }
+                    catch
+                    {
+
+                    }
                 }
 
                 Vector3 center3D = VectorFunctions.Switch2D3D(VectorFunctions.GetCenter(vertices));
