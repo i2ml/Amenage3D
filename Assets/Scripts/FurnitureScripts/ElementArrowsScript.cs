@@ -61,6 +61,7 @@ namespace ErgoShop.Interactable
             show = show && SelectedObjectManager.Instance.currentWallsData.Count == 0
                         && SelectedObjectManager.Instance.currentWallOpenings.Count == 0
                         && SelectedObjectManager.Instance.currentStairs.Count == 0;
+
             foreach (var g in m_allArrows) g.SetActive(show);
 
             if (show)
