@@ -63,12 +63,19 @@ namespace ErgoShop.POCO
                 var perp = w.GetPerpendicularFromPos(pos3D);
 
                 associated3DObject.transform.rotation = Quaternion.FromToRotation(Vector3.forward, perp);
-                associated3DObject.transform.localEulerAngles = new Vector3(0,
-                    associated3DObject.transform.localEulerAngles.y, EulerAngles.z);
 
-                associated2DObject.transform.localEulerAngles = VectorFunctions.Switch2D3D(new Vector3(0,
+                associated3DObject.transform.localEulerAngles = new Vector3(
+                    0,
+                    associated3DObject.transform.localEulerAngles.y,
+                    EulerAngles.z
+                    );
+
+                associated2DObject.transform.localEulerAngles = VectorFunctions.Switch2D3D(new Vector3(
+                    0,
                     -associated3DObject.transform.localEulerAngles.y,
-                    associated3DObject.transform.localEulerAngles.z));
+                    associated3DObject.transform.localEulerAngles.z
+                    ));
+
                 EulerAngles = associated3DObject.transform.localEulerAngles;
                 AssociatedElement = w;
             }
@@ -221,9 +228,13 @@ namespace ErgoShop.POCO
                     }
                     else
                     {
+                        if (associated3DObject == null)
+                        {
+                            return;
+                        }
+
                         //Fix a l'etage l'objet
                         float tmpY = associated3DObject.transform.position.y;
-
                         associated3DObject.transform.position += pos3D - startingPos;
 
                         if (associated3DObject)
@@ -231,6 +242,7 @@ namespace ErgoShop.POCO
                             float y = 0;
                             if (CanBePutOnFurniture)
                             {
+                                
                                 var potentialFurniture = InputFunctions.GetHoveredObject2D(
                                     GlobalManager.Instance.cam2DTop.GetComponent<Camera>(), associated2DObject.name,
                                     true);
@@ -241,8 +253,8 @@ namespace ErgoShop.POCO
                                 }
                             }
 
-
                             associated3DObject.transform.position = associated3DObject.transform.position;
+
                             associated3DObject.transform.position = new Vector3(associated3DObject.transform.position.x, tmpY, associated3DObject.transform.position.z);
 
                             associated2DObject.transform.position = new Vector3(associated3DObject.transform.position.x, associated3DObject.transform.position.z, associated2DObject.transform.position.z);
