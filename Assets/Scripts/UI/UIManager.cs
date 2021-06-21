@@ -280,6 +280,11 @@ namespace ErgoShop.Managers
             FloorPropertiesScript.Instance.LoadFloorsFromProject();
         }
 
+        public void OpenLinkWeb(string _link)
+        {
+            Application.OpenURL(_link);
+        }
+
         #endregion
     }
 }
