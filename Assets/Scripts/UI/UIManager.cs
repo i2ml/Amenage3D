@@ -20,7 +20,7 @@ namespace ErgoShop.Managers
         private WallsCreator Sc_WallsCreator;
 
         // Forms
-        public GameObject projectForm, wallsForm, floorsForm, furnitureForm, othersForm, rectRoomForm, selectedOption;
+        public GameObject projectForm, wallsForm, floorsForm, furnitureForm, othersForm, rectRoomForm, selectedOption, handicapForm;
 
         public GameObject stairsForm;
 
@@ -154,6 +154,7 @@ namespace ErgoShop.Managers
             floorsForm.SetActive(false);
             rectRoomForm.SetActive(false);
             othersForm.SetActive(false);
+            handicapForm.SetActive(false);
 
             if (!ShowFurnitureForme)
             {
@@ -225,6 +226,14 @@ namespace ErgoShop.Managers
             ResetTopForms();
             wallsForm.SetActive(true);
             selectedOption.transform.GetChild(1).gameObject.SetActive(true);
+            SelectedObjectManager.Instance.ResetSelection();
+        }
+
+        public void ShowHandicapForm()
+        {
+            ResetTopForms();
+            handicapForm.SetActive(true);
+            //selectedOption.transform.GetChild(1).gameObject.SetActive(true);
             SelectedObjectManager.Instance.ResetSelection();
         }
 
