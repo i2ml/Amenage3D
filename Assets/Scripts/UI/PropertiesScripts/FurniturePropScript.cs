@@ -159,6 +159,7 @@ namespace ErgoShop.UI
         public void SetFurnitureRotation(float rotation)
         {
             rotation = rotation % 360;
+
             var rot2D = Vector3.zero;
             var rot3D = Vector3.zero;
 

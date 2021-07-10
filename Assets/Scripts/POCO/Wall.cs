@@ -268,18 +268,28 @@ namespace ErgoShop.POCO
         {
             Camera cam = GlobalManager.Instance.GetActiveCamera();
 
-            //switch (cam.gameObject.layer)
-            //{
-            //    case (int)ErgoLayers.Top:
+            switch (cam.gameObject.layer)
+            {
+                case (int)ErgoLayers.Top:
 
-                    //Debug.Log("Moving Wall !!");
                     Vector3 pos2D = InputFunctions.GetWorldPoint2D(cam);
                     Room r = SelectedObjectManager.Instance.currentRoomData;
                     System.Single roomMod = r == null ? 1f : r.LockAngles ? 1f / 4f : 1f / 2f;
                     SetPosition(VectorFunctions.Switch3D2D(Position) + (pos2D - offset) * roomMod);
 
-            //        break;
-            //}
+                    break;
+
+                case (int)ErgoLayers.ThreeD:
+
+                    Vector3 pos3D = InputFunctions.GetWorldPoint3D(cam, false);
+                    Room room = SelectedObjectManager.Instance.currentRoomData;
+                    //System.Single roomModif = room == null ? 1f : room.LockAngles ? 1f / 4f : 1f / 2f;
+                    SetPosition(VectorFunctions.Switch3D2D(offset));
+
+                    //Debug.Log(pos3D+"   "+ VectorFunctions.Switch3D2D(offset) +"     Result = "+ (pos3D - offset) * 1 + "    final = " + VectorFunctions.Switch2D3D(Position) + (pos3D - offset) * 1);
+
+                    break;
+            }
         }
 
         /// <summary>

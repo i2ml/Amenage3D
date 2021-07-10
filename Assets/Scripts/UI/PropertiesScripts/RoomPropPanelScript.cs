@@ -78,6 +78,7 @@ namespace ErgoShop.UI
                 //ResetColors();
                 if (m_needsUpdate)
                 {
+                    
                     // Room name
                     roomNameInput.text = roomData.Name;
 

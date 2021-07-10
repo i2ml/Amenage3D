@@ -87,7 +87,14 @@ public class PreviewScript : MonoBehaviour
                     //destroy MultiMesh
                     for (int i = 0; i < meshAll.Length - 1; i++)
                     {
-                        Destroy(gm_tmp.transform.GetChild(i).gameObject);
+                        try
+                        {
+                            Destroy(gm_tmp.transform.GetChild(i).gameObject);
+                        }
+                        catch
+                        {
+
+                        }
                     }
                     Destroy(gm_tmp);
                 }

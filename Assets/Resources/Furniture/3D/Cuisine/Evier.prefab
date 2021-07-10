@@ -57,6 +57,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -68,6 +69,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -91,8 +93,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 4.5722384, y: 2.9327452, z: 2.5895994}
-  m_Center: {x: 0.0000001513958, y: 1.4663726, z: -0.0000004541874}
+  m_Size: {x: 1.8164062, y: 1.1217262, z: 0.9104309}
+  m_Center: {x: 0.00012207031, y: 0.5608631, z: 0.005880356}
 --- !u!65 &349613448
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -104,8 +106,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 2.209784, y: 0.38354248, z: 2.1532793}
-  m_Center: {x: 0.33439636, y: 3.1038978, z: -0.08327507}
+  m_Size: {x: 0.8613281, y: 0.22607422, z: 0.8803711}
+  m_Center: {x: 0.17199707, y: 1.2338476, z: -0.034845397}
 --- !u!54 &349613447
 Rigidbody:
   m_ObjectHideFlags: 0

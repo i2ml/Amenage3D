@@ -45,11 +45,15 @@ namespace ErgoShop.UI
             {
                 w = SelectedObjectManager.Instance.currentWallsData[0];
                 if (leftArrow != currentArrow)
+                {
                     leftArrow.transform.position = w.P1 + m_decal - w.Direction * m_arrowOffset;
-                //leftArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, -w.Direction);
+                    //leftArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, -w.Direction);
+                }
                 if (rightArrow != currentArrow)
+                {
                     rightArrow.transform.position = w.P2 + m_decal + w.Direction * m_arrowOffset;
-                //rightArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, w.Direction);
+                    rightArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, w.Direction);
+                }
                 if (upPerpArrow != currentArrow)
                     upPerpArrow.transform.position = w.Center + m_decal - w.Perpendicular * w.Thickness / 2f;
                 //upPerpArrow.transform.rotation = Quaternion.FromToRotation(Vector3.right, -w.Perpendicular);
@@ -60,7 +64,7 @@ namespace ErgoShop.UI
 
             if (show)
             {
-                var arrows = new List<GameObject> {leftArrow, rightArrow, upPerpArrow, downPerpArrow};
+                var arrows = new List<GameObject> { leftArrow, rightArrow, upPerpArrow, downPerpArrow };
                 foreach (var go in arrows)
                     go.transform.localScale =
                         Vector3.one * Mathf.Abs(GlobalManager.Instance.cam2DTop.transform.position.z / 10f);
@@ -112,12 +116,26 @@ namespace ErgoShop.UI
                 switch (currentArrow.name)
                 {
                     case "P1":
-                        proj = Vector3.Project(mousePos - w.P1, w.Direction) + w.P1;
-                        WallsCreator.Instance.UpdateWallPoint(w, proj + w.Direction * m_arrowOffset, true);
+                        if (Input.GetAxis("LibrePoint") > 0)
+                        {
+                            WallsCreator.Instance.UpdateWallPoint(w, mousePos + w.Direction * m_arrowOffset, true);
+                        }
+                        else
+                        {
+                            proj = (Vector3.Project(mousePos - w.P1, w.Direction) + w.P1);
+                            WallsCreator.Instance.UpdateWallPoint(w, proj + w.Direction * m_arrowOffset, true);
+                        }
                         break;
                     case "P2":
-                        proj = Vector3.Project(mousePos - w.P2, -w.Direction) + w.P2;
-                        WallsCreator.Instance.UpdateWallPoint(w, proj - w.Direction * m_arrowOffset, false);
+                        if (Input.GetAxis("LibrePoint") > 0)
+                        {
+                            WallsCreator.Instance.UpdateWallPoint(w, mousePos - w.Direction * m_arrowOffset, false);
+                        }
+                        else
+                        {
+                            proj = Vector3.Project(mousePos - w.P2, -w.Direction) + w.P2;
+                            WallsCreator.Instance.UpdateWallPoint(w, proj - w.Direction * m_arrowOffset, false);
+                        }
                         break;
                     case "UpPerp":
                         proj = Vector3.Project(mousePos - w.Center, -w.Perpendicular) + w.Center;

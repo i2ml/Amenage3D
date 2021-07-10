@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: Ecran
   furnitureType: Multimedia
   resourceName: ecranPC
-  scaleRatio: 10
+  scaleRatio: 1

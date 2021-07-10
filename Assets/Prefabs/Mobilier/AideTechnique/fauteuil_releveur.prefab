@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: fauteuil_releveur
   furnitureType: AideTechnique
   resourceName: fauteuil_releveur
-  scaleRatio: 0.2
+  scaleRatio: 1

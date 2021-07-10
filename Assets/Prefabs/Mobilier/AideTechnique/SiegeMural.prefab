@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: SiegeMural
   furnitureType: AideTechnique
   resourceName: SiegeMuralPref
-  scaleRatio: 0.2
+  scaleRatio: 1

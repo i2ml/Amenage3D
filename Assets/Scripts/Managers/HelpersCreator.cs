@@ -6,6 +6,7 @@ using ErgoShop.UI;
 using ErgoShop.Utils;
 using ErgoShop.Utils.Extensions;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace ErgoShop.Managers
 {
@@ -120,6 +121,10 @@ namespace ErgoShop.Managers
                         };
                         currentElement.associated2DObject = Instantiate(textZonePrefab);
                         currentElement.associated3DObject = Instantiate(textZonePrefab);
+
+                        currentElement.associated2DObject.GetComponentInChildren<TextMesh>().fontStyle = FontStyle.Bold;
+                        currentElement.associated3DObject.GetComponentInChildren<TextMesh>().fontStyle = FontStyle.Bold;
+
                         currentElement.associated2DObject.SetLayerRecursively((int) ErgoLayers.Top);
                         currentElement.associated3DObject.SetLayerRecursively((int) ErgoLayers.ThreeD);
                     }

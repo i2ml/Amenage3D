@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: fauteuil_roulant
   furnitureType: AideTechnique
   resourceName: fauteuil_roulant
-  scaleRatio: 0.2
+  scaleRatio: 1

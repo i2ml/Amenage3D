@@ -67,7 +67,7 @@ namespace ErgoShop.Managers
                 {
                     //if (f.associated3DObject == null) { return; }
                     var rb = f.associated3DObject.GetComponent<Rigidbody>();
-                    
+
                     // Freeze all except if its current selected furniture
                     if (SelectedObjectManager.Instance.currentFurnitureData.Count == 1
                         && SelectedObjectManager.Instance.currentFurnitureData[0] == f)
@@ -108,7 +108,9 @@ namespace ErgoShop.Managers
 
             // In creation -> check view then position it
             if (m_currentFurniture != null)
+            {
                 m_currentFurniture.Move(InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera()));
+            }
             // Validate
             if (Input.GetMouseButtonDown(0) && m_currentFurniture != null)
             {
@@ -124,7 +126,9 @@ namespace ErgoShop.Managers
                 //m_currentFurniture3D.GetComponent<MeshCollider>().enabled = true;
             }
 
-            // if (Input.GetMouseButtonDown(1)) CancelFurniture();
+            // in creation -> rotation
+            //if (Input.GetMouseButtonDown(1)) { //m_currentFurniture.Rotation = Vector3.Angle(m_currentFurniture.Position,Input.mousePosition); };
+
             if (Input.GetButtonDown("Cancel")) { CancelFurniture(); }
         }
 
@@ -221,13 +225,12 @@ namespace ErgoShop.Managers
                 CanBePutOnFurniture = false,
                 ScaleModifier = 1f
             };
-            m_currentFurniture.Size = m_currentFurniture.MeshSize * m_currentFurniture.ScaleModifier;
-
-            InitFurnitureText(m_currentFurniture);
-
-            SetFurni2DSize();
 
             m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
+            m_currentFurniture.Size = m_currentFurniture.MeshSize * m_currentFurniture.ScaleModifier;
+            SetFurni2DSize();
+
+            InitFurnitureText(m_currentFurniture);
 
             m_furnituresData.Add(m_currentFurniture);
 
@@ -358,19 +361,24 @@ namespace ErgoShop.Managers
                         ScaleModifier = m_currentFurniScript.scaleRatio
                     };
 
+
+                    m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * m_currentFurniture.MeshSize;
                     m_currentFurniture.Size = m_currentFurniture.MeshSize * m_currentFurniture.ScaleModifier;
-
-                    InitFurnitureText(m_currentFurniture);
-
                     SetFurni2DSize();
 
-                    m_currentFurniture3D.transform.localScale = m_currentFurniture.ScaleModifier * Vector3.one;
+                    InitFurnitureText(m_currentFurniture);
 
                     m_furnituresData.Add(m_currentFurniture);
 
                     FurnitureListScroll.Instance.UpdateList();
                     SelectedObjectManager.Instance.Select(m_currentFurniture);
                     SelectedObjectManager.Instance.PlaceFurniture(true);
+
+                    //Prioriter d'affichage celon l'objet
+                    if (m_currentFurniture2DTop.name == "officeChair")
+                    {
+                        m_currentFurniture2DTop.transform.position += Vector3.forward;
+                    }
 
                     //OperationsBufferScript.Instance.AddAutoSave("Ajout de " + m_currentFurniture.Name);
                 }
