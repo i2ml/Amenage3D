@@ -1,6 +1,7 @@
 ﻿using ErgoShop.POCO;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 namespace ErgoShop.ConstraintsScripts
 {
@@ -65,6 +66,29 @@ namespace ErgoShop.ConstraintsScripts
         public void EraseNavMeshSurface()
         {
             GetComponent<MeshFilter>().mesh = null;
+        }
+
+        public int GetAgenTypeIDByName(string agentTypeName)
+        {
+            int count = NavMesh.GetSettingsCount();
+            string[] agentTypeNames = new string[count + 2];
+            for (var i = 0; i < count; i++)
+            {
+                Debug.Log(i);
+                int id = NavMesh.GetSettingsByIndex(i).agentTypeID;
+                string name = NavMesh.GetSettingsNameFromID(id);
+                if (name == agentTypeName)
+                {
+                    return id;
+                }
+            }
+            return -1;
+        }
+
+        public void ChangeAgent(GameObject _dropDown)
+        {
+            int indexID = _dropDown.GetComponent<TMP_Dropdown>().value;
+            GetComponent<NavMeshSurface>().agentTypeID = NavMesh.GetSettingsByIndex(indexID).agentTypeID;
         }
     }
 }
