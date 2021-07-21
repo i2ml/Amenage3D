@@ -14,6 +14,9 @@ namespace ErgoShop.ConstraintsScripts
         private bool m_goBake;
         private NavMeshSurface m_surface;
 
+        [SerializeField] TMP_InputField LargeurField;
+        [SerializeField] TMP_InputField HauteurField;
+
         // Start is called before the first frame update
         private void Start()
         {
@@ -68,27 +71,34 @@ namespace ErgoShop.ConstraintsScripts
             GetComponent<MeshFilter>().mesh = null;
         }
 
-        public int GetAgenTypeIDByName(string agentTypeName)
-        {
-            int count = NavMesh.GetSettingsCount();
-            string[] agentTypeNames = new string[count + 2];
-            for (var i = 0; i < count; i++)
-            {
-                Debug.Log(i);
-                int id = NavMesh.GetSettingsByIndex(i).agentTypeID;
-                string name = NavMesh.GetSettingsNameFromID(id);
-                if (name == agentTypeName)
-                {
-                    return id;
-                }
-            }
-            return -1;
-        }
-
         public void ChangeAgent(GameObject _dropDown)
         {
             int indexID = _dropDown.GetComponent<TMP_Dropdown>().value;
             GetComponent<NavMeshSurface>().agentTypeID = NavMesh.GetSettingsByIndex(indexID).agentTypeID;
+        }
+
+        public void ProcessBake()
+        {
+            int count = NavMesh.GetSettingsCount();
+            if (count == GetComponent<NavMeshSurface>().agentTypeID)
+            {
+                NavMeshAgent g = new NavMeshAgent();
+
+                int _r = int.Parse(LargeurField.text);
+                int _h = int.Parse(LargeurField.text);
+
+                g.radius = _r;
+                g.height = _h;
+
+                g.name = "yoloAgent";
+                
+                GetComponent<NavMeshSurface>().agentTypeID = g.agentTypeID;
+                BakeNavMeshSurface();
+            }
+            else
+            {
+                BakeNavMeshSurface();
+            }
         }
     }
 }
