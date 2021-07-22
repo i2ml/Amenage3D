@@ -98,6 +98,7 @@ namespace ErgoShop.POCO
         /// <param name="startingPos"></param>
         public override void Move(Vector3 startingPos)
         {
+            base.Move(startingPos);
         }
     }
 }

@@ -4,6 +4,8 @@ using ErgoShop.Utils;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.IO;
+using UnityEditor;
 
 namespace ErgoShop.Managers
 {
@@ -18,11 +20,11 @@ namespace ErgoShop.Managers
         private WallsCreator Sc_WallsCreator;
 
         // Forms
-        public GameObject projectForm, wallsForm, floorsForm, furnitureForm, othersForm, rectRoomForm, selectedOption;
+        public GameObject projectForm, wallsForm, floorsForm, furnitureForm, othersForm, rectRoomForm, selectedOption, handicapForm;
 
         public GameObject stairsForm;
 
-        public GameObject mergeRoomsPopin, customNamePopin;
+        public GameObject mergeRoomsPopin, customNamePopin , ShowPassageMessageObject;
 
         public Button focusFaceButton;
 
@@ -67,6 +69,18 @@ namespace ErgoShop.Managers
             SetInstructionsText();
             stairsForm.SetActive(true);
             focusFaceButton.interactable = GlobalManager.Instance.Is3D();
+
+
+            //message
+            if (TimerShowMessage > 0)
+            {
+                TimerShowMessage -= Time.deltaTime;
+                ShowPassageMessageObject.SetActive(true);
+            }
+            else
+            {
+                ShowPassageMessageObject.SetActive(false);
+            }
         }
 
         /// <summary>
@@ -140,6 +154,7 @@ namespace ErgoShop.Managers
             floorsForm.SetActive(false);
             rectRoomForm.SetActive(false);
             othersForm.SetActive(false);
+            handicapForm.SetActive(false);
 
             if (!ShowFurnitureForme)
             {
@@ -200,6 +215,12 @@ namespace ErgoShop.Managers
             SelectedObjectManager.Instance.ResetSelection();
         }
 
+        float TimerShowMessage = 0;
+        public void ShowPassageMessage(float _time)
+        {
+            TimerShowMessage = _time;
+        }
+
         public void ShowWallsForm()
         {
             ResetTopForms();
@@ -208,10 +229,25 @@ namespace ErgoShop.Managers
             SelectedObjectManager.Instance.ResetSelection();
         }
 
+        public void ShowHandicapForm()
+        {
+            ResetTopForms();
+            handicapForm.SetActive(true);
+            //selectedOption.transform.GetChild(1).gameObject.SetActive(true);
+            SelectedObjectManager.Instance.ResetSelection();
+        }
+
+        string filenamePath;
         public void ShowScreenShotOK(string filename)
         {
+            filenamePath = filename;
             screenShotMessage.text = "Capture d'écran effectuée à\n" + filename;
             StartCoroutine(ShowHideScreenShotMessage(5));
+        }
+
+        public void showScreenShootInExplorer()
+        {
+            EditorUtility.RevealInFinder(filenamePath);
         }
 
         public void ShowMergeRoomsMessage()
@@ -251,6 +287,11 @@ namespace ErgoShop.Managers
             selectedOption.transform.GetChild(2).gameObject.SetActive(true);
             SelectedObjectManager.Instance.ResetSelection();
             FloorPropertiesScript.Instance.LoadFloorsFromProject();
+        }
+
+        public void OpenLinkWeb(string _link)
+        {
+            Application.OpenURL(_link);
         }
 
         #endregion

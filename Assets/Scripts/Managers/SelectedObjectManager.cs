@@ -668,6 +668,41 @@ namespace ErgoShop.Managers
                     // Click on current movable element = start to move it
                     GameObject go = InputFunctions.GetHoveredObject(GlobalManager.Instance.GetActiveCamera());
 
+                    if (Input.GetKey(KeyCode.W))// rotation obj
+                    {
+                        foreach (Element elem in currentSelectedElements)
+                        {
+                            if (!m_elementsToMove.Contains(elem))
+                            {
+                                FurniturePropScript tmp_FurniturePropScript = null;
+                                GameObject zonec = GameObject.Find("ZoneC");
+                                if (zonec)
+                                {
+                                    tmp_FurniturePropScript = zonec.GetComponent<FurniturePropScript>();
+                                }
+
+                                if (tmp_FurniturePropScript != null)
+                                {
+                                    foreach (var f in SelectedObjectManager.Instance.currentFurnitureData)
+                                    {
+                                        // to do rotation mouse
+
+                                    }
+
+                                    //tmp_FurniturePropScript.SetFurnitureRotationAngle(Vector3.Angle(
+                                    //    elem.associated2DObject.transform.forward,
+                                    //    Input.mousePosition
+                                    //    ));
+
+
+                                }
+
+                                //elem.associated3DObject.transform.LookAt(new Vector3(Input.mousePosition.x, 0, Input.mousePosition.z));
+                                //elem.associated2DObject.transform.LookAt(new Vector3(Input.mousePosition.x, 0, Input.mousePosition.z));
+                            }
+                        }
+                    }
+
                     if (Input.GetMouseButtonDown(0) && IsGoInSelectedElements(go))
                     {
                         foreach (Element elem in currentSelectedElements)

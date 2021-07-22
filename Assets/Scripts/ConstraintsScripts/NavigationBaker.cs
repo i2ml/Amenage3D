@@ -1,6 +1,7 @@
 ﻿using ErgoShop.POCO;
 using UnityEngine;
 using UnityEngine.AI;
+using TMPro;
 
 namespace ErgoShop.ConstraintsScripts
 {
@@ -13,10 +14,17 @@ namespace ErgoShop.ConstraintsScripts
         private bool m_goBake;
         private NavMeshSurface m_surface;
 
+        int nbPreset = 0;
+
+        [SerializeField] TMP_InputField LargeurField;
+        [SerializeField] TMP_InputField HauteurField;
+
         // Start is called before the first frame update
         private void Start()
         {
             m_surface = GetComponent<NavMeshSurface>();
+
+            nbPreset = NavMesh.GetSettingsCount();
         }
 
 
@@ -65,6 +73,44 @@ namespace ErgoShop.ConstraintsScripts
         public void EraseNavMeshSurface()
         {
             GetComponent<MeshFilter>().mesh = null;
+        }
+
+        public void ChangeAgent(GameObject _dropDown)
+        {
+            int indexID = _dropDown.GetComponent<TMP_Dropdown>().value;
+            GetComponent<NavMeshSurface>().agentTypeID = NavMesh.GetSettingsByIndex(indexID).agentTypeID;
+            nbPreset = NavMesh.GetSettingsByIndex(indexID).agentTypeID;
+        }
+
+        public void ProcessBake()
+        {
+            int count = NavMesh.GetSettingsCount();
+            //Debug.Log(count + " " + nbPreset);
+            if (count == nbPreset)
+            {
+                //NavMeshAgent g = new NavMeshAgent().setradi;
+
+                //float _r = 0;
+                //float _h = 0; 
+
+                ////_r = float.Parse(LargeurField.text);
+                ////_h = float.Parse(LargeurField.text);
+
+
+                //Debug.Log(_r + " " + _h);
+
+                //g.radius = _r;
+                //g.height = _h;
+
+                //g.name = "yoloAgent";
+
+                //GetComponent<NavMeshSurface>().agentTypeID = g.agentTypeID;
+                //BakeNavMeshSurface();
+            }
+            else
+            {
+                BakeNavMeshSurface();
+            }
         }
     }
 }

@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: disque_transfert
   furnitureType: AideTechnique
   resourceName: disque_transfert
-  scaleRatio: 0.2
+  scaleRatio: 1

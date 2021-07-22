@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: rehausseur_toilette
   furnitureType: AideTechnique
   resourceName: rehausseur_toilette
-  scaleRatio: 0.2
+  scaleRatio: 1
