@@ -33,8 +33,7 @@ namespace ErgoShop.UI
                 {
                     if (EventSystem.current.currentSelectedGameObject != null)
                     {
-                        var selectable = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>()
-                            .FindSelectableOnDown();
+                        var selectable = EventSystem.current.currentSelectedGameObject.GetComponent<Selectable>().FindSelectableOnDown();
                         if (selectable != null)
                             selectable.Select();
                     }

@@ -14,6 +14,8 @@ namespace ErgoShop.ConstraintsScripts
         private bool m_goBake;
         private NavMeshSurface m_surface;
 
+        int nbPreset = 0;
+
         [SerializeField] TMP_InputField LargeurField;
         [SerializeField] TMP_InputField HauteurField;
 
@@ -21,6 +23,8 @@ namespace ErgoShop.ConstraintsScripts
         private void Start()
         {
             m_surface = GetComponent<NavMeshSurface>();
+
+            nbPreset = NavMesh.GetSettingsCount();
         }
 
 
@@ -75,25 +79,33 @@ namespace ErgoShop.ConstraintsScripts
         {
             int indexID = _dropDown.GetComponent<TMP_Dropdown>().value;
             GetComponent<NavMeshSurface>().agentTypeID = NavMesh.GetSettingsByIndex(indexID).agentTypeID;
+            nbPreset = NavMesh.GetSettingsByIndex(indexID).agentTypeID;
         }
 
         public void ProcessBake()
         {
             int count = NavMesh.GetSettingsCount();
-            if (count == GetComponent<NavMeshSurface>().agentTypeID)
+            //Debug.Log(count + " " + nbPreset);
+            if (count == nbPreset)
             {
-                NavMeshAgent g = new NavMeshAgent();
+                //NavMeshAgent g = new NavMeshAgent().setradi;
 
-                int _r = int.Parse(LargeurField.text);
-                int _h = int.Parse(LargeurField.text);
+                //float _r = 0;
+                //float _h = 0; 
 
-                g.radius = _r;
-                g.height = _h;
+                ////_r = float.Parse(LargeurField.text);
+                ////_h = float.Parse(LargeurField.text);
 
-                g.name = "yoloAgent";
-                
-                GetComponent<NavMeshSurface>().agentTypeID = g.agentTypeID;
-                BakeNavMeshSurface();
+
+                //Debug.Log(_r + " " + _h);
+
+                //g.radius = _r;
+                //g.height = _h;
+
+                //g.name = "yoloAgent";
+
+                //GetComponent<NavMeshSurface>().agentTypeID = g.agentTypeID;
+                //BakeNavMeshSurface();
             }
             else
             {
