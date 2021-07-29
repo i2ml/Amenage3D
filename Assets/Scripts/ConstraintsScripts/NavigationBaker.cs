@@ -23,8 +23,6 @@ namespace ErgoShop.ConstraintsScripts
         private void Start()
         {
             m_surface = GetComponent<NavMeshSurface>();
-
-            nbPreset = NavMesh.GetSettingsCount();
         }
 
 
@@ -79,33 +77,30 @@ namespace ErgoShop.ConstraintsScripts
         {
             int indexID = _dropDown.GetComponent<TMP_Dropdown>().value;
             GetComponent<NavMeshSurface>().agentTypeID = NavMesh.GetSettingsByIndex(indexID).agentTypeID;
-            nbPreset = NavMesh.GetSettingsByIndex(indexID).agentTypeID;
+            nbPreset = indexID;
         }
-
+        NavMeshBuildSettings truc;
         public void ProcessBake()
         {
-            int count = NavMesh.GetSettingsCount();
+            int count = NavMesh.GetSettingsCount() - 1;
             //Debug.Log(count + " " + nbPreset);
             if (count == nbPreset)
             {
-                //NavMeshAgent g = new NavMeshAgent().setradi;
+                float _r = 3;
+                float _h = 4;
 
-                //float _r = 0;
-                //float _h = 0; 
+                //_r = float.Parse(LargeurField.text);
+                //_h = float.Parse(LargeurField.text);
 
-                ////_r = float.Parse(LargeurField.text);
-                ////_h = float.Parse(LargeurField.text);
+                //truc = NavMesh.GetSettingsByIndex(count);
+                //NavMesh.RemoveSettings(truc.agentTypeID);
+                truc = NavMesh.CreateSettings();
+                truc.agentRadius = _r;
+                truc.agentRadius = _h;
 
-
-                //Debug.Log(_r + " " + _h);
-
-                //g.radius = _r;
-                //g.height = _h;
-
-                //g.name = "yoloAgent";
-
-                //GetComponent<NavMeshSurface>().agentTypeID = g.agentTypeID;
-                //BakeNavMeshSurface();
+                GetComponent<NavMeshSurface>().agentTypeID = truc.agentTypeID;
+                Debug.Log( GetComponent<NavMeshSurface>().agentTypeID + "/" + GetComponent<NavMeshSurface>().GetBuildSettings().agentRadius+ "/" + GetComponent<NavMeshSurface>().GetBuildSettings().agentHeight);
+                BakeNavMeshSurface();
             }
             else
             {
