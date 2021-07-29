@@ -79,33 +79,5 @@ namespace ErgoShop.ConstraintsScripts
             GetComponent<NavMeshSurface>().agentTypeID = NavMesh.GetSettingsByIndex(indexID).agentTypeID;
             nbPreset = indexID;
         }
-        NavMeshBuildSettings truc;
-        public void ProcessBake()
-        {
-            int count = NavMesh.GetSettingsCount() - 1;
-            //Debug.Log(count + " " + nbPreset);
-            if (count == nbPreset)
-            {
-                float _r = 3;
-                float _h = 4;
-
-                //_r = float.Parse(LargeurField.text);
-                //_h = float.Parse(LargeurField.text);
-
-                //truc = NavMesh.GetSettingsByIndex(count);
-                //NavMesh.RemoveSettings(truc.agentTypeID);
-                truc = NavMesh.CreateSettings();
-                truc.agentRadius = _r;
-                truc.agentRadius = _h;
-
-                GetComponent<NavMeshSurface>().agentTypeID = truc.agentTypeID;
-                Debug.Log( GetComponent<NavMeshSurface>().agentTypeID + "/" + GetComponent<NavMeshSurface>().GetBuildSettings().agentRadius+ "/" + GetComponent<NavMeshSurface>().GetBuildSettings().agentHeight);
-                BakeNavMeshSurface();
-            }
-            else
-            {
-                BakeNavMeshSurface();
-            }
-        }
     }
 }
