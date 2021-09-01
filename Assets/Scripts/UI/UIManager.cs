@@ -97,15 +97,15 @@ namespace ErgoShop.Managers
                 {
                     if (GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam2DTop)
                     {
-                        Instance.instructionsText.text = "Déplacez la caméra avec le clic droit. F1 pour changer de vue vers la 3D";
+                        Instance.instructionsText.text = "Déplacez la caméra avec le clic droit. F1 pour changer de vue vers la 3D sur mac fin + F1";
                     }
                     else if (GlobalManager.Instance.GetActiveCamera().gameObject == GlobalManager.Instance.cam3D)
                     {
-                        Instance.instructionsText.text = "Déplacez la caméra avec les fleche et avec le clic molette tournez votre vue. F1 pour changer de vue vers la 2D";
+                        Instance.instructionsText.text = "Déplacez la caméra avec les fleche et avec le clic molette tournez votre vue. F1 pour changer de vue vers la 2D, sur mac fin + F1";
                     }
                     else
                     {
-                        Instance.instructionsText.text = "Déplacez la caméra avec le clic molette ou avec les fleches du clavier. Tournez la caméra avec le clic droit. F1 pour changer de vue.";
+                        Instance.instructionsText.text = "Déplacez la caméra avec le clic molette ou avec les fleches du clavier. Tournez la caméra avec le clic droit. F1 pour changer de vue, sur mac fin + F1.";
                     }
                     //Debug.Log(GlobalManager.Instance.GetActiveCamera());
                 }
