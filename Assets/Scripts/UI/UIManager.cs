@@ -247,7 +247,7 @@ namespace ErgoShop.Managers
 
         public void showScreenShootInExplorer()
         {
-            EditorUtility.RevealInFinder(filenamePath);
+            //EditorUtility.RevealInFinder(filenamePath);
         }
 
         public void ShowMergeRoomsMessage()
