@@ -241,7 +241,7 @@ namespace ErgoShop.Managers
         public void ShowScreenShotOK(string filename)
         {
             filenamePath = filename;
-            screenShotMessage.text = "Capture d'écran effectuée à\n" + filename;
+            screenShotMessage.text = "Capture d'écran effectuée et enregistrée dans \n" + filename;
             StartCoroutine(ShowHideScreenShotMessage(5));
         }
 
