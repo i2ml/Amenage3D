@@ -8783,7 +8783,8 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: Cliquer sur 2 endroits pour mesurer la distance
+            m_StringArgument: "Mesurer une distance \xE0 partir de 2 points dans
+              l'espace 3D."
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!114 &139102781
@@ -18273,7 +18274,6 @@ RectTransform:
   - {fileID: 1781855927}
   - {fileID: 1009841510}
   - {fileID: 2089642925}
-  - {fileID: 1480772038}
   m_Father: {fileID: 1547085219}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -22524,7 +22524,8 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: Cliquer sur 2 endroits pour mesurer la distance
+            m_StringArgument: "Mesurer une distance \xE0 partir de 2 points dans
+              l'espace 2D."
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!114 &446251046
@@ -40503,7 +40504,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: "Cr\xE9er une zone de texte"
+            m_StringArgument: "Cr\xE9er une zone de texte "
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!114 &772868330
@@ -73096,12 +73097,12 @@ RectTransform:
   m_LocalScale: {x: 0.45365, y: 0.45365, z: 0.45365}
   m_Children:
   - {fileID: 190382127}
-  m_Father: {fileID: 373667432}
-  m_RootOrder: 12
+  m_Father: {fileID: 2089642925}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -157.54, y: 207}
+  m_AnchoredPosition: {x: -145.25145, y: 194.2045}
   m_SizeDelta: {x: 50, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1480772039
@@ -77271,7 +77272,7 @@ MonoBehaviour:
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
             m_IntArgument: 0
             m_FloatArgument: 0
-            m_StringArgument: Ajoute un personnage
+            m_StringArgument: "ajouter un personnage sur la sc\xE9ne."
             m_BoolArgument: 0
           m_CallState: 2
 --- !u!114 &1557784570
@@ -102528,6 +102529,7 @@ RectTransform:
   - {fileID: 573076643}
   - {fileID: 1698092703}
   - {fileID: 1364868790}
+  - {fileID: 1480772038}
   m_Father: {fileID: 373667432}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
