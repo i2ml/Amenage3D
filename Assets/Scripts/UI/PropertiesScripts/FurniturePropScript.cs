@@ -77,7 +77,7 @@ namespace ErgoShop.UI
                         furnitureRotationSlider.value = furnituresData[0].Rotation / 5f;
                     }
 
-                    moveToggle.isOn = furnituresData[0].IsLocked;
+                    //moveToggle.isOn = furnituresData[0].IsLocked;
                 }
 
                 needsUpdate = false;
@@ -159,6 +159,7 @@ namespace ErgoShop.UI
         public void SetFurnitureRotation(float rotation)
         {
             rotation = rotation % 360;
+
             var rot2D = Vector3.zero;
             var rot3D = Vector3.zero;
 

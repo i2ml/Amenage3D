@@ -43,7 +43,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668f64b5382593d48a5a928cfeae45c4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  furniture2DTop: {fileID: 3989440521518837041, guid: 8f1c2cb71d9ebef42b2771a78483eac5,
+  furniture2DTop: {fileID: 5760228461799992209, guid: fed198cfb29d7b14699491e90dade60f,
     type: 3}
   furniture3D: {fileID: 1280328907808536761, guid: 1008aa33263598e45ae57ad2339189ad,
     type: 3}

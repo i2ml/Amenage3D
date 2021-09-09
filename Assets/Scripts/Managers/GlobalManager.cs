@@ -134,12 +134,12 @@ namespace ErgoShop.Managers
 
                 //cam3D.transform.localEulerAngles = Vector3.right * 90f;
                 //cam3D.GetComponent<Camera3DMove>().SetPosition(VectorFunctions.Switch2D3D(
-                //    cam2DTop.transform.position + Vector3.right * 2.5f, cam2DTop.transform.position.z * -1f));
+                //cam2DTop.transform.position + Vector3.right * 2.5f, cam2DTop.transform.position.z * -1f));
             }
             else if (m_mode == ViewMode.ThreeD)
             {
                 if (cam3D.GetComponent<Camera>().orthographic) cam3D.GetComponent<Camera3DMove>().SetNormalView();
-                cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position + Vector3.right * 2.5f);
+               // cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position + Vector3.right * 2.5f);
             }
 
             // UI Bindings
@@ -301,10 +301,10 @@ namespace ErgoShop.Managers
             cam2DTop.GetComponent<Camera>().forceIntoRenderTexture = false;
             cam2DTop.GetComponent<Camera>().targetTexture = null;
 
-            if (center == true)
-            {
-                cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position - Vector3.right * 2.5f);
-            }
+            // if (center == true)
+            // {
+            //     cam2DTop.GetComponent<Camera2DMove>().SetPosition(cam3D.transform.position - Vector3.right * 2.5f);
+            // }
         }
 
         #endregion

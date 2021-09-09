@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using ErgoShop.Managers;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -11,6 +12,8 @@ public enum THEMEAMENAGE3D
 
 public class ThemeManager : MonoBehaviour
 {
+    public static ThemeManager Instance;
+
     [SerializeField] private Color DefaultColor = Color.white;
     [SerializeField] private Color ThemeSombre = Color.gray;
 
@@ -19,6 +22,15 @@ public class ThemeManager : MonoBehaviour
     [SerializeField] private GameObject backGround = null;
     [SerializeField] private GameObject backGround3D = null;
     [SerializeField] private GameObject backGroundPreviewFurniture = null;
+
+    private void Awake()
+    {
+        if (Instance != null)
+        {
+            Destroy(Instance);
+        }
+        Instance = this;
+    }
 
     public void ChangeTheme(THEMEAMENAGE3D _NewTheme)
     {
@@ -50,6 +62,7 @@ public class ThemeManager : MonoBehaviour
                 Debug.LogError("Theme not Find");
                 break;
         }
+
     }
 
     public void ToggleTheme()
@@ -59,6 +72,8 @@ public class ThemeManager : MonoBehaviour
         {
             Theme = THEMEAMENAGE3D.Default;
         }
+        ErgoShop.Managers.SettingsManager.Instance.SoftwareParameters.Theme = Theme;
         ChangeTheme(Theme);
+        SettingsManager.Instance.SaveParameters();
     }
 }

@@ -20,6 +20,7 @@ TagManager:
   - ElementArrow
   - Character
   - Titre
+  - Door
   layers:
   - Default
   - TransparentFX

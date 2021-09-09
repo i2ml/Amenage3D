@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: rampe_de_seuil
   furnitureType: AideTechnique
   resourceName: rampe_de_seuil
-  scaleRatio: 0.2
+  scaleRatio: 1

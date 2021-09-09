@@ -52,4 +52,4 @@ MonoBehaviour:
   furnitureName: plan_incline
   furnitureType: AideTechnique
   resourceName: plan_incline
-  scaleRatio: 0.2
+  scaleRatio: 1

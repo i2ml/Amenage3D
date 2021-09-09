@@ -18,6 +18,11 @@ namespace ErgoShop.POCO
         public float CameraSpeed { get; set; }
 
         /// <summary>
+        ///     CameraSpeed to move and zoom
+        /// </summary>
+        public float VitesseZoom { get; set; }
+
+        /// <summary>
         ///     Folder path used to store screenshots
         /// </summary>
         public string ScreenShotFolder { get; set; }
@@ -31,5 +36,11 @@ namespace ErgoShop.POCO
         ///     Custom Furnitures List
         /// </summary>
         public List<CustomFurniture> CustomFurnitures { get; set; }
+
+
+        /// <summary>
+        /// Theme Logiciel
+        /// </summary>
+        public THEMEAMENAGE3D Theme { get; set; }
     }
 }

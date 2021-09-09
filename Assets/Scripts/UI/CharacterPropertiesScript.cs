@@ -55,7 +55,7 @@ namespace ErgoShop.UI
         private bool CheckPropertiesBindings(List<CharacterElement> chs)
         {
             characterPropertiesPanel.SetActive(chs.Count > 0);
-            Debug.Log(chs.Count > 0);
+            //Debug.Log(chs.Count > 0);
             if (characterPropertiesPanel.activeInHierarchy)
             {
                 var model = chs[0];
@@ -78,7 +78,11 @@ namespace ErgoShop.UI
                     if (chs[0].Rotation < 0) chs[0].Rotation += 360f;
                     characterRotationSlider.value = chs[0].Rotation / 5f;
 
-                    moveToggle.isOn = chs[0].IsLocked;
+                    try
+                    {
+                        moveToggle.isOn = chs[0].IsLocked;
+                    }
+                    catch { }
                 }
 
                 spreadArmsToggle.gameObject.SetActive(chs[0].Type != CharacterType.WheelChairEmpty &&

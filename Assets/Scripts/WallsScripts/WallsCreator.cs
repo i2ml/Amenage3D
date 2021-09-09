@@ -367,7 +367,7 @@ namespace ErgoShop.Managers
             }
 
             //Annule la creation de la room 
-            if (/*Input.GetMouseButtonDown(1)*/ Input.GetButtonDown("Cancel"))
+            if (Input.GetMouseButtonDown(1) || Input.GetButtonDown("Cancel"))
             {
                 CancelRoom();
             }
@@ -438,7 +438,6 @@ namespace ErgoShop.Managers
         {
             m_creating = true;
             if (setStart) m_startPosition = InputFunctions.GetWorldPoint(GlobalManager.Instance.GetActiveCamera());
-
             m_currentRoomData = new Room
             {
                 Height = wallHeight,
@@ -446,22 +445,15 @@ namespace ErgoShop.Managers
                 LockAngles = true
             };
             m_currentRoomData.Walls = new List<Wall>();
-
             LastIndexRoom = MaxIndex;
             for (var i = 0; i < 4; i++)
             {
-                // Data
-                m_currentRoomData.Walls.Add(new Wall());
 
+                m_currentRoomData.Walls.Add(new Wall());
                 m_currentRoomData.Walls[i].P1 = m_startPosition;
                 m_currentRoomData.Walls[i].Height = wallHeight;
-
-
                 m_currentRoomData.Walls[i].associated2DObject.transform.parent = room2D;
                 m_currentRoomData.Walls[i].associated3DObject.transform.parent = room3D;
-
-
-
                 m_currentRoomData.Walls[i].Index = 0;
 
                 if (LastIndexRoom == 0 && m_currentRoomdx == 0)
@@ -480,22 +472,14 @@ namespace ErgoShop.Managers
                     m_currentRoomData.Walls[i].Index = LastIndexRoom;
                 }
 
-                //m_currentRoomData.Walls[i].Index = m_currentRoomdx;
-                //m_currentRoomdx++;
-
-
                 m_wallsData.Add(m_currentRoomData.Walls[i]);
             }
-
             MaxIndex = m_currentRoomData.Walls[3].Index;
-
             // stick walls
             m_currentRoomData.Walls[0].linkedP1.Add(m_currentRoomData.Walls[3]);
             m_currentRoomData.Walls[0].linkedP2.Add(m_currentRoomData.Walls[1]);
-
             m_currentRoomData.Walls[1].linkedP1.Add(m_currentRoomData.Walls[0]);
             m_currentRoomData.Walls[1].linkedP2.Add(m_currentRoomData.Walls[2]);
-
             m_currentRoomData.Walls[2].linkedP1.Add(m_currentRoomData.Walls[1]);
             m_currentRoomData.Walls[2].linkedP2.Add(m_currentRoomData.Walls[3]);
 
@@ -787,8 +771,11 @@ namespace ErgoShop.Managers
                         Color = new Color(200 / 255f, 200 / 255f, 200 / 255f)
                     };
                 }
+
+
                 if (room.Ceil != null && room.Ceil.planeGenerated != null)
                 {
+                    room.Ceil.planeGenerated.SetActive(false);
                     Destroy(room.Ceil.planeGenerated);
                 }
                 if (room.Ceil == null)
@@ -797,6 +784,15 @@ namespace ErgoShop.Managers
                     {
                         Color = Color.white
                     };
+
+                    try
+                    {
+                        room.Ceil.planeGenerated.SetActive(false);
+                    }
+                    catch
+                    {
+
+                    }
                 }
 
                 Vector3 center3D = VectorFunctions.Switch2D3D(VectorFunctions.GetCenter(vertices));
@@ -828,6 +824,7 @@ namespace ErgoShop.Managers
                     Destroy(room.Ceil.planeGenerated);
                 }
                 room.Ceil.planeGenerated = Instantiate(polyShapePrefab);
+                room.Ceil.planeGenerated.SetActive(false);
                 room.Ceil.planeGenerated.layer = (int)ErgoLayers.ThreeD;
                 room.Ceil.planeGenerated.transform.parent = room3D;
                 room.Ceil.planeGenerated.transform.localPosition = Vector3.up * room.Height + center3D;
@@ -1040,8 +1037,11 @@ namespace ErgoShop.Managers
         // Remake wall part above door
         private void CreateWallPartsForWallOpening(WallOpening wopening)
         {
+            if (wopening == null) { return; }
+
+
             // UP
-            var w = Instantiate(wall3DPrefab, wopening.Wall.associated3DObject.transform);
+            GameObject w = Instantiate(wall3DPrefab, wopening.Wall.associated3DObject.transform);
             // deltY = distance from object top to wallHeight
             var deltY = wopening.Wall.Height - wopening.Size.y;
             w.transform.localPosition = VectorFunctions.Switch2D3D(wopening.Position) +
@@ -1053,7 +1053,6 @@ namespace ErgoShop.Managers
                 wopening.Size.x * Vector3.right
                 + deltY * Vector3.up - wopening.WindowHeight * Vector3.up
                 + wopening.Wall.Thickness * Vector3.forward;
-
             var renderer = w.GetComponent<MeshRenderer>();
             renderer.material = wopening.Wall.walls3D[0].gameObject.GetComponent<MeshRenderer>().material;
 
@@ -1150,19 +1149,32 @@ namespace ErgoShop.Managers
         {
             Destroy(wo.associated2DObject);
             Destroy(wo.associated3DObject);
+
             wo.Wall.Openings.Remove(wo);
+
             WallOpeningAngleScript angleToRemove = null;
             WallOpeningAngleScript angle3DToRemove = null;
-            foreach (var a in m_woAnglesData)
+
+            foreach (WallOpeningAngleScript a in m_woAnglesData)
+            {
                 if (a.wallOpening == wo)
+                {
                     angleToRemove = a;
-            foreach (var a in m_woAngles3DData)
+                    m_woAnglesData.Remove(angleToRemove);
+                    Destroy(angleToRemove.gameObject);
+                }
+            }
+
+            foreach (WallOpeningAngleScript a in m_woAngles3DData)
+            {
                 if (a.wallOpening == wo)
+                {
                     angle3DToRemove = a;
-            m_woAnglesData.Remove(angleToRemove);
-            m_woAngles3DData.Remove(angle3DToRemove);
-            Destroy(angleToRemove.gameObject);
-            Destroy(angle3DToRemove.gameObject);
+                    m_woAngles3DData.Remove(angle3DToRemove);
+                    Destroy(angle3DToRemove.gameObject);
+                }
+            }
+
             wo = null;
             AdjustAllWalls();
         }
@@ -1547,25 +1559,38 @@ namespace ErgoShop.Managers
         public void CheckRoomsFusion(float dist = 0.5f)
         {
             foreach (var r1 in m_roomsData)
+            {
                 foreach (var r2 in m_roomsData)
+                {
                     if (r1 != r2)
+                    {
                         foreach (var w1 in r1.Walls)
+                        {
                             foreach (var w2 in r2.Walls)
+                            {
                                 if (w1 != w2)
+                                {
                                     if (WallFunctions.IsWallContainingOther(w1, w2, dist))
                                     {
                                         UIManager.Instance.ShowMergeRoomsMessage();
                                         StartCoroutine(WaitForMerge(r1, r2, w1, w2, dist));
-                                        break;
+
                                     }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         private IEnumerator WaitForMerge(Room r1, Room r2, Wall w1, Wall w2, float dist)
         {
-            while (!CustomConfPopinScript.Instance.MadeChoice) yield return null;
+            while (!CustomConfPopinScript.Instance.MadeChoice) { yield return null; }
             CustomConfPopinScript.Instance.MadeChoice = false;
 
-            if (CustomConfPopinScript.Instance.IsYes) WallFunctions.MergeRoomsCommonWall(r1, r2, w1, w2, dist);
+            if (CustomConfPopinScript.Instance.IsYes) { WallFunctions.MergeRoomsCommonWall(r1, r2, w1, w2, dist); }
+
         }
 
         private bool WallHasNoRoom(Wall w)

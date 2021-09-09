@@ -29,7 +29,7 @@ namespace ErgoShop.UI
         private void Start()
         {
             dateField.text = DateTime.Now.ToShortDateString();
-            SetDate(dateField.text);
+            SetDate();
         }
 
         // Update is called once per frame
@@ -75,37 +75,16 @@ namespace ErgoShop.UI
             ProjectManager.Instance.Project.Person.LastName = lastname;
         }
 
-        public void SetDate(string date)
-        {
-            var dt = DateTime.Now;
-            try
-            {
-                dt = DateTime.Parse(date);
-            }
-            catch (Exception e)
-            {
-                dt = DateTime.Now;
-            }
-
-            ProjectManager.Instance.Project.Date = dt;
-            dateField.text = ProjectManager.Instance.Project.Date.ToShortDateString();
-        }
-
         public void SetDate()
         {
             var dt = DateTime.Now;
-            try
-            {
-                dt = DateTime.Parse(dt.ToString());
-            }
-            catch (Exception e)
-            {
-                dt = DateTime.Now;
-            }
+            
 
             ProjectManager.Instance.Project.Date = dt;
             dateField.text = ProjectManager.Instance.Project.Date.ToShortDateString();
         }
+
+        
 
         public void SetVersion(string version)
         {
